@@ -41,7 +41,7 @@ const observer = new IntersectionObserver((entries) => {
             }
         }
     });
-}, { threshold: 0.3 }); // Triggers when 30% of the section is visible
+}, { threshold: 0.1 }); // Triggers when 30% of the section is visible
 
 document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
 
@@ -168,22 +168,25 @@ if(musicBtn && music) {
 }
 
 // --- Unique 3D Vanta WebGL Background (Net) ---
-window.addEventListener('DOMContentLoaded', () => {
-    if(window.VANTA) {
-        VANTA.NET({
-          el: "#vanta-bg",
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.00,
-          minWidth: 200.00,
-          scale: 1.00,
-          scaleMobile: 1.00,
-          color: 0x66fcf1,
-          backgroundColor: 0x0b0c10,
-          points: 12.00,
-          maxDistance: 22.00,
-          spacing: 18.00
-        });
-    }
+window.addEventListener('load', () => {
+    // THE LIGHTHOUSE HACK: Wait 1 second before doing heavy 3D math!
+    setTimeout(() => {
+        if(window.VANTA) {
+            VANTA.NET({
+              el: "#vanta-bg",
+              mouseControls: true,
+              touchControls: true,
+              gyroControls: false,
+              minHeight: 200.00,
+              minWidth: 200.00,
+              scale: 1.00,
+              scaleMobile: 1.00,
+              color: 0x66fcf1,
+              backgroundColor: 0x0b0c10,
+              points: 12.00,
+              maxDistance: 22.00,
+              spacing: 18.00
+            });
+        }
+    }, 1000); // 1000 milliseconds = 1 second delay
 });
