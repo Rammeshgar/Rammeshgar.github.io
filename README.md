@@ -22,7 +22,7 @@ A highly interactive, performance-optimized personal portfolio built from scratc
 * **Frontend:** HTML5, CSS3, Vanilla JavaScript (ES6+)
 * **Graphics/3D:** [Three.js](https://threejs.org/), [Vanta.js](https://www.vantajs.com/)
 * **Icons & Fonts:** FontAwesome CDN, Google Fonts (Poppins, Fira Code)
-* **Analytics & SEO:** Google Analytics (GA4), Custom `robots.txt`, `sitemap.xml`
+* **Analytics & SEO:** Google Analytics (GA4), MS Clarity, Custom `robots.txt`, `sitemap.xml`
 * **Hosting:** GitHub Pages
 
 ## ⚡ Performance & Lighthouse Optimization
