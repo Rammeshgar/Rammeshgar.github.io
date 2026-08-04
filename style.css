@@ -2280,9 +2280,14 @@ body.ai-open .music-toggle {
     }
 
     .hero-intro {
-        top: 48%;
+        top: calc(50% + 32px);
         left: 20px;
         width: calc(100vw - 40px);
+        transform: translateY(-46%);
+    }
+
+    .eyebrow {
+        margin-bottom: 18px;
     }
 
     .hero-intro h1 {
