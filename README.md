@@ -20,7 +20,7 @@ The website presents my work across **configuration, test engineering, automated
 <img
   width="1900"
   alt="Sadeq Rezai interactive portfolio homepage"
-  src="https://github.com/user-attachments/assets/1c187b39-9612-4d80-be53-8ce7287cf43d"
+  src="https://github.com/Rammeshgar/Rammeshgar.github.io/blob/main/img/social-preview.png"
 />
 
 <p align="center">
