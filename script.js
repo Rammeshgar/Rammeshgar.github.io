@@ -70,6 +70,7 @@
     const cinematic = document.querySelector(".cinematic");
     const storyCanvas = document.getElementById("cinematic-canvas");
     const storyContext = storyCanvas?.getContext("2d", { alpha: false, desynchronized: true });
+    const cinematicVideo = document.getElementById("cinematic-video");
     const intro = document.querySelector("[data-story-intro]");
     const storySteps = [...document.querySelectorAll("[data-story-step]")];
     const progressBar = document.getElementById("story-progress-bar");
@@ -94,6 +95,15 @@
     let storyProgress = 0;
     let storyCanvasWidth = 0;
     let storyCanvasHeight = 0;
+    let videoDuration = 0;
+
+    function syncVideoToScroll(progress) {
+        if (!cinematicVideo || !videoDuration || reduceMotion) return;
+        const targetTime = clamp(progress, 0, 1) * Math.max(0, videoDuration - 0.04);
+        if (Math.abs(cinematicVideo.currentTime - targetTime) > 0.025) {
+            cinematicVideo.currentTime = targetTime;
+        }
+    }
 
     const frameUrl = (index) => `${frameConfig.directory}/frame-${String(index + 1).padStart(4, "0")}.webp`;
 
@@ -304,7 +314,10 @@
         const hasPassedStory = rect.bottom < window.innerHeight * 1.35 || storyProgress > 0.84;
         document.body.classList.toggle("ai-available", hasPassedStory);
 
-        if (!reduceMotion) requestStoryFrame(storyProgress * (frameConfig.count - 1));
+        if (!reduceMotion) {
+            requestStoryFrame(storyProgress * (frameConfig.count - 1));
+            syncVideoToScroll(storyProgress);
+        }
     }
 
     if (!reduceMotion && storyCanvas && storyContext) {
@@ -334,6 +347,19 @@
         });
     } else {
         document.body.classList.add("ai-available");
+    }
+
+    if (!reduceMotion && cinematicVideo) {
+        cinematicVideo.addEventListener("loadedmetadata", () => {
+            videoDuration = Number.isFinite(cinematicVideo.duration) ? cinematicVideo.duration : 0;
+            if (!videoDuration) return;
+            cinematicVideo.pause();
+            document.body.classList.add("video-ready");
+            syncVideoToScroll(storyProgress);
+        }, { once: true });
+        cinematicVideo.addEventListener("error", () => {
+            console.warn("Cinematic video unavailable; using poster fallback.");
+        }, { once: true });
     }
 
     let scrollTicking = false;

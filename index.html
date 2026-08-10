@@ -98,11 +98,9 @@
         <section class="cinematic" id="home" aria-label="Introduction">
             <div class="cinematic__stage">
                 <img class="cinematic__fallback" src="poster.webp" alt="" fetchpriority="high" aria-hidden="true">
-                <canvas class="cinematic__canvas" id="cinematic-canvas" aria-hidden="true"></canvas>
-                <div class="cinematic__loader" id="cinematic-loader" aria-live="polite">
-                    <span class="cinematic__loader-track"><span id="cinematic-loader-bar"></span></span>
-                    <span id="cinematic-loader-label">Preparing the story…</span>
-                </div>
+                <video class="cinematic__video" id="cinematic-video" poster="poster.webp" preload="metadata" muted playsinline aria-hidden="true">
+                    <source src="Intro%20Demo.webm" type="video/webm">
+                </video>
                 <div class="cinematic__wash" aria-hidden="true"></div>
                 <div class="cinematic__grid" aria-hidden="true"></div>
                 <div class="cinematic__noise" aria-hidden="true"></div>

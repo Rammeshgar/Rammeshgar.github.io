@@ -511,7 +511,7 @@ main,
 }
 
 .cinematic__fallback,
-.cinematic__canvas {
+.cinematic__video {
     position: absolute;
     z-index: -5;
     inset: 0;
@@ -523,7 +523,7 @@ main,
     filter: saturate(0.92) contrast(1.04) brightness(0.86);
 }
 
-.cinematic__canvas {
+.cinematic__video {
     z-index: -4;
     max-width: none;
     opacity: 0;
@@ -531,7 +531,7 @@ main,
     transition: opacity 300ms ease;
 }
 
-body.frames-ready .cinematic__canvas {
+body.video-ready .cinematic__video {
     opacity: 1;
 }
 
@@ -2280,14 +2280,9 @@ body.ai-open .music-toggle {
     }
 
     .hero-intro {
-        top: calc(50% + 32px);
+        top: 48%;
         left: 20px;
         width: calc(100vw - 40px);
-        transform: translateY(-46%);
-    }
-
-    .eyebrow {
-        margin-bottom: 18px;
     }
 
     .hero-intro h1 {
@@ -2519,7 +2514,7 @@ body.ai-open .music-toggle {
         position: relative;
     }
 
-    .cinematic__canvas,
+    .cinematic__video,
     .cinematic__loader {
         display: none;
     }
