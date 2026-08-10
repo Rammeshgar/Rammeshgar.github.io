@@ -2520,7 +2520,7 @@ body.ai-open .music-toggle {
     }
 
     .cinematic__stage {
-        background: url("poster.webp") center / cover no-repeat;
+        background: url("intro-demo-poster.webp") center / cover no-repeat;
     }
 
     .systems-background canvas {
