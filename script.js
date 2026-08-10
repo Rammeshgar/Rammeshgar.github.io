@@ -96,13 +96,26 @@
     let storyCanvasWidth = 0;
     let storyCanvasHeight = 0;
     let videoDuration = 0;
+    let videoTargetTime = 0;
+    let videoSeekQueued = false;
+    let videoSeekInFlight = false;
 
     function syncVideoToScroll(progress) {
         if (!cinematicVideo || !videoDuration || reduceMotion) return;
-        const targetTime = clamp(progress, 0, 1) * Math.max(0, videoDuration - 0.04);
-        if (Math.abs(cinematicVideo.currentTime - targetTime) > 0.025) {
-            cinematicVideo.currentTime = targetTime;
-        }
+        videoTargetTime = clamp(progress, 0, 1) * Math.max(0, videoDuration - 0.04);
+        queueVideoSeek();
+    }
+
+    function queueVideoSeek() {
+        if (videoSeekQueued || videoSeekInFlight) return;
+        videoSeekQueued = true;
+        window.requestAnimationFrame(() => {
+            videoSeekQueued = false;
+            if (!cinematicVideo || videoSeekInFlight) return;
+            if (Math.abs(cinematicVideo.currentTime - videoTargetTime) <= 0.016) return;
+            videoSeekInFlight = true;
+            cinematicVideo.currentTime = videoTargetTime;
+        });
     }
 
     const frameUrl = (index) => `${frameConfig.directory}/frame-${String(index + 1).padStart(4, "0")}.webp`;
@@ -360,6 +373,10 @@
         cinematicVideo.addEventListener("error", () => {
             console.warn("Cinematic video unavailable; using poster fallback.");
         }, { once: true });
+        cinematicVideo.addEventListener("seeked", () => {
+            videoSeekInFlight = false;
+            queueVideoSeek();
+        });
     }
 
     let scrollTicking = false;
