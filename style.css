@@ -2280,9 +2280,10 @@ body.ai-open .music-toggle {
     }
 
     .hero-intro {
-        top: 48%;
+        top: calc(var(--nav-height) + 42px);
         left: 20px;
         width: calc(100vw - 40px);
+        transform: none;
     }
 
     .hero-intro h1 {
@@ -2529,7 +2530,6 @@ body.ai-open .music-toggle {
 
     .hero-intro {
         opacity: 1 !important;
-        transform: translateY(-46%) !important;
     }
 
     .story-steps,
