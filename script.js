@@ -385,16 +385,18 @@
             queueVideoSeek();
         });
 
+        let videoPrimed = false;
+        const primeVideo = () => {
+            if (videoPrimed) return;
+            videoPrimed = true;
+            cinematicVideo.preload = "auto";
+            cinematicVideo.load();
+        };
+        ["pointerdown", "touchstart", "wheel", "keydown"].forEach((eventName) => {
+            window.addEventListener(eventName, primeVideo, { once: true, passive: true });
+        });
         window.addEventListener("load", () => {
-            const primeVideo = () => {
-                cinematicVideo.preload = "auto";
-                cinematicVideo.load();
-            };
-            if ("requestIdleCallback" in window) {
-                window.requestIdleCallback(primeVideo, { timeout: 1200 });
-            } else {
-                window.setTimeout(primeVideo, 500);
-            }
+            window.setTimeout(primeVideo, 2800);
         }, { once: true });
     }
 
