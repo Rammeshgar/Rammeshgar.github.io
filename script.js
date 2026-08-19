@@ -99,6 +99,7 @@
     let videoTargetTime = 0;
     let videoSeekQueued = false;
     let videoSeekInFlight = false;
+    let videoSeekWatchdog = 0;
 
     function syncVideoToScroll(progress) {
         if (!cinematicVideo || !videoDuration || reduceMotion) return;
@@ -115,6 +116,11 @@
             if (Math.abs(cinematicVideo.currentTime - videoTargetTime) <= 0.016) return;
             videoSeekInFlight = true;
             cinematicVideo.currentTime = videoTargetTime;
+            window.clearTimeout(videoSeekWatchdog);
+            videoSeekWatchdog = window.setTimeout(() => {
+                videoSeekInFlight = false;
+                queueVideoSeek();
+            }, 220);
         });
     }
 
@@ -374,9 +380,22 @@
             console.warn("Cinematic video unavailable; using poster fallback.");
         }, { once: true });
         cinematicVideo.addEventListener("seeked", () => {
+            window.clearTimeout(videoSeekWatchdog);
             videoSeekInFlight = false;
             queueVideoSeek();
         });
+
+        window.addEventListener("load", () => {
+            const primeVideo = () => {
+                cinematicVideo.preload = "auto";
+                cinematicVideo.load();
+            };
+            if ("requestIdleCallback" in window) {
+                window.requestIdleCallback(primeVideo, { timeout: 1200 });
+            } else {
+                window.setTimeout(primeVideo, 500);
+            }
+        }, { once: true });
     }
 
     let scrollTicking = false;
