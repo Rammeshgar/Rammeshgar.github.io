@@ -72,6 +72,7 @@ let headLookApplied = false;
 let neckLookApplied = false;
 
 const MODEL_URL = "me_v2.web.glb";
+const MODEL_ASSET_VERSION = "20260825-12";
 const VISEME_NAMES = ["AA/AH", "EE/IH", "OH/O", "OO/WQ", "FV", "MBP", "L", "TH"];
 const IDLE_ANIMATION = "Mascot_Idle_Subtle_30f";
 const TALK_INTRO_ANIMATION = "Mascot_Talk_Intro_Smooth";
@@ -280,7 +281,7 @@ async function loadMascot() {
     resizeRenderer();
 
     try {
-        const gltf = await new GLTFLoader().loadAsync(`${MODEL_URL}?v=${Date.now()}`);
+        const gltf = await new GLTFLoader().loadAsync(`${MODEL_URL}?v=${MODEL_ASSET_VERSION}`);
         model = gltf.scene;
         scene.add(model);
 
