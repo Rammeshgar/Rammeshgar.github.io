@@ -79,10 +79,10 @@
     const loaderLabel = document.getElementById("cinematic-loader-label");
 
     const frameConfig = saveData
-        ? { directory: "frames/mobile", count: 67, cacheSize: 10 }
+        ? { directory: "frames/mobile", count: 61, cacheSize: 10, frameStep: 1 }
         : compactScreen
-            ? { directory: "frames/mobile-smooth", count: 160, cacheSize: 16 }
-            : { directory: "frames/desktop", count: 160, cacheSize: 20 };
+            ? { directory: "frames/mobile-smooth", count: 183, cacheSize: 18, frameStep: 1 }
+            : { directory: "frames/desktop", count: 183, cacheSize: 22, frameStep: 1 };
 
     const compressedFrames = new Map();
     const compressedPromises = new Map();
@@ -92,6 +92,8 @@
     let fetchedFrames = 0;
     let currentFrame = 0;
     let requestedFrame = 0;
+    let frameAnimationId = 0;
+    let frameDecodePending = false;
     let storyProgress = 0;
     let storyCanvasWidth = 0;
     let storyCanvasHeight = 0;
@@ -100,6 +102,7 @@
     let videoSeekQueued = false;
     let videoSeekInFlight = false;
     let videoSeekWatchdog = 0;
+    let progressiveFetchStarted = false;
 
     function syncVideoToScroll(progress) {
         if (!cinematicVideo || !videoDuration || reduceMotion) return;
@@ -213,19 +216,6 @@
         return promise;
     }
 
-    function nearestDecoded(index) {
-        let nearest = null;
-        let distance = Infinity;
-        decodedFrames.forEach((_bitmap, decodedIndex) => {
-            const candidateDistance = Math.abs(decodedIndex - index);
-            if (candidateDistance < distance) {
-                distance = candidateDistance;
-                nearest = decodedIndex;
-            }
-        });
-        return nearest;
-    }
-
     function drawBitmap(bitmap) {
         if (!storyContext || !storyCanvas || !bitmap) return;
         const sourceWidth = bitmap.width || bitmap.naturalWidth;
@@ -240,36 +230,57 @@
         storyContext.drawImage(bitmap, x, y, width, height);
     }
 
+    function queueFrameAnimation() {
+        if (frameAnimationId || frameDecodePending || currentFrame === requestedFrame) return;
+        frameAnimationId = window.requestAnimationFrame(advanceStoryFrame);
+    }
+
+    function advanceStoryFrame() {
+        frameAnimationId = 0;
+        if (frameDecodePending || currentFrame === requestedFrame) return;
+
+        const direction = Math.sign(requestedFrame - currentFrame);
+        const nextFrame = clamp(currentFrame + direction * frameConfig.frameStep, 0, frameConfig.count - 1);
+        frameDecodePending = true;
+
+        decodeFrame(nextFrame)
+            .then((bitmap) => {
+                const currentDirection = Math.sign(requestedFrame - currentFrame);
+                if (currentDirection === direction || nextFrame === requestedFrame) {
+                    currentFrame = nextFrame;
+                    drawBitmap(bitmap);
+                    storyCanvas.dataset.frame = String(currentFrame + 1);
+                    document.body.classList.add("frames-ready");
+                }
+            })
+            .catch((error) => console.warn("Cinematic frame unavailable:", error.message))
+            .finally(() => {
+                frameDecodePending = false;
+                queueFrameAnimation();
+            });
+    }
+
     function requestStoryFrame(index) {
         if (reduceMotion || !storyContext) return;
-        const roundedFrame = Math.round(index);
-        requestedFrame = saveData
-            ? clamp(Math.round(roundedFrame / 2) * 2, 0, frameConfig.count - 1)
-            : clamp(roundedFrame, 0, frameConfig.count - 1);
-        const frameAtRequest = requestedFrame;
+        requestedFrame = clamp(Math.round(index), 0, frameConfig.count - 1);
 
-        if (decodedFrames.has(frameAtRequest)) {
-            currentFrame = frameAtRequest;
-            drawBitmap(decodedFrames.get(frameAtRequest));
+        const direction = Math.sign(requestedFrame - currentFrame);
+        for (let offset = 1; offset <= 8 && direction; offset += 1) {
+            const neighbor = currentFrame + direction * offset;
+            if (neighbor >= 0 && neighbor < frameConfig.count) fetchFrame(neighbor).catch(() => {});
+        }
+        queueFrameAnimation();
+    }
+
+    function redrawCurrentStoryFrame() {
+        if (decodedFrames.has(currentFrame)) {
+            drawBitmap(decodedFrames.get(currentFrame));
             return;
         }
-
-        const nearby = nearestDecoded(frameAtRequest);
-        if (nearby !== null) drawBitmap(decodedFrames.get(nearby));
-
-        decodeFrame(frameAtRequest)
-            .then((bitmap) => {
-                if (requestedFrame !== frameAtRequest) return;
-                currentFrame = frameAtRequest;
-                drawBitmap(bitmap);
-                document.body.classList.add("frames-ready");
-            })
-            .catch((error) => console.warn("Cinematic frame unavailable:", error.message));
-
-        const neighborStep = saveData ? 2 : 1;
-        [frameAtRequest - neighborStep, frameAtRequest + neighborStep].forEach((neighbor) => {
-            if (neighbor >= 0 && neighbor < frameConfig.count) fetchFrame(neighbor).catch(() => {});
-        });
+        const frameAtRequest = currentFrame;
+        decodeFrame(frameAtRequest).then((bitmap) => {
+            if (currentFrame === frameAtRequest) drawBitmap(bitmap);
+        }).catch(() => {});
     }
 
     function resizeStoryCanvas() {
@@ -282,14 +293,12 @@
         storyCanvas.style.width = `${storyCanvasWidth}px`;
         storyCanvas.style.height = `${storyCanvasHeight}px`;
         storyContext.setTransform(dpr, 0, 0, dpr, 0, 0);
-        requestStoryFrame(currentFrame);
+        redrawCurrentStoryFrame();
     }
 
     async function progressivelyFetchFrames() {
-        const keyframes = [0, Math.round(frameConfig.count * 0.25), Math.round(frameConfig.count * 0.5), Math.round(frameConfig.count * 0.75), frameConfig.count - 1];
-        const remaining = Array.from({ length: frameConfig.count }, (_value, index) => index)
-            .filter((index) => !keyframes.includes(index));
-        const queue = [...keyframes, ...remaining];
+        const queue = Array.from({ length: frameConfig.count }, (_value, index) => index)
+            .sort((a, b) => Math.abs(a - requestedFrame) - Math.abs(b - requestedFrame));
         let queueIndex = 0;
 
         async function worker() {
@@ -300,6 +309,20 @@
         }
 
         await Promise.all(Array.from({ length: compactScreen ? 2 : 3 }, worker));
+    }
+
+    function startProgressiveFrameFetch() {
+        if (saveData || progressiveFetchStarted) return;
+        progressiveFetchStarted = true;
+        progressivelyFetchFrames();
+    }
+
+    function primeOpeningFrames() {
+        const openingCount = compactScreen ? 10 : 14;
+        const nearbyFrames = Array.from({ length: frameConfig.count }, (_value, index) => index)
+            .sort((a, b) => Math.abs(a - currentFrame) - Math.abs(b - currentFrame))
+            .slice(0, openingCount);
+        Promise.allSettled(nearbyFrames.map((index) => fetchFrame(index)));
     }
 
     function primeDataSaverKeyframes() {
@@ -335,14 +358,21 @@
 
         if (!reduceMotion) {
             requestStoryFrame(storyProgress * (frameConfig.count - 1));
-            syncVideoToScroll(storyProgress);
+            if (!storyContext) syncVideoToScroll(storyProgress);
         }
     }
 
     if (!reduceMotion && storyCanvas && storyContext) {
+        const initialRect = cinematic?.getBoundingClientRect();
+        const initialDistance = Math.max(1, (cinematic?.offsetHeight || window.innerHeight) - window.innerHeight);
+        const initialProgress = initialRect ? clamp(-initialRect.top / initialDistance) : 0;
+        const initialFrame = Math.round(initialProgress * (frameConfig.count - 1));
+        currentFrame = initialFrame;
+        requestedFrame = initialFrame;
         resizeStoryCanvas();
-        decodeFrame(0).then((bitmap) => {
+        decodeFrame(initialFrame).then((bitmap) => {
             drawBitmap(bitmap);
+            storyCanvas.dataset.frame = String(initialFrame + 1);
             document.body.classList.add("frames-ready");
             if (saveData) {
                 const prime = () => primeDataSaverKeyframes();
@@ -351,15 +381,13 @@
                 } else {
                     window.setTimeout(prime, 1800);
                 }
-            } else if (compactScreen) {
-                const preload = () => progressivelyFetchFrames();
-                if ("requestIdleCallback" in window) {
-                    window.requestIdleCallback(preload, { timeout: 1800 });
-                } else {
-                    window.setTimeout(preload, 900);
-                }
             } else {
-                window.setTimeout(progressivelyFetchFrames, 320);
+                const preload = () => primeOpeningFrames();
+                if ("requestIdleCallback" in window) {
+                    window.requestIdleCallback(preload, { timeout: 1600 });
+                } else {
+                    window.setTimeout(preload, 1000);
+                }
             }
         }).catch(() => {
             if (loaderLabel) loaderLabel.textContent = "Using the static fallback";
@@ -368,7 +396,13 @@
         document.body.classList.add("ai-available");
     }
 
-    if (!reduceMotion && cinematicVideo) {
+    if (!reduceMotion && storyContext && !saveData) {
+        ["pointerdown", "touchstart", "wheel", "keydown"].forEach((eventName) => {
+            window.addEventListener(eventName, startProgressiveFrameFetch, { once: true, passive: true });
+        });
+    }
+
+    if (!reduceMotion && cinematicVideo && !storyContext) {
         cinematicVideo.addEventListener("loadedmetadata", () => {
             videoDuration = Number.isFinite(cinematicVideo.duration) ? cinematicVideo.duration : 0;
             if (!videoDuration) return;

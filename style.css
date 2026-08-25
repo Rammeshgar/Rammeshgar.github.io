@@ -535,7 +535,8 @@ main,
 }
 
 .cinematic__fallback,
-.cinematic__video {
+.cinematic__video,
+.cinematic__canvas {
     position: absolute;
     z-index: -5;
     inset: 0;
@@ -556,6 +557,18 @@ main,
 }
 
 body.video-ready .cinematic__video {
+    opacity: 1;
+}
+
+.cinematic__canvas {
+    z-index: -3;
+    max-width: none;
+    opacity: 0;
+    filter: saturate(0.92) contrast(1.04) brightness(0.86);
+    transition: opacity 180ms ease;
+}
+
+body.frames-ready .cinematic__canvas {
     opacity: 1;
 }
 
@@ -2601,6 +2614,7 @@ body.ai-open .music-toggle {
     }
 
     .cinematic__video,
+    .cinematic__canvas,
     .cinematic__loader {
         display: none;
     }
