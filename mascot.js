@@ -51,6 +51,9 @@ let audioSource;
 let audioSamples;
 const animationActions = new Map();
 let activeBodyAction;
+let cameraTransition;
+let portraitView;
+let studioView;
 const lipSyncMeshes = [];
 const clock = new THREE.Clock();
 const targetVisemes = new Map();
@@ -63,10 +66,10 @@ const lookEuler = new THREE.Euler();
 let headLookApplied = false;
 let neckLookApplied = false;
 
-const MODEL_URL = "me_v1.web.glb";
+const MODEL_URL = "me_v2.web.glb";
 const VISEME_NAMES = ["AA/AH", "EE/IH", "OH/O", "OO/WQ", "FV", "MBP", "L", "TH"];
-const IDLE_ANIMATION = "Mascot_Body_Idle_4s";
-const TALK_ANIMATION = "Mascot_Body_Talk_6s";
+const IDLE_ANIMATION = "Mascot_Body_Idle_30f";
+const TALK_ANIMATION = "Mascot_Body_Talk_30f";
 
 function setStatus(message) {
     ui.status.textContent = message;
@@ -114,6 +117,7 @@ ui.expand?.addEventListener("click", () => {
     ui.expand.title = state.expanded ? "Use compact viewer" : "Expand mascot viewer";
     const icon = ui.expand.querySelector("[data-icon]");
     if (icon) icon.dataset.icon = state.expanded ? "compress" : "expand";
+    moveCameraForMode();
     requestAnimationFrame(resizeRenderer);
 });
 document.addEventListener("keydown", (event) => {
@@ -255,7 +259,16 @@ function frameMascot() {
     if (!model || !camera || !controls) return;
 
     model.updateMatrixWorld(true);
-    const initialBounds = new THREE.Box3().setFromObject(model);
+    const characterMeshes = [];
+    model.traverse((child) => {
+        if (child.isMesh && !/^Studio_/i.test(child.name)) characterMeshes.push(child);
+    });
+    const getCharacterBounds = () => {
+        const box = new THREE.Box3();
+        for (const mesh of characterMeshes) box.expandByObject(mesh);
+        return box;
+    };
+    const initialBounds = getCharacterBounds();
     const initialSize = initialBounds.getSize(new THREE.Vector3());
     if (!Number.isFinite(initialSize.y) || initialSize.y <= 0) return;
 
@@ -266,11 +279,11 @@ function frameMascot() {
     model.updateMatrixWorld(true);
 
     // Put the feet on the stage, regardless of the model's export origin.
-    const groundedBounds = new THREE.Box3().setFromObject(model);
+    const groundedBounds = getCharacterBounds();
     model.position.y -= groundedBounds.min.y;
     model.updateMatrixWorld(true);
 
-    const bounds = new THREE.Box3().setFromObject(model);
+    const bounds = getCharacterBounds();
     const size = bounds.getSize(new THREE.Vector3());
     const center = bounds.getCenter(new THREE.Vector3());
     // Keep the default view intimate, while leaving the shoulders and authored
@@ -281,17 +294,40 @@ function frameMascot() {
         center.z
     );
     const portraitDistance = THREE.MathUtils.clamp(size.y * 0.58, 0.98, 1.25);
-
-    controls.target.copy(portraitTarget);
-    controls.minDistance = portraitDistance * 0.7;
-    controls.maxDistance = Math.max(size.y * 2.2, 3.4);
-    camera.position.set(
+    const portraitPosition = new THREE.Vector3(
         portraitTarget.x + size.x * 0.035,
         portraitTarget.y + size.y * 0.015,
         portraitTarget.z + portraitDistance
     );
+    const studioTarget = new THREE.Vector3(center.x, bounds.min.y + size.y * 0.48, center.z);
+    const studioPosition = new THREE.Vector3(
+        studioTarget.x + size.x * 0.08,
+        studioTarget.y + size.y * 0.04,
+        studioTarget.z + size.y * 1.95
+    );
+
+    portraitView = { position: portraitPosition, target: portraitTarget };
+    studioView = { position: studioPosition, target: studioTarget };
+
+    controls.target.copy(portraitTarget);
+    controls.minDistance = portraitDistance * 0.7;
+    controls.maxDistance = Math.max(size.y * 4.0, 7.6);
+    camera.position.copy(portraitPosition);
     camera.lookAt(portraitTarget);
     controls.update();
+}
+
+function moveCameraForMode() {
+    const destination = state.expanded ? studioView : portraitView;
+    if (!destination || !camera || !controls) return;
+    cameraTransition = {
+        startedAt: performance.now(),
+        duration: 760,
+        fromPosition: camera.position.clone(),
+        fromTarget: controls.target.clone(),
+        toPosition: destination.position.clone(),
+        toTarget: destination.target.clone(),
+    };
 }
 
 function resizeRenderer() {
@@ -318,6 +354,18 @@ function animate() {
     }
 
     mixer?.update(delta);
+
+    if (cameraTransition) {
+        const progress = THREE.MathUtils.clamp((performance.now() - cameraTransition.startedAt) / cameraTransition.duration, 0, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        camera.position.lerpVectors(cameraTransition.fromPosition, cameraTransition.toPosition, eased);
+        controls.target.lerpVectors(cameraTransition.fromTarget, cameraTransition.toTarget, eased);
+        camera.lookAt(controls.target);
+        if (progress >= 1) {
+            cameraTransition = null;
+            controls.update();
+        }
+    }
 
     const alpha = 1 - Math.exp(-4.5 * delta);
     smoothedMouse.lerp(targetMouse, alpha);
