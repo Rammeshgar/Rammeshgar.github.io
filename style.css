@@ -521,7 +521,7 @@ main,
 .cinematic {
     position: relative;
     z-index: 2;
-    height: 460vh;
+    height: 410vh;
     background: var(--bg);
 }
 
@@ -954,10 +954,8 @@ body.frames-ready .cinematic__loader {
 }
 
 .proof-line {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     width: var(--container);
     min-height: 100px;
     margin: 0 auto;
@@ -965,21 +963,34 @@ body.frames-ready .cinematic__loader {
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     font-family: "JetBrains Mono", monospace;
-    font-size: 0.68rem;
+    text-align: left;
+}
+
+.proof-line__item {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+    padding: 22px 26px;
+    border-right: 1px solid var(--line);
+}
+
+.proof-line__item:first-child {
+    border-left: 1px solid var(--line);
+}
+
+.proof-line__item strong {
+    color: var(--aqua);
+    font-size: clamp(1.35rem, 2.2vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.06em;
+}
+
+.proof-line__item span {
+    color: var(--text-dim);
+    font-size: 0.58rem;
     letter-spacing: 0.07em;
-    text-align: center;
+    line-height: 1.5;
     text-transform: uppercase;
-}
-
-.proof-line p {
-    margin: 0;
-}
-
-.proof-line span {
-    width: 4px;
-    height: 4px;
-    background: var(--aqua);
-    border-radius: 50%;
 }
 
 .section-heading {
@@ -1211,6 +1222,27 @@ body.frames-ready .cinematic__loader {
     font-size: 0.9rem;
 }
 
+.project-card__proofs {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.project-card__proofs li {
+    padding: 7px 9px;
+    color: var(--text-soft);
+    background: rgba(87, 230, 217, 0.055);
+    border: 1px solid rgba(87, 230, 217, 0.15);
+    border-radius: 999px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.56rem;
+    letter-spacing: 0.02em;
+}
+
 .project-card__cta {
     grid-column: 1 / -1;
     display: inline-flex;
@@ -1328,7 +1360,7 @@ body.frames-ready .cinematic__loader {
 
 .lens-card {
     position: relative;
-    min-height: 500px;
+    min-height: 460px;
     padding: 34px;
     overflow: hidden;
     border-right: 1px solid var(--line);
@@ -1367,7 +1399,7 @@ body.frames-ready .cinematic__loader {
 
 .lens-card__number {
     display: block;
-    margin-bottom: 100px;
+    margin-bottom: 72px;
     color: var(--text-dim);
     font-family: "JetBrains Mono", monospace;
     font-size: 0.72rem;
@@ -1657,9 +1689,10 @@ body.frames-ready .cinematic__loader {
     left: 22px;
     display: flex;
     align-items: center;
-    gap: 11px;
+    gap: 0;
+    width: 54px;
     min-height: 52px;
-    padding: 6px 16px 6px 7px;
+    padding: 6px 7px;
     color: var(--bg);
     background: var(--aqua);
     border: 1px solid var(--aqua);
@@ -1673,7 +1706,8 @@ body.frames-ready .cinematic__loader {
     transform: translateY(18px);
     pointer-events: none;
     backdrop-filter: blur(18px);
-    transition: opacity 300ms ease, transform 400ms var(--ease), background 180ms ease, box-shadow 180ms ease;
+    overflow: hidden;
+    transition: width 300ms var(--ease), gap 300ms var(--ease), padding 300ms var(--ease), opacity 300ms ease, transform 400ms var(--ease), background 180ms ease, box-shadow 180ms ease;
 }
 
 body.ai-available .ai-mascot-toggle {
@@ -1682,7 +1716,11 @@ body.ai-available .ai-mascot-toggle {
     pointer-events: auto;
 }
 
-.ai-mascot-toggle:hover {
+.ai-mascot-toggle:hover,
+.ai-mascot-toggle:focus-visible {
+    width: 174px;
+    gap: 11px;
+    padding-right: 16px;
     background: #79f2e7;
     box-shadow:
         0 0 0 5px rgba(5, 7, 11, 0.96),
@@ -1695,6 +1733,7 @@ body.ai-available .ai-mascot-toggle {
 .ai-mascot-toggle__orb {
     display: grid;
     width: 39px;
+    min-width: 39px;
     height: 39px;
     place-items: center;
     color: var(--amber);
@@ -1704,8 +1743,19 @@ body.ai-available .ai-mascot-toggle {
 }
 
 .ai-mascot-toggle__label {
+    width: 0;
+    overflow: hidden;
+    opacity: 0;
     font-size: 0.78rem;
     font-weight: 600;
+    white-space: nowrap;
+    transition: width 300ms var(--ease), opacity 180ms ease;
+}
+
+.ai-mascot-toggle:hover .ai-mascot-toggle__label,
+.ai-mascot-toggle:focus-visible .ai-mascot-toggle__label {
+    width: 106px;
+    opacity: 1;
 }
 
 .ai-mascot-panel {
@@ -2276,7 +2326,7 @@ body.ai-open .music-toggle {
     }
 
     .cinematic {
-        height: 400vh;
+        height: 360vh;
     }
 
     .cinematic__stage {
@@ -2357,14 +2407,26 @@ body.ai-open .music-toggle {
     }
 
     .proof-line {
-        flex-direction: column;
-        gap: 9px;
-        min-height: 150px;
-        padding: 24px 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        min-height: 0;
     }
 
-    .proof-line span {
-        display: none;
+    .proof-line__item {
+        min-height: 94px;
+        padding: 17px 14px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .proof-line__item:nth-child(odd) {
+        border-left: 1px solid var(--line);
+    }
+
+    .proof-line__item:nth-child(even) {
+        border-left: 0;
+    }
+
+    .proof-line__item span {
+        display: block;
     }
 
     .section {
@@ -2467,8 +2529,7 @@ body.ai-open .music-toggle {
     }
 
     .ai-mascot-toggle {
-        bottom: 12px;
-        left: 12px;
+        display: none;
     }
 
     .ai-mascot-panel {
