@@ -35,6 +35,11 @@ const state = {
     recordingChunks: [],
     recordingTimer: null,
     discardRecording: false,
+    recordingAudioContext: null,
+    recordingAnalyser: null,
+    recordingMonitorFrame: null,
+    recordingSpeechDetected: false,
+    recordingSilenceStartedAt: 0,
     speaking: false,
     activeCharacter: "",
     previousInteractionId: null,
@@ -915,6 +920,7 @@ function blobToBase64(blob) {
 }
 
 async function finishRecordedQuestion(blob) {
+    stopRecordingMonitor();
     state.mediaRecorder = null;
     state.recordingStream?.getTracks().forEach((track) => track.stop());
     state.recordingStream = null;
@@ -973,6 +979,62 @@ function stopMediaRecorder(discard = false) {
     recorder.stop();
 }
 
+function stopRecordingMonitor() {
+    if (state.recordingMonitorFrame) cancelAnimationFrame(state.recordingMonitorFrame);
+    state.recordingMonitorFrame = null;
+    state.recordingAnalyser = null;
+    state.recordingAudioContext?.close().catch(() => {});
+    state.recordingAudioContext = null;
+    state.recordingSpeechDetected = false;
+    state.recordingSilenceStartedAt = 0;
+}
+
+function startRecordingMonitor(stream) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    try {
+        const context = new AudioContextClass();
+        const analyser = context.createAnalyser();
+        analyser.fftSize = 1024;
+        analyser.smoothingTimeConstant = 0.72;
+        context.createMediaStreamSource(stream).connect(analyser);
+        const samples = new Uint8Array(analyser.fftSize);
+        state.recordingAudioContext = context;
+        state.recordingAnalyser = analyser;
+        state.recordingSpeechDetected = false;
+        state.recordingSilenceStartedAt = 0;
+
+        const monitor = () => {
+            if (state.mediaRecorder?.state !== "recording" || state.recordingAnalyser !== analyser) return;
+            analyser.getByteTimeDomainData(samples);
+            let energy = 0;
+            for (const sample of samples) {
+                const centered = (sample - 128) / 128;
+                energy += centered * centered;
+            }
+            const rms = Math.sqrt(energy / samples.length);
+            const now = performance.now();
+            if (rms > 0.028) {
+                if (!state.recordingSpeechDetected) {
+                    setStatus("Speech detected · listening until you finish…");
+                }
+                state.recordingSpeechDetected = true;
+                state.recordingSilenceStartedAt = 0;
+            } else if (state.recordingSpeechDetected) {
+                state.recordingSilenceStartedAt ||= now;
+                if (now - state.recordingSilenceStartedAt > 1600) {
+                    stopMediaRecorder(false);
+                    return;
+                }
+            }
+            state.recordingMonitorFrame = requestAnimationFrame(monitor);
+        };
+        state.recordingMonitorFrame = requestAnimationFrame(monitor);
+    } catch (error) {
+        console.warn("Automatic voice-stop monitoring is unavailable.", error);
+    }
+}
+
 async function startMediaRecorder() {
     state.recognitionStarting = true;
     state.recognitionError = "";
@@ -980,7 +1042,13 @@ async function startMediaRecorder() {
     ui.mic.disabled = true;
     setStatus("Checking microphone access…");
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true,
+                autoGainControl: true,
+            },
+        });
         const mimeType = preferredRecordingMimeType();
         const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
         state.recordingStream = stream;
@@ -998,12 +1066,13 @@ async function startMediaRecorder() {
             finishRecordedQuestion(blob);
         };
         recorder.start(250);
+        startRecordingMonitor(stream);
         state.recognitionStarting = false;
         ui.mic.disabled = false;
         ui.mic.classList.add("is-listening");
         ui.mic.title = "Stop and send recording";
         ui.mic.setAttribute("aria-label", "Stop recording and send voice question");
-        setStatus("Recording · tap the mic again when finished");
+        setStatus("Listening… speak your question");
         window.portfolioMusic?.pauseForVoice?.();
         state.recordingTimer = window.setTimeout(() => stopMediaRecorder(false), 15000);
     } catch (error) {
