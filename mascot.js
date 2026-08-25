@@ -51,6 +51,7 @@ let audioSource;
 let audioSamples;
 const animationActions = new Map();
 let activeBodyAction;
+let nextTalkGestureIndex = 0;
 let cameraTransition;
 let portraitView;
 let studioView;
@@ -68,8 +69,13 @@ let neckLookApplied = false;
 
 const MODEL_URL = "me_v2.web.glb";
 const VISEME_NAMES = ["AA/AH", "EE/IH", "OH/O", "OO/WQ", "FV", "MBP", "L", "TH"];
-const IDLE_ANIMATION = "Mascot_Body_Idle_30f";
-const TALK_ANIMATION = "Mascot_Body_Talk_30f";
+const IDLE_ANIMATION = "Mascot_Idle_Subtle_30f";
+const TALK_ANIMATIONS = [
+    "Mascot_Talk_Hi_30f",
+    "Mascot_Talk_Start_30f",
+    "Mascot_Talk_Explain_30f",
+    "Mascot_Talk_Explain2_30f",
+];
 
 function setStatus(message) {
     ui.status.textContent = message;
@@ -239,7 +245,10 @@ async function loadMascot() {
                 const action = mixer.clipAction(clip);
                 animationActions.set(clip.name, action);
             }
-            playBodyAnimation(IDLE_ANIMATION, 0.78);
+            mixer.addEventListener("finished", ({ action }) => {
+                if (state.speaking && action === activeBodyAction) playNextTalkGesture();
+            });
+            playBodyAnimation(IDLE_ANIMATION, 0.72, true);
         }
 
         state.loaded = true;
@@ -487,22 +496,35 @@ function updateVisemes() {
     }
 }
 
-function playBodyAnimation(name, timeScale = 1) {
+function playBodyAnimation(name, timeScale = 1, loop = false) {
     const nextAction = animationActions.get(name);
-    if (!nextAction || nextAction === activeBodyAction) {
-        activeBodyAction?.setEffectiveTimeScale(timeScale);
-        return;
-    }
+    if (!nextAction) return;
 
     const previousAction = activeBodyAction;
     activeBodyAction = nextAction;
     nextAction.reset();
     nextAction.enabled = true;
-    nextAction.setLoop(THREE.LoopRepeat, Infinity);
+    nextAction.setLoop(loop ? THREE.LoopRepeat : THREE.LoopOnce, loop ? Infinity : 1);
+    nextAction.clampWhenFinished = false;
     nextAction.setEffectiveTimeScale(timeScale);
     nextAction.setEffectiveWeight(1);
-    nextAction.fadeIn(0.24).play();
-    previousAction?.fadeOut(0.24);
+    nextAction.fadeIn(0.16).play();
+    if (previousAction && previousAction !== nextAction) previousAction.fadeOut(0.16);
+}
+
+function playNextTalkGesture() {
+    if (!state.speaking || !TALK_ANIMATIONS.length) return;
+    const name = TALK_ANIMATIONS[nextTalkGestureIndex % TALK_ANIMATIONS.length];
+    nextTalkGestureIndex = (nextTalkGestureIndex + 1) % TALK_ANIMATIONS.length;
+    playBodyAnimation(name, 1);
+}
+
+function stopBodyAnimation() {
+    const action = activeBodyAction;
+    activeBodyAction = null;
+    if (!action) return;
+    action.fadeOut(0.18);
+    window.setTimeout(() => action.stop(), 220);
 }
 
 function startSpeakingAnimation() {
@@ -510,7 +532,7 @@ function startSpeakingAnimation() {
     state.mouthEnergy = 0.68;
     setStatus("Speaking…");
     window.portfolioMusic?.pauseForVoice?.();
-    playBodyAnimation(TALK_ANIMATION, 1);
+    playNextTalkGesture();
 }
 
 function stopSpeakingAnimation() {
@@ -520,7 +542,7 @@ function stopSpeakingAnimation() {
     state.mouthEnergy = 0;
     setStatus(state.loaded ? "Ready" : "Chat ready · mascot still loading");
     window.portfolioMusic?.resumeAfterVoice?.();
-    playBodyAnimation(IDLE_ANIMATION, 0.78);
+    playBodyAnimation(IDLE_ANIMATION, 0.72, true);
 }
 
 function stopAllSpeech() {
