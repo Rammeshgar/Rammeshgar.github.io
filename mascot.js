@@ -52,6 +52,7 @@ let audioSamples;
 const animationActions = new Map();
 let activeBodyAction;
 let nextTalkGestureIndex = 0;
+let talkGestureTimer;
 let cameraTransition;
 let portraitView;
 let studioView;
@@ -76,6 +77,54 @@ const TALK_ANIMATIONS = [
     "Mascot_Talk_Explain_30f",
     "Mascot_Talk_Explain2_30f",
 ];
+
+function applyPapercutFinish(mesh) {
+    if (/glass|lence|mouth_cavity/i.test(mesh.name)) return;
+    const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    const isSkin = /new_head|node_0/i.test(mesh.name);
+    const paperStrength = isSkin ? 0.11 : 0.17;
+
+    for (const material of materials) {
+        if (!material?.isMeshStandardMaterial) continue;
+        material.roughness = Math.max(material.roughness ?? 0, isSkin ? 0.76 : 0.84);
+        material.metalness = Math.min(material.metalness ?? 0, 0.08);
+        material.flatShading = true;
+        material.onBeforeCompile = (shader) => {
+            shader.vertexShader = shader.vertexShader
+                .replace("#include <common>", "#include <common>\nvarying vec3 vPaperPosition;")
+                .replace("#include <begin_vertex>", "#include <begin_vertex>\nvPaperPosition = position;");
+            shader.fragmentShader = shader.fragmentShader
+                .replace("#include <common>", `#include <common>
+                    varying vec3 vPaperPosition;
+                    float paperHash(vec3 p) {
+                        p = fract(p * 0.3183099 + vec3(0.17, 0.31, 0.53));
+                        p *= 17.0;
+                        return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
+                    }
+                    float paperNoise(vec3 p) {
+                        vec3 i = floor(p);
+                        vec3 f = fract(p);
+                        f = f * f * (3.0 - 2.0 * f);
+                        return mix(
+                            mix(mix(paperHash(i), paperHash(i + vec3(1,0,0)), f.x),
+                                mix(paperHash(i + vec3(0,1,0)), paperHash(i + vec3(1,1,0)), f.x), f.y),
+                            mix(mix(paperHash(i + vec3(0,0,1)), paperHash(i + vec3(1,0,1)), f.x),
+                                mix(paperHash(i + vec3(0,1,1)), paperHash(i + vec3(1,1,1)), f.x), f.y), f.z);
+                    }`)
+                .replace("#include <color_fragment>", `#include <color_fragment>
+                    float paperBroad = paperNoise(vPaperPosition * 18.0);
+                    float paperFiber = paperNoise(vPaperPosition * 115.0);
+                    float paperGrain = mix(paperBroad, paperFiber, 0.42);
+                    float paperValue = mix(0.88, 1.08, paperGrain);
+                    float paperLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+                    diffuseColor.rgb = mix(vec3(paperLuma), diffuseColor.rgb, 1.12);
+                    diffuseColor.rgb *= mix(1.0, paperValue, ${paperStrength.toFixed(3)});
+                    diffuseColor.rgb *= vec3(1.018, 1.0, 0.965);`);
+        };
+        material.customProgramCacheKey = () => `papercut-v2-${paperStrength}`;
+        material.needsUpdate = true;
+    }
+}
 
 function setStatus(message) {
     ui.status.textContent = message;
@@ -225,6 +274,7 @@ async function loadMascot() {
                 const isGlasses = /glass/i.test(child.name);
                 child.castShadow = !isGlasses;
                 child.receiveShadow = !isGlasses;
+                applyPapercutFinish(child);
                 if (child.morphTargetDictionary) {
                     const names = Object.keys(child.morphTargetDictionary);
                     if (VISEME_NAMES.some((name) => names.includes(name))) lipSyncMeshes.push(child);
@@ -245,9 +295,6 @@ async function loadMascot() {
                 const action = mixer.clipAction(clip);
                 animationActions.set(clip.name, action);
             }
-            mixer.addEventListener("finished", ({ action }) => {
-                if (state.speaking && action === activeBodyAction) playNextTalkGesture();
-            });
             playBodyAnimation(IDLE_ANIMATION, 0.72, true);
         }
 
@@ -496,7 +543,7 @@ function updateVisemes() {
     }
 }
 
-function playBodyAnimation(name, timeScale = 1, loop = false) {
+function playBodyAnimation(name, timeScale = 1, loop = false, transition = 0.38) {
     const nextAction = animationActions.get(name);
     if (!nextAction) return;
 
@@ -505,21 +552,30 @@ function playBodyAnimation(name, timeScale = 1, loop = false) {
     nextAction.reset();
     nextAction.enabled = true;
     nextAction.setLoop(loop ? THREE.LoopRepeat : THREE.LoopOnce, loop ? Infinity : 1);
-    nextAction.clampWhenFinished = false;
+    nextAction.clampWhenFinished = !loop;
     nextAction.setEffectiveTimeScale(timeScale);
     nextAction.setEffectiveWeight(1);
-    nextAction.fadeIn(0.16).play();
-    if (previousAction && previousAction !== nextAction) previousAction.fadeOut(0.16);
+    nextAction.play();
+    if (previousAction && previousAction !== nextAction) {
+        nextAction.crossFadeFrom(previousAction, transition, true);
+    } else {
+        nextAction.fadeIn(transition).play();
+    }
 }
 
 function playNextTalkGesture() {
     if (!state.speaking || !TALK_ANIMATIONS.length) return;
     const name = TALK_ANIMATIONS[nextTalkGestureIndex % TALK_ANIMATIONS.length];
     nextTalkGestureIndex = (nextTalkGestureIndex + 1) % TALK_ANIMATIONS.length;
-    playBodyAnimation(name, 1);
+    playBodyAnimation(name, 1, false, 0.38);
+    const action = animationActions.get(name);
+    const gestureDuration = action ? action.getClip().duration * 1000 : 1000;
+    window.clearTimeout(talkGestureTimer);
+    talkGestureTimer = window.setTimeout(playNextTalkGesture, Math.max(420, gestureDuration - 360));
 }
 
 function stopBodyAnimation() {
+    window.clearTimeout(talkGestureTimer);
     const action = activeBodyAction;
     activeBodyAction = null;
     if (!action) return;
@@ -528,6 +584,7 @@ function stopBodyAnimation() {
 }
 
 function startSpeakingAnimation() {
+    window.clearTimeout(talkGestureTimer);
     state.speaking = true;
     state.mouthEnergy = 0.68;
     setStatus("Speaking…");
@@ -536,13 +593,14 @@ function startSpeakingAnimation() {
 }
 
 function stopSpeakingAnimation() {
+    window.clearTimeout(talkGestureTimer);
     state.speaking = false;
     state.activeCharacter = "";
     state.transcriptTimeline = [];
     state.mouthEnergy = 0;
     setStatus(state.loaded ? "Ready" : "Chat ready · mascot still loading");
     window.portfolioMusic?.resumeAfterVoice?.();
-    playBodyAnimation(IDLE_ANIMATION, 0.72, true);
+    playBodyAnimation(IDLE_ANIMATION, 0.72, true, 0.45);
 }
 
 function stopAllSpeech() {
