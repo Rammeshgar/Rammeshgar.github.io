@@ -588,7 +588,7 @@
         if (label) label.textContent = "Loading digital twin…";
 
         try {
-            await import("./mascot.js?v=20260825-13");
+            await import("./mascot.js?v=20260825-14");
             aiModuleLoaded = true;
             aiToggle.disabled = false;
             aiToggle.click();
