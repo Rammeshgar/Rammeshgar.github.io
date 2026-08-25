@@ -25,6 +25,9 @@ const state = {
     busy: false,
     voiceEnabled: true,
     recognition: null,
+    recognitionStarting: false,
+    recognitionSubmitted: false,
+    recognitionError: "",
     speaking: false,
     activeCharacter: "",
     previousInteractionId: null,
@@ -809,22 +812,50 @@ function setupSpeechRecognition() {
     recognition.interimResults = true;
 
     recognition.onstart = () => {
+        state.recognitionStarting = false;
+        state.recognitionSubmitted = false;
+        state.recognitionError = "";
         ui.mic.classList.add("is-listening");
+        ui.mic.disabled = false;
+        ui.mic.title = "Stop listening";
+        ui.mic.setAttribute("aria-label", "Stop voice input");
         setStatus("Listening…");
         window.portfolioMusic?.pauseForVoice?.();
     };
+    recognition.onaudiostart = () => setStatus("Microphone active · listening…");
+    recognition.onspeechstart = () => setStatus("Speech detected · keep talking…");
     recognition.onresult = (event) => {
         let transcript = "";
-        for (let i = event.resultIndex; i < event.results.length; i++) transcript += event.results[i][0].transcript;
+        let hasFinalResult = false;
+        for (let i = 0; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+            hasFinalResult ||= event.results[i].isFinal;
+        }
         ui.input.value = transcript.trim();
-        if (event.results[event.results.length - 1].isFinal) askGemini(ui.input.value);
+        if (hasFinalResult && !state.recognitionSubmitted && ui.input.value) {
+            state.recognitionSubmitted = true;
+            askGemini(ui.input.value);
+        }
     };
     recognition.onerror = (event) => {
-        setStatus(event.error === "not-allowed" ? "Microphone permission was denied" : `Voice error: ${event.error}`);
+        const messages = {
+            "not-allowed": "Microphone blocked · allow access in the address bar and retry",
+            "service-not-allowed": "Voice recognition is blocked by this browser",
+            "audio-capture": "No working microphone was found",
+            "no-speech": "I didn’t hear anything · tap the mic and try again",
+            network: "Voice recognition needs an internet connection",
+            aborted: "Voice input stopped",
+        };
+        state.recognitionError = messages[event.error] || `Voice input error: ${event.error}`;
+        setStatus(state.recognitionError);
     };
     recognition.onend = () => {
+        state.recognitionStarting = false;
         ui.mic.classList.remove("is-listening");
-        if (!state.busy) setStatus("Ready");
+        ui.mic.disabled = state.busy;
+        ui.mic.title = "Talk instead of typing";
+        ui.mic.setAttribute("aria-label", "Start voice input — talk instead of typing");
+        if (!state.busy && !state.recognitionError) setStatus("Ready");
         if (!state.busy) window.portfolioMusic?.resumeAfterVoice?.();
     };
 
@@ -840,11 +871,38 @@ function stopRecognition() {
     try { state.recognition.stop(); } catch (_) { /* already stopped */ }
 }
 
-ui.mic.addEventListener("click", () => {
-    if (!state.recognition || state.busy) return;
+async function requestMicrophoneAccess() {
+    if (!navigator.mediaDevices?.getUserMedia) return;
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream.getTracks().forEach((track) => track.stop());
+}
+
+ui.mic.addEventListener("click", async () => {
+    if (!state.recognition || state.busy || state.recognitionStarting) return;
+    if (ui.mic.classList.contains("is-listening")) {
+        stopRecognition();
+        return;
+    }
     stopAllSpeech();
-    try { state.recognition.start(); }
-    catch (_) { stopRecognition(); }
+    state.recognitionStarting = true;
+    state.recognitionSubmitted = false;
+    state.recognitionError = "";
+    ui.mic.disabled = true;
+    setStatus("Checking microphone access…");
+    try {
+        await requestMicrophoneAccess();
+        state.recognition.start();
+    } catch (error) {
+        state.recognitionStarting = false;
+        ui.mic.disabled = false;
+        const blocked = error?.name === "NotAllowedError" || error?.name === "SecurityError";
+        state.recognitionError = blocked
+            ? "Microphone blocked · allow access in the address bar and retry"
+            : error?.name === "NotFoundError"
+                ? "No working microphone was found"
+                : "Couldn’t start voice input · please retry or type your question";
+        setStatus(state.recognitionError);
+    }
 });
 
 setupSpeechRecognition();
