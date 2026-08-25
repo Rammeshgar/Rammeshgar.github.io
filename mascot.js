@@ -35,6 +35,8 @@ const state = {
     expanded: false,
     currentSpeechText: "",
     hasStartedPerformance: false,
+    nextExplainAnimation: 0,
+    playbackGeneration: 0,
 };
 
 let scene;
@@ -73,7 +75,7 @@ const VISEME_NAMES = ["AA/AH", "EE/IH", "OH/O", "OO/WQ", "FV", "MBP", "L", "TH"]
 const IDLE_ANIMATION = "Mascot_Idle_Subtle_30f";
 const TALK_INTRO_ANIMATION = "Mascot_Talk_Intro_Smooth";
 const TALK_START_ANIMATION = "Mascot_Talk_Start_Smooth";
-const TALK_EXPLAIN_ANIMATION = "Mascot_Talk_Explain_Loop_Smooth";
+const TALK_EXPLAIN_ANIMATIONS = ["Mascot_Talk_Explain1_Smooth", "Mascot_Talk_Explain2_Smooth"];
 const TALK_PLAYBACK_SPEED = 0.68;
 
 function applyPapercutFinish(mesh) {
@@ -309,9 +311,7 @@ async function loadMascot() {
             }
             mixer.addEventListener("finished", ({ action }) => {
                 if (!state.speaking || action !== activeBodyAction) return;
-                if (action !== animationActions.get(TALK_EXPLAIN_ANIMATION)) {
-                    playBodyAnimation(TALK_EXPLAIN_ANIMATION, TALK_PLAYBACK_SPEED, true, 0.24);
-                }
+                playNextExplainAnimation(0.32);
             });
             playBodyAnimation(IDLE_ANIMATION, 0.72, false, 0.18);
         }
@@ -589,24 +589,30 @@ function stopBodyAnimation() {
     window.setTimeout(() => action.stop(), 220);
 }
 
+function playNextExplainAnimation(transition = 0.72) {
+    const name = TALK_EXPLAIN_ANIMATIONS[state.nextExplainAnimation];
+    state.nextExplainAnimation = (state.nextExplainAnimation + 1) % TALK_EXPLAIN_ANIMATIONS.length;
+    playBodyAnimation(name, TALK_PLAYBACK_SPEED, false, transition);
+}
+
 function startSpeakingAnimation() {
     state.speaking = true;
     state.mouthEnergy = 0.68;
     setStatus("Speaking…");
     window.portfolioMusic?.pauseForVoice?.();
     const beginsWithGreeting = /^(hi|hey|hello)\b/i.test(state.currentSpeechText.trim());
+    state.nextExplainAnimation = 0;
     const openingAnimation = state.hasStartedPerformance
-        ? TALK_EXPLAIN_ANIMATION
+        ? TALK_EXPLAIN_ANIMATIONS[0]
         : beginsWithGreeting
             ? TALK_INTRO_ANIMATION
             : TALK_START_ANIMATION;
     state.hasStartedPerformance = true;
-    playBodyAnimation(
-        openingAnimation,
-        TALK_PLAYBACK_SPEED,
-        openingAnimation === TALK_EXPLAIN_ANIMATION,
-        0.72
-    );
+    if (openingAnimation === TALK_EXPLAIN_ANIMATIONS[0]) {
+        playNextExplainAnimation(0.72);
+    } else {
+        playBodyAnimation(openingAnimation, TALK_PLAYBACK_SPEED, false, 0.72);
+    }
 }
 
 function stopSpeakingAnimation() {
@@ -621,6 +627,7 @@ function stopSpeakingAnimation() {
 }
 
 function stopAllSpeech() {
+    state.playbackGeneration += 1;
     const wasSpeaking = state.speaking;
     window.speechSynthesis?.cancel();
 
@@ -647,6 +654,7 @@ async function playGeneratedAudio(audioBase64, mimeType = "audio/mpeg", transcri
     if (!state.voiceEnabled || !audioBase64) return false;
 
     stopAllSpeech();
+    const playbackGeneration = state.playbackGeneration;
 
     try {
         const binary = atob(audioBase64);
@@ -663,10 +671,21 @@ async function playGeneratedAudio(audioBase64, mimeType = "audio/mpeg", transcri
         state.transcriptTimeline = buildTranscriptTimeline(transcript);
         setupAudioAnalysis(audio);
 
-        audio.addEventListener("play", startSpeakingAnimation, { once: true });
         audio.addEventListener("ended", stopAllSpeech, { once: true });
         audio.addEventListener("error", stopAllSpeech, { once: true });
 
+        audio.preload = "auto";
+        audio.load();
+        if (audio.readyState < HTMLMediaElement.HAVE_FUTURE_DATA) {
+            await Promise.race([
+                new Promise((resolve) => audio.addEventListener("canplay", resolve, { once: true })),
+                new Promise((resolve) => window.setTimeout(resolve, 1200)),
+            ]);
+        }
+        if (playbackGeneration !== state.playbackGeneration) return true;
+        startSpeakingAnimation();
+        await new Promise((resolve) => window.setTimeout(resolve, 420));
+        if (playbackGeneration !== state.playbackGeneration) return true;
         await audio.play();
         return true;
     } catch (error) {
@@ -686,6 +705,7 @@ function chooseVoice() {
 function speak(text) {
     if (!state.voiceEnabled || !text || !("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
+    const playbackGeneration = ++state.playbackGeneration;
     state.currentSpeechText = text;
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US";
@@ -693,14 +713,18 @@ function speak(text) {
     utterance.pitch = 1;
     const voice = chooseVoice();
     if (voice) utterance.voice = voice;
-    utterance.onstart = startSpeakingAnimation;
     utterance.onboundary = (event) => {
         const index = Math.min(event.charIndex || 0, text.length - 1);
         state.activeCharacter = pickVisemeCharacter(text, index);
     };
     utterance.onend = stopSpeakingAnimation;
     utterance.onerror = stopSpeakingAnimation;
-    window.speechSynthesis.speak(utterance);
+    startSpeakingAnimation();
+    window.setTimeout(() => {
+        if (playbackGeneration === state.playbackGeneration && state.voiceEnabled) {
+            window.speechSynthesis.speak(utterance);
+        }
+    }, 420);
 }
 
 function setBusy(value) {
