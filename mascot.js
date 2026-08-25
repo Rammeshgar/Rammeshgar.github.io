@@ -33,6 +33,8 @@ const state = {
     transcriptTimeline: [],
     mouthEnergy: 0,
     expanded: false,
+    currentSpeechText: "",
+    hasStartedPerformance: false,
 };
 
 let scene;
@@ -69,7 +71,10 @@ let neckLookApplied = false;
 const MODEL_URL = "me_v2.web.glb";
 const VISEME_NAMES = ["AA/AH", "EE/IH", "OH/O", "OO/WQ", "FV", "MBP", "L", "TH"];
 const IDLE_ANIMATION = "Mascot_Idle_Subtle_30f";
-const TALK_SEQUENCE_ANIMATION = "Mascot_Talk_Sequence_Smooth";
+const TALK_INTRO_ANIMATION = "Mascot_Talk_Intro_Smooth";
+const TALK_START_ANIMATION = "Mascot_Talk_Start_Smooth";
+const TALK_EXPLAIN_ANIMATION = "Mascot_Talk_Explain_Loop_Smooth";
+const TALK_PLAYBACK_SPEED = 0.68;
 
 function applyPapercutFinish(mesh) {
     if (/glass|lence|mouth_cavity/i.test(mesh.name)) return;
@@ -302,6 +307,12 @@ async function loadMascot() {
                 const action = mixer.clipAction(clip);
                 animationActions.set(clip.name, action);
             }
+            mixer.addEventListener("finished", ({ action }) => {
+                if (!state.speaking || action !== activeBodyAction) return;
+                if (action !== animationActions.get(TALK_EXPLAIN_ANIMATION)) {
+                    playBodyAnimation(TALK_EXPLAIN_ANIMATION, TALK_PLAYBACK_SPEED, true, 0.24);
+                }
+            });
             playBodyAnimation(IDLE_ANIMATION, 0.72, false, 0.18);
         }
 
@@ -583,13 +594,26 @@ function startSpeakingAnimation() {
     state.mouthEnergy = 0.68;
     setStatus("Speaking…");
     window.portfolioMusic?.pauseForVoice?.();
-    playBodyAnimation(TALK_SEQUENCE_ANIMATION, 1, true, 0.62);
+    const beginsWithGreeting = /^(hi|hey|hello)\b/i.test(state.currentSpeechText.trim());
+    const openingAnimation = state.hasStartedPerformance
+        ? TALK_EXPLAIN_ANIMATION
+        : beginsWithGreeting
+            ? TALK_INTRO_ANIMATION
+            : TALK_START_ANIMATION;
+    state.hasStartedPerformance = true;
+    playBodyAnimation(
+        openingAnimation,
+        TALK_PLAYBACK_SPEED,
+        openingAnimation === TALK_EXPLAIN_ANIMATION,
+        0.72
+    );
 }
 
 function stopSpeakingAnimation() {
     state.speaking = false;
     state.activeCharacter = "";
     state.transcriptTimeline = [];
+    state.currentSpeechText = "";
     state.mouthEnergy = 0;
     setStatus(state.loaded ? "Ready" : "Chat ready · mascot still loading");
     window.portfolioMusic?.resumeAfterVoice?.();
@@ -635,6 +659,7 @@ async function playGeneratedAudio(audioBase64, mimeType = "audio/mpeg", transcri
 
         state.currentAudio = audio;
         state.currentAudioUrl = audioUrl;
+        state.currentSpeechText = transcript;
         state.transcriptTimeline = buildTranscriptTimeline(transcript);
         setupAudioAnalysis(audio);
 
@@ -661,6 +686,7 @@ function chooseVoice() {
 function speak(text) {
     if (!state.voiceEnabled || !text || !("speechSynthesis" in window)) return;
     window.speechSynthesis.cancel();
+    state.currentSpeechText = text;
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US";
     utterance.rate = 1;
