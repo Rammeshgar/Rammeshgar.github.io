@@ -35,7 +35,8 @@ const state = {
     expanded: false,
     currentSpeechText: "",
     hasStartedPerformance: false,
-    nextExplainAnimation: 0,
+    currentTalkGesture: 0,
+    talkGestureBag: [],
     playbackGeneration: 0,
 };
 
@@ -75,7 +76,7 @@ const VISEME_NAMES = ["AA/AH", "EE/IH", "OH/O", "OO/WQ", "FV", "MBP", "L", "TH"]
 const IDLE_ANIMATION = "Mascot_Idle_Subtle_30f";
 const TALK_INTRO_ANIMATION = "Mascot_Talk_Intro_Smooth";
 const TALK_START_ANIMATION = "Mascot_Talk_Start_Smooth";
-const TALK_EXPLAIN_ANIMATIONS = ["Mascot_Talk_Explain1_Smooth", "Mascot_Talk_Explain2_Smooth"];
+const TALK_GESTURES = ["Start", "Explain1", "Explain2"];
 const TALK_PLAYBACK_SPEED = 0.68;
 
 function applyPapercutFinish(mesh) {
@@ -311,7 +312,7 @@ async function loadMascot() {
             }
             mixer.addEventListener("finished", ({ action }) => {
                 if (!state.speaking || action !== activeBodyAction) return;
-                playNextExplainAnimation(0.32);
+                playRandomTalkAnimation(0.32);
             });
             playBodyAnimation(IDLE_ANIMATION, 0.72, false, 0.18);
         }
@@ -589,9 +590,18 @@ function stopBodyAnimation() {
     window.setTimeout(() => action.stop(), 220);
 }
 
-function playNextExplainAnimation(transition = 0.72) {
-    const name = TALK_EXPLAIN_ANIMATIONS[state.nextExplainAnimation];
-    state.nextExplainAnimation = (state.nextExplainAnimation + 1) % TALK_EXPLAIN_ANIMATIONS.length;
+function playRandomTalkAnimation(transition = 0.72) {
+    const currentIndex = state.currentTalkGesture;
+    state.talkGestureBag = state.talkGestureBag.filter((index) => index !== currentIndex);
+    if (!state.talkGestureBag.length) {
+        state.talkGestureBag = TALK_GESTURES
+            .map((_, index) => index)
+            .filter((index) => index !== currentIndex)
+            .sort(() => Math.random() - 0.5);
+    }
+    const nextIndex = state.talkGestureBag.pop();
+    const name = `Mascot_Talk_${TALK_GESTURES[currentIndex]}_To_${TALK_GESTURES[nextIndex]}_Smooth`;
+    state.currentTalkGesture = nextIndex;
     playBodyAnimation(name, TALK_PLAYBACK_SPEED, false, transition);
 }
 
@@ -601,15 +611,13 @@ function startSpeakingAnimation() {
     setStatus("Speaking…");
     window.portfolioMusic?.pauseForVoice?.();
     const beginsWithGreeting = /^(hi|hey|hello)\b/i.test(state.currentSpeechText.trim());
-    state.nextExplainAnimation = 0;
-    const openingAnimation = state.hasStartedPerformance
-        ? TALK_EXPLAIN_ANIMATIONS[0]
-        : beginsWithGreeting
-            ? TALK_INTRO_ANIMATION
-            : TALK_START_ANIMATION;
+    state.currentTalkGesture = 0;
+    state.talkGestureBag = [];
+    const continuingConversation = state.hasStartedPerformance;
+    const openingAnimation = beginsWithGreeting ? TALK_INTRO_ANIMATION : TALK_START_ANIMATION;
     state.hasStartedPerformance = true;
-    if (openingAnimation === TALK_EXPLAIN_ANIMATIONS[0]) {
-        playNextExplainAnimation(0.72);
+    if (continuingConversation) {
+        playRandomTalkAnimation(0.72);
     } else {
         playBodyAnimation(openingAnimation, TALK_PLAYBACK_SPEED, false, 0.72);
     }
