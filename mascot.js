@@ -51,8 +51,6 @@ let audioSource;
 let audioSamples;
 const animationActions = new Map();
 let activeBodyAction;
-let nextTalkGestureIndex = 0;
-let talkGestureTimer;
 let cameraTransition;
 let portraitView;
 let studioView;
@@ -71,18 +69,26 @@ let neckLookApplied = false;
 const MODEL_URL = "me_v2.web.glb";
 const VISEME_NAMES = ["AA/AH", "EE/IH", "OH/O", "OO/WQ", "FV", "MBP", "L", "TH"];
 const IDLE_ANIMATION = "Mascot_Idle_Subtle_30f";
-const TALK_ANIMATIONS = [
-    "Mascot_Talk_Hi_30f",
-    "Mascot_Talk_Start_30f",
-    "Mascot_Talk_Explain_30f",
-    "Mascot_Talk_Explain2_30f",
-];
+const TALK_SEQUENCE_ANIMATION = "Mascot_Talk_Sequence_Smooth";
 
 function applyPapercutFinish(mesh) {
     if (/glass|lence|mouth_cavity/i.test(mesh.name)) return;
     const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-    const isSkin = /new_head|node_0/i.test(mesh.name);
-    const paperStrength = isSkin ? 0.11 : 0.17;
+    const isSkin = /new_head/i.test(mesh.name);
+    const isBody = /^body$/i.test(mesh.name);
+    const isHair = /^hair/i.test(mesh.name);
+    const paperStrength = isSkin ? 0.19 : isBody ? 0.23 : 0.17;
+    const paletteTreatment = isSkin
+        ? `diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(1.16, 0.82, 0.66), 0.48);
+           diffuseColor.rgb += vec3(0.018, 0.006, 0.0);`
+        : isBody
+            ? `float ivoryMask = smoothstep(0.52, 0.88, paperLuma);
+               vec3 midnightCloth = diffuseColor.rgb * vec3(0.72, 0.91, 1.08);
+               vec3 warmIvory = diffuseColor.rgb * vec3(1.16, 0.82, 0.66);
+               diffuseColor.rgb = mix(midnightCloth, warmIvory, ivoryMask * 0.82);`
+            : isHair
+                ? `diffuseColor.rgb *= vec3(0.68, 0.80, 1.0);`
+                : "";
 
     for (const material of materials) {
         if (!material?.isMeshStandardMaterial) continue;
@@ -119,7 +125,8 @@ function applyPapercutFinish(mesh) {
                     float paperLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
                     diffuseColor.rgb = mix(vec3(paperLuma), diffuseColor.rgb, 1.12);
                     diffuseColor.rgb *= mix(1.0, paperValue, ${paperStrength.toFixed(3)});
-                    diffuseColor.rgb *= vec3(1.018, 1.0, 0.965);`);
+                    diffuseColor.rgb *= vec3(1.018, 1.0, 0.965);
+                    ${paletteTreatment}`);
         };
         material.customProgramCacheKey = () => `papercut-v2-${paperStrength}`;
         material.needsUpdate = true;
@@ -226,16 +233,16 @@ async function loadMascot() {
     controls.minPolarAngle = Math.PI * 0.2;
     controls.maxPolarAngle = Math.PI * 0.6;
 
-    scene.add(new THREE.HemisphereLight(0xe8f5ff, 0x17232d, 1.5));
-    const key = new THREE.DirectionalLight(0xfff8ef, 1.9);
+    scene.add(new THREE.HemisphereLight(0xffead7, 0x101d28, 1.05));
+    const key = new THREE.DirectionalLight(0xffd2a8, 1.58);
     key.position.set(2.1, 3.5, 4.8);
     key.castShadow = true;
     key.shadow.bias = -0.00012;
     scene.add(key);
-    const fill = new THREE.DirectionalLight(0xc8e4ff, 1.7);
+    const fill = new THREE.DirectionalLight(0x75e8dc, 1.08);
     fill.position.set(-2.8, 2.25, 4.1);
     scene.add(fill);
-    const eyeLight = new THREE.DirectionalLight(0xffffff, 1.05);
+    const eyeLight = new THREE.DirectionalLight(0xffead7, 0.62);
     eyeLight.position.set(0, 2.1, 5.2);
     scene.add(eyeLight);
     const rim = new THREE.DirectionalLight(0xffd7b0, 1.25);
@@ -295,7 +302,7 @@ async function loadMascot() {
                 const action = mixer.clipAction(clip);
                 animationActions.set(clip.name, action);
             }
-            playBodyAnimation(IDLE_ANIMATION, 0.72, true);
+            playBodyAnimation(IDLE_ANIMATION, 0.72, false, 0.18);
         }
 
         state.loaded = true;
@@ -563,19 +570,7 @@ function playBodyAnimation(name, timeScale = 1, loop = false, transition = 0.38)
     }
 }
 
-function playNextTalkGesture() {
-    if (!state.speaking || !TALK_ANIMATIONS.length) return;
-    const name = TALK_ANIMATIONS[nextTalkGestureIndex % TALK_ANIMATIONS.length];
-    nextTalkGestureIndex = (nextTalkGestureIndex + 1) % TALK_ANIMATIONS.length;
-    playBodyAnimation(name, 1, false, 0.38);
-    const action = animationActions.get(name);
-    const gestureDuration = action ? action.getClip().duration * 1000 : 1000;
-    window.clearTimeout(talkGestureTimer);
-    talkGestureTimer = window.setTimeout(playNextTalkGesture, Math.max(420, gestureDuration - 360));
-}
-
 function stopBodyAnimation() {
-    window.clearTimeout(talkGestureTimer);
     const action = activeBodyAction;
     activeBodyAction = null;
     if (!action) return;
@@ -584,26 +579,25 @@ function stopBodyAnimation() {
 }
 
 function startSpeakingAnimation() {
-    window.clearTimeout(talkGestureTimer);
     state.speaking = true;
     state.mouthEnergy = 0.68;
     setStatus("Speaking…");
     window.portfolioMusic?.pauseForVoice?.();
-    playNextTalkGesture();
+    playBodyAnimation(TALK_SEQUENCE_ANIMATION, 1, true, 0.62);
 }
 
 function stopSpeakingAnimation() {
-    window.clearTimeout(talkGestureTimer);
     state.speaking = false;
     state.activeCharacter = "";
     state.transcriptTimeline = [];
     state.mouthEnergy = 0;
     setStatus(state.loaded ? "Ready" : "Chat ready · mascot still loading");
     window.portfolioMusic?.resumeAfterVoice?.();
-    playBodyAnimation(IDLE_ANIMATION, 0.72, true, 0.45);
+    playBodyAnimation(IDLE_ANIMATION, 0.72, false, 0.62);
 }
 
 function stopAllSpeech() {
+    const wasSpeaking = state.speaking;
     window.speechSynthesis?.cancel();
 
     audioSource?.disconnect();
@@ -622,7 +616,7 @@ function stopAllSpeech() {
         state.currentAudioUrl = null;
     }
 
-    stopSpeakingAnimation();
+    if (wasSpeaking) stopSpeakingAnimation();
 }
 
 async function playGeneratedAudio(audioBase64, mimeType = "audio/mpeg", transcript = "") {
