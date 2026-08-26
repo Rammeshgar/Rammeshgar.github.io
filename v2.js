@@ -112,8 +112,20 @@
         try { await loadFrame(index); } catch (_) { /* fallback frame remains visible */ }
       }
     };
-    const concurrency = compact ? 3 : 5;
+    const concurrency = compact ? 2 : 3;
     await Promise.all(Array.from({ length: concurrency }, worker));
+  }
+
+  function scheduleFrameWarmup() {
+    const beginWarmup = () => {
+      const idle = window.requestIdleCallback || ((callback) => setTimeout(callback, 500));
+      idle(() => loadAllFrames());
+    };
+    if (document.readyState === "complete") {
+      window.setTimeout(beginWarmup, 2600);
+    } else {
+      window.addEventListener("load", () => window.setTimeout(beginWarmup, 2600), { once: true });
+    }
   }
 
   function setLayerState(progress) {
@@ -188,7 +200,7 @@
 
   if (canvas && context && !reducedMotion) {
     resizeCanvas();
-    Promise.all([0, 1, 2, 3, 4, 5, 8, 12, 24, 48, 72, 96, 120, 144, 168, 182].map(loadFrame))
+    Promise.all([0, 1, 2, 3].map(loadFrame))
       .then(() => {
         targetFrame = calculateProgress() * (frameCount - 1);
         currentFrame = targetFrame;
@@ -196,8 +208,7 @@
           drawClosest(Math.round(currentFrame));
           setLayerState(currentFrame / (frameCount - 1));
         }).catch(() => drawClosest(0));
-        const idle = window.requestIdleCallback || ((callback) => setTimeout(callback, 300));
-        idle(() => loadAllFrames(), { timeout: 1600 });
+        scheduleFrameWarmup();
       })
       .catch(() => {});
     window.addEventListener("scroll", updateStoryTarget, { passive: true });
@@ -265,7 +276,7 @@
   // or data-saver sessions.
   const systemsWorld = document.getElementById("systems-world");
   if (systemsWorld && !reducedMotion && !saveData) {
-    const loadSystemsBackground = () => import("./background-3d.js").catch((error) => {
+    const loadSystemsBackground = () => import("./background-3d.js?v=20260826-4").catch((error) => {
       console.warn("The interactive systems background is unavailable.", error);
     });
     if ("IntersectionObserver" in window) {
@@ -323,7 +334,7 @@
     const label = mascotToggle.querySelector(".ai-mascot-toggle__label");
     const previous = label.textContent;
     label.textContent = "Loading twin…";
-    mascotPromise = import("./mascot.js")
+    mascotPromise = import("./mascot.js?v=20260826-4")
       .then(() => { label.textContent = previous; return true; })
       .catch((error) => {
         console.error("The digital twin could not load.", error);
