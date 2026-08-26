@@ -224,6 +224,7 @@ ui.voiceToggle.addEventListener("click", () => {
     if (icon) icon.dataset.icon = state.voiceEnabled ? "volume" : "muted";
     ui.voiceToggle.title = state.voiceEnabled ? "Mute voice" : "Enable voice";
     ui.voiceToggle.setAttribute("aria-label", ui.voiceToggle.title);
+    ui.voiceToggle.setAttribute("aria-pressed", String(state.voiceEnabled));
     if (!state.voiceEnabled) {
         stopAllSpeech();
     }
@@ -391,11 +392,13 @@ function frameMascot() {
         portraitTarget.y + size.y * 0.015,
         portraitTarget.z + portraitDistance
     );
-    const studioTarget = new THREE.Vector3(center.x, bounds.min.y + size.y * 0.48, center.z);
+    // Expanded view is a recruiter-facing environmental portrait: close enough
+    // to read the face, wide enough to preserve hand gestures and the studio.
+    const studioTarget = new THREE.Vector3(center.x, bounds.min.y + size.y * 0.68, center.z);
     const studioPosition = new THREE.Vector3(
         studioTarget.x + size.x * 0.08,
-        studioTarget.y + size.y * 0.04,
-        studioTarget.z + size.y * 1.95
+        studioTarget.y + size.y * 0.035,
+        studioTarget.z + size.y * 0.78
     );
 
     portraitView = { position: portraitPosition, target: portraitTarget };

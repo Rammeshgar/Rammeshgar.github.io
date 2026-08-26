@@ -1,578 +1,358 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#05070b">
-    <title>Sadeq Rezai | Systems, Data & Quality</title>
-    <meta name="description" content="Sadeq Rezai is a configuration and test engineer in Budapest working across quality engineering, data, web systems, and practical AI workflows.">
-    <meta name="author" content="Sadeq Rezai">
-    <meta name="keywords" content="Sadeq Rezai, Configuration Engineer, Test Engineer, Data Analyst, Playwright, Python, R, Budapest">
-    <link rel="canonical" href="https://rammeshgar.github.io/">
-    <link rel="icon" href="img/favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Sadeq Rezai | Systems, Data & Quality">
-    <meta property="og:description" content="Turning messy signals into reliable systems through analysis, configuration, testing, and thoughtful web development.">
-    <meta property="og:image" content="https://rammeshgar.github.io/img/social-preview.png?v=20260820">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Sadeq Rezai — Systems, Data & Quality">
-    <meta property="og:url" content="https://rammeshgar.github.io/">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Sadeq Rezai | Systems, Data & Quality">
-    <meta name="twitter:description" content="Configuration, testing, data systems, and practical AI—connected through thoughtful engineering.">
-    <meta name="twitter:image" content="https://rammeshgar.github.io/img/social-preview.png?v=20260820">
-    <meta name="twitter:image:alt" content="Sadeq Rezai — Systems, Data & Quality">
-
-    <link rel="preload" as="font" href="fonts/space-grotesk-latin.woff2" type="font/woff2" crossorigin>
-    <link rel="preload" as="font" href="fonts/inter-latin.woff2" type="font/woff2" crossorigin>
-    <link rel="preload" as="image" href="frames/mobile-smooth/frame-0001.webp" media="(max-width: 760px)" fetchpriority="high">
-    <link rel="preload" as="image" href="intro-demo-poster.webp" media="(min-width: 761px)" fetchpriority="high">
-    <link rel="stylesheet" href="style.css?v=20260825-2">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Sadeq Rezai",
-      "url": "https://rammeshgar.github.io/",
-      "sameAs": [
-        "https://www.linkedin.com/in/sadeqrezai/",
-        "https://github.com/Rammeshgar"
-      ],
-      "jobTitle": "Configuration and Test Engineer",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Budapest",
-        "addressCountry": "Hungary"
-      },
-      "knowsAbout": [
-        "Configuration management",
-        "Test automation",
-        "Data analysis",
-        "Web development",
-        "AI-assisted workflows"
-      ]
-    }
-    </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#05080d">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <title>Sadeq Rezai — Quality Automation &amp; Systems Engineer</title>
+  <meta name="description" content="Quality Automation and Systems Engineer building and validating AI-enabled workflows across configuration, testing, data, and web systems.">
+  <meta name="author" content="Sadeq Rezai">
+  <meta name="keywords" content="Sadeq Rezai, Quality Automation Engineer, Systems Engineer, Playwright, Python, CI/CD, AI-enabled workflows, Budapest">
+  <link rel="canonical" href="https://rammeshgar.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sadeq Rezai — Quality Automation &amp; Systems Engineer">
+  <meta property="og:description" content="I build and validate AI-enabled systems, connecting workflows, automation, data, and interfaces from uncertainty to reliable proof.">
+  <meta property="og:image" content="https://rammeshgar.github.io/img/social-preview-v3.png?v=20260826-2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Sadeq Rezai turning messy signals into reliable systems">
+  <meta property="og:url" content="https://rammeshgar.github.io/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sadeq Rezai — Quality Automation &amp; Systems Engineer">
+  <meta name="twitter:description" content="Quality automation, AI-enabled workflows, data, and web systems—built as reliable proof.">
+  <meta name="twitter:image" content="https://rammeshgar.github.io/img/social-preview-v3.png?v=20260826-2">
+  <meta name="twitter:image:alt" content="Sadeq Rezai turning messy signals into reliable systems">
+  <link rel="icon" href="img/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="preload" as="font" href="fonts/space-grotesk-latin.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="font" href="fonts/inter-latin.woff2" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" href="frames/mobile/frame-0001.webp" media="(max-width: 760px)" fetchpriority="high">
+  <link rel="preload" as="image" href="frames/desktop/frame-0001.webp" media="(min-width: 761px)" fetchpriority="high">
+  <link rel="stylesheet" href="v2.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Sadeq Rezai",
+    "url": "https://rammeshgar.github.io/",
+    "image": "https://rammeshgar.github.io/img/social-preview-v3.png",
+    "jobTitle": "Quality Automation and Systems Engineer",
+    "sameAs": [
+      "https://www.linkedin.com/in/sadeqrezai/",
+      "https://github.com/Rammeshgar"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Budapest",
+      "addressCountry": "HU"
+    },
+    "knowsAbout": [
+      "Quality automation",
+      "Systems engineering",
+      "Playwright",
+      "Python",
+      "CI/CD",
+      "Data analysis",
+      "AI-enabled workflows",
+      "Web development"
+    ]
+  }
+  </script>
 </head>
-<body>
-    <a class="skip-link" href="#work">Skip to selected work</a>
-    <canvas id="pixel-field" aria-hidden="true"></canvas>
+<body class="hero-active">
+  <a class="skip-link" href="#work">Skip to selected work</a>
+  <div class="site-atmosphere" aria-hidden="true">
+    <span class="site-atmosphere__plane site-atmosphere__plane--a"></span>
+    <span class="site-atmosphere__plane site-atmosphere__plane--b"></span>
+    <span class="site-atmosphere__route"></span>
+    <span class="site-atmosphere__pixels"></span>
+  </div>
 
-    <nav class="site-nav" aria-label="Primary navigation">
-        <a class="brand" href="#home" aria-label="Sadeq Rezai — home">
-            <span class="brand__mark" aria-hidden="true"><span class="brand__route"></span></span>
-            <span class="brand__text">Sadeq Rezai</span>
-        </a>
+  <header class="topbar" data-topbar>
+    <a class="identity" href="#home" aria-label="Sadeq Rezai, home">
+      <span class="identity__mark" aria-hidden="true"><span class="identity__route"></span></span>
+      <span><strong>Sadeq Rezai</strong><small>Quality / Systems / AI</small></span>
+    </a>
 
-        <div class="nav-links" id="nav-links">
-            <a href="#work">Work</a>
-            <a href="#approach">Approach</a>
-            <a href="#journey">Journey</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </div>
-
-        <div class="nav-actions">
-            <button id="music-toggle" class="music-toggle" type="button" aria-pressed="false" aria-label="Play background music">
-                <span class="music-toggle__icon css-icon css-icon--play" aria-hidden="true"></span>
-                <span id="music-label">Play music</span>
-            </button>
-            <button class="nav-ai" type="button" data-open-ai>
-                <span class="nav-ai__icon css-icon css-icon--ai-wave" aria-hidden="true"></span>
-                <span class="nav-ai__label">Ask Sadeq’s AI</span>
-            </button>
-            <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="nav-links" aria-expanded="false">
-                <span></span><span></span>
-            </button>
-        </div>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="#work">Work</a>
+      <a href="#method">Method</a>
+      <a href="#journey">Journey</a>
+      <a href="#contact">Contact</a>
     </nav>
 
-    <main>
-        <section class="cinematic" id="home" aria-label="Introduction">
-            <div class="cinematic__stage">
-                <picture>
-                    <source media="(max-width: 760px)" srcset="frames/mobile-smooth/frame-0001.webp">
-                    <img class="cinematic__fallback" src="intro-demo-poster.webp" alt="" fetchpriority="high" aria-hidden="true">
-                </picture>
-                <video class="cinematic__video" id="cinematic-video" preload="none" muted playsinline aria-hidden="true">
-                    <source media="(max-width: 760px)" src="intro-demo-mobile.mp4" type="video/mp4">
-                    <source src="intro-demo-scrub.mp4" type="video/mp4">
-                    <source src="Intro%20Demo%20(2).webm" type="video/webm">
-                </video>
-                <canvas class="cinematic__canvas" id="cinematic-canvas" aria-hidden="true"></canvas>
-                <div class="cinematic__loader" id="cinematic-loader" aria-live="polite">
-                    <span class="cinematic__loader-track"><span id="cinematic-loader-bar"></span></span>
-                    <span id="cinematic-loader-label">Preparing the story…</span>
-                </div>
-                <div class="cinematic__wash" aria-hidden="true"></div>
-                <div class="cinematic__grid" aria-hidden="true"></div>
-                <div class="cinematic__noise" aria-hidden="true"></div>
+    <div class="topbar__actions">
+      <button class="icon-button" id="music-toggle" type="button" aria-label="Play background music" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13M9 9l11-2M6 21c1.7 0 3-1.1 3-2.5S7.7 16 6 16s-3 1.1-3 2.5S4.3 21 6 21Zm11-2c1.7 0 3-1.1 3-2.5S18.7 14 17 14s-3 1.1-3 2.5 1.3 2.5 3 2.5Z"/></svg>
+      </button>
+      <button class="ask-button" type="button" data-open-ai>
+        <span class="ask-button__pulse" aria-hidden="true"></span>
+        Ask Sadeq’s AI
+      </button>
+      <button class="menu-button" id="menu-button" type="button" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false"><span></span><span></span></button>
+    </div>
+  </header>
 
-                <div class="hero-intro" data-story-intro>
-                    <p class="eyebrow"><span>Budapest / Hungary</span><span>Portfolio / 2026</span></p>
-                    <h1>I turn messy signals into <em>reliable systems.</em></h1>
-                    <div class="hero-role">
-                        <span>I work across</span>
-                        <strong id="typing-text">configuration</strong>
-                        <span class="typing-cursor" aria-hidden="true"></span>
-                    </div>
-                    <p class="hero-summary">Configuration, testing, data, and web development—connected by a practical obsession with making complex things clearer and more dependable.</p>
-                    <div class="hero-actions">
-                        <a class="button button--primary" href="#work">Explore selected work <span aria-hidden="true">↘</span></a>
-                        <a class="button button--quiet" href="#contact">Start a conversation</a>
-                    </div>
-                </div>
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" aria-hidden="true">
+    <a href="#work"><span>01</span>Selected work</a>
+    <a href="#method"><span>02</span>How I work</a>
+    <a href="#journey"><span>03</span>Journey</a>
+    <a href="#contact"><span>04</span>Contact</a>
+  </nav>
 
-                <ol class="story-steps" aria-label="How Sadeq works">
-                    <li class="story-step" data-story-step="0">
-                        <span class="story-step__number">01</span>
-                        <div>
-                            <p class="story-step__label">Signal</p>
-                            <h2>Find what matters.</h2>
-                            <p>Read the context, separate evidence from noise, and frame the real problem.</p>
-                        </div>
-                    </li>
-                    <li class="story-step story-step--right" data-story-step="1">
-                        <span class="story-step__number">02</span>
-                        <div>
-                            <p class="story-step__label">System</p>
-                            <h2>Give it structure.</h2>
-                            <p>Turn scattered inputs into workflows, interfaces, models, and maintainable logic.</p>
-                        </div>
-                    </li>
-                    <li class="story-step" data-story-step="2">
-                        <span class="story-step__number">03</span>
-                        <div>
-                            <p class="story-step__label">Validation</p>
-                            <h2>Question the result.</h2>
-                            <p>Test the path, probe the edge cases, and make reliability visible rather than assumed.</p>
-                        </div>
-                    </li>
-                    <li class="story-step story-step--right" data-story-step="3">
-                        <span class="story-step__number">04</span>
-                        <div>
-                            <p class="story-step__label">Proof</p>
-                            <h2>Ship something useful.</h2>
-                            <p>A dashboard, an automated check, or a clear experience—work people can actually use.</p>
-                        </div>
-                    </li>
-                </ol>
+  <main>
+    <section class="hero" id="home" aria-label="Introduction">
+      <div class="hero__sticky">
+        <picture class="hero__poster" aria-hidden="true">
+          <source media="(max-width: 760px)" srcset="frames/mobile/frame-0001.webp">
+          <img src="frames/desktop/frame-0001.webp" alt="" fetchpriority="high" decoding="sync">
+        </picture>
+        <canvas id="story-canvas" class="hero__canvas" aria-hidden="true"></canvas>
+        <div class="hero__depth" aria-hidden="true"></div>
+        <div class="hero__grid" aria-hidden="true"></div>
+        <div class="hero__grain" aria-hidden="true"></div>
+        <div class="hero__shade" aria-hidden="true"></div>
 
-                <div class="story-progress" aria-hidden="true">
-                    <span class="story-progress__label">Scroll to trace the process</span>
-                    <span class="story-progress__track"><span id="story-progress-bar"></span></span>
-                    <span class="story-progress__count"><b id="story-current">01</b> / 04</span>
-                </div>
-            </div>
-        </section>
-
-        <div class="content-shell" id="systems-world">
-            <div class="systems-background" id="systems-background" aria-hidden="true"></div>
-            <section class="proof-line reveal" aria-label="Capability snapshot">
-                <div class="proof-line__item">
-                    <strong>LIVE</strong>
-                    <span>Operational dashboards</span>
-                </div>
-                <div class="proof-line__item">
-                    <strong>170+</strong>
-                    <span>Currencies visualized</span>
-                </div>
-                <div class="proof-line__item">
-                    <strong>E2E</strong>
-                    <span>Workflow + API monitoring</span>
-                </div>
-                <div class="proof-line__item">
-                    <strong>04</strong>
-                    <span>Working languages</span>
-                </div>
-            </section>
-
-            <section class="section work-section" id="work">
-                <div class="section-heading reveal">
-                    <p class="kicker">Selected work / proof, not decoration</p>
-                    <h2>Projects built to answer a <span class="title-accent title-accent--aqua">real question.</span></h2>
-                    <p class="section-intro">The stack changes. The method stays consistent: understand the signal, build the system, test the assumptions, and leave behind something clear.</p>
-                </div>
-
-                <div class="project-grid">
-                    <article class="project-card project-card--feature reveal">
-                        <a class="project-card__link" href="https://rammeshgar.github.io/PC-test-automation/" target="_blank" rel="noopener noreferrer" aria-label="Open Enterprise Status Monitoring live dashboard">
-                            <div class="project-card__visual">
-                                <img class="project-media" src="img/PC-dash.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Enterprise monitoring dashboard showing automated test status">
-                                <span class="project-card__index">01 / Quality engineering</span>
-                                <span class="project-card__arrow" aria-hidden="true">↗</span>
-                            </div>
-                            <div class="project-card__body">
-                                <div>
-                                    <p class="project-card__meta">Python · Playwright · CI/CD</p>
-                                    <h3>Enterprise Status Monitoring</h3>
-                                </div>
-                                <p>Automated end-to-end monitoring that continuously checks important workflows, APIs, and AI features—turning “is it working?” into visible evidence.</p>
-                                <ul class="project-card__proofs" aria-label="Project evidence">
-                                    <li>Continuous monitoring</li>
-                                    <li>E2E + API checks</li>
-                                    <li>Live status evidence</li>
-                                </ul>
-                                <span class="project-card__cta">View live dashboard <span aria-hidden="true">↗</span></span>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="project-card project-card--tall reveal">
-                        <a class="project-card__link" href="https://sadeq.shinyapps.io/exchange_universe/" target="_blank" rel="noopener noreferrer" aria-label="Open Exchange Universe live app">
-                            <div class="project-card__visual">
-                                <img class="project-media" src="img/ex-uni.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Exchange Universe interactive currency dashboard">
-                                <span class="project-card__index">02 / Data product</span>
-                                <span class="project-card__arrow" aria-hidden="true">↗</span>
-                            </div>
-                            <div class="project-card__body">
-                                <div>
-                                    <p class="project-card__meta">R Shiny · APIs · Visualization</p>
-                                    <h3>Exchange Universe</h3>
-                                </div>
-                                <p>Real-time and historical exploration for 170+ currencies, with a visual model that makes a large data universe easier to navigate.</p>
-                                <ul class="project-card__proofs" aria-label="Project evidence">
-                                    <li>170+ currencies</li>
-                                    <li>Live + historical data</li>
-                                    <li>Interactive exploration</li>
-                                </ul>
-                                <span class="project-card__cta">Open live app <span aria-hidden="true">↗</span></span>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="project-card reveal">
-                        <a class="project-card__link" href="#contact" aria-label="Ask Sadeq about Technical Marketing Infrastructure">
-                            <div class="project-card__visual project-card__visual--infra" aria-label="Web analytics infrastructure connecting the website to Google Tag Manager and Microsoft Clarity">
-                                <div class="mini-system" aria-hidden="true">
-                                    <span>Web</span><i></i><span>GTM</span><i></i><span>Clarity</span>
-                                </div>
-                                <span class="project-card__index">03 / Web infrastructure</span>
-                                <span class="project-card__arrow" aria-hidden="true">↘</span>
-                            </div>
-                            <div class="project-card__body">
-                                <div>
-                                    <p class="project-card__meta">Web development · GTM · Clarity</p>
-                                    <h3>Technical Marketing Infrastructure</h3>
-                                </div>
-                                <p>Core website work and measurement infrastructure for Peoplesdoctor.com, connecting the experience to reliable behavioral signals.</p>
-                                <ul class="project-card__proofs" aria-label="Project evidence">
-                                    <li>Web + GTM + Clarity</li>
-                                    <li>Behavioral signals</li>
-                                    <li>Production measurement</li>
-                                </ul>
-                                <span class="project-card__cta">Ask about this work <span aria-hidden="true">↘</span></span>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="project-card reveal">
-                        <a class="project-card__link" href="https://github.com/Rammeshgar/MySQL-Power_BI" target="_blank" rel="noopener noreferrer" aria-label="Open Awesome Chocolates BI repository">
-                            <div class="project-card__visual">
-                                <img class="project-media" src="img/awesome-chocolates.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Awesome Chocolates Power BI dashboard">
-                                <span class="project-card__index">04 / Business intelligence</span>
-                                <span class="project-card__arrow" aria-hidden="true">↗</span>
-                            </div>
-                            <div class="project-card__body">
-                                <div>
-                                    <p class="project-card__meta">MySQL · Power BI · ETL</p>
-                                    <h3>Awesome Chocolates BI</h3>
-                                </div>
-                                <p>Sales data modeled from MySQL into an interactive Power BI view for comparing salesperson performance and spotting patterns.</p>
-                                <ul class="project-card__proofs" aria-label="Project evidence">
-                                    <li>MySQL → Power BI</li>
-                                    <li>Sales comparison</li>
-                                    <li>Interactive reporting</li>
-                                </ul>
-                                <span class="project-card__cta">View repository <span aria-hidden="true">↗</span></span>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="project-card reveal">
-                        <a class="project-card__link" href="https://rpubs.com/rammeshgar/Interactive_Insights" target="_blank" rel="noopener noreferrer" aria-label="Open Interactive Insights Map">
-                            <div class="project-card__visual">
-                                <img class="project-media" src="img/world-dash.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Interactive global insights map and charts">
-                                <span class="project-card__index">05 / Spatial analysis</span>
-                                <span class="project-card__arrow" aria-hidden="true">↗</span>
-                            </div>
-                            <div class="project-card__body">
-                                <div>
-                                    <p class="project-card__meta">R · Flexdashboard · Leaflet</p>
-                                    <h3>Interactive Insights Map</h3>
-                                </div>
-                                <p>A spatial view of global population trends and air-pollution death rates, designed for exploration rather than static reporting.</p>
-                                <ul class="project-card__proofs" aria-label="Project evidence">
-                                    <li>Population + pollution</li>
-                                    <li>Interactive map</li>
-                                    <li>Spatial analysis</li>
-                                </ul>
-                                <span class="project-card__cta">Explore the map <span aria-hidden="true">↗</span></span>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="project-card reveal">
-                        <a class="project-card__link" href="https://rpubs.com/rammeshgar/Web_Scraping" target="_blank" rel="noopener noreferrer" aria-label="Open Web Scraping Pipeline project">
-                            <div class="project-card__visual">
-                                <img class="project-media" src="img/scrap.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Web scraping pipeline output and visual analysis">
-                                <span class="project-card__index">06 / Data pipeline</span>
-                                <span class="project-card__arrow" aria-hidden="true">↗</span>
-                            </div>
-                            <div class="project-card__body">
-                                <div>
-                                    <p class="project-card__meta">R · Scraping · Data wrangling</p>
-                                    <h3>Web Scraping Pipeline</h3>
-                                </div>
-                                <p>An extract-clean-structure workflow that turns messy online material into dependable tables ready for analysis.</p>
-                                <ul class="project-card__proofs" aria-label="Project evidence">
-                                    <li>Extract → clean → structure</li>
-                                    <li>Analysis-ready tables</li>
-                                    <li>Repeatable pipeline</li>
-                                </ul>
-                                <span class="project-card__cta">View project <span aria-hidden="true">↗</span></span>
-                            </div>
-                        </a>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section approach-section" id="approach">
-                <div class="section-heading reveal">
-                    <p class="kicker">One profile / three working lenses</p>
-                    <h2>Useful at the <span class="title-accent title-accent--amber">intersections.</span></h2>
-                </div>
-
-                <div class="lens-grid">
-                    <article class="lens-card reveal">
-                        <span class="lens-card__number">01</span>
-                        <p class="lens-card__signal">BUILD</p>
-                        <h3>Systems that make sense</h3>
-                        <p>Web interfaces, configuration logic, integrations, and workflows built around the way people actually use them.</p>
-                        <ul>
-                            <li>HTML, CSS &amp; JavaScript</li>
-                            <li>Configuration management</li>
-                            <li>Practical AI integration</li>
-                        </ul>
-                    </article>
-                    <article class="lens-card lens-card--aqua reveal">
-                        <span class="lens-card__number">02</span>
-                        <p class="lens-card__signal">ANALYZE</p>
-                        <h3>Data with a point of view</h3>
-                        <p>From collection and cleaning to dashboards and maps, with emphasis on the question behind the visualization.</p>
-                        <ul>
-                            <li>Python, R &amp; SQL</li>
-                            <li>Power BI &amp; Tableau</li>
-                            <li>ETL &amp; web scraping</li>
-                        </ul>
-                    </article>
-                    <article class="lens-card lens-card--coral reveal">
-                        <span class="lens-card__number">03</span>
-                        <p class="lens-card__signal">VALIDATE</p>
-                        <h3>Confidence through evidence</h3>
-                        <p>Automated paths, deliberate edge cases, and observable results that expose problems before users have to.</p>
-                        <ul>
-                            <li>Playwright &amp; E2E testing</li>
-                            <li>Workflow validation</li>
-                            <li>Monitoring &amp; feedback loops</li>
-                        </ul>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section journey-section" id="journey">
-                <div class="section-heading section-heading--split reveal">
-                    <div>
-                        <p class="kicker">Professional journey</p>
-                        <h2>A career shaped by <span class="title-accent title-accent--coral">adaptability.</span></h2>
-                    </div>
-                    <p>Different roles, one continuous thread: learn the system quickly, find the fragile parts, and improve how the work moves.</p>
-                </div>
-
-                <div class="timeline">
-                    <article class="timeline-row reveal">
-                        <p class="timeline-row__date">2025 — NOW</p>
-                        <div>
-                            <h3>Configuration &amp; Test Engineering</h3>
-                            <p class="timeline-row__place">FRAIA</p>
-                        </div>
-                        <p>Progressing through prompt engineering, web development, testing, and configuration work while validating clinical pathways and improving system reliability.</p>
-                    </article>
-                    <article class="timeline-row reveal">
-                        <p class="timeline-row__date">2024 — 2025</p>
-                        <div>
-                            <h3>Data Analyst</h3>
-                            <p class="timeline-row__place">Peroptyx</p>
-                        </div>
-                        <p>Investigated individual cases, analyzed digital maps, resolved complex rating problems, and delivered evidence-based feedback.</p>
-                    </article>
-                    <article class="timeline-row reveal">
-                        <p class="timeline-row__date">2023</p>
-                        <div>
-                            <h3>Academic Diploma, IT &amp; Programming</h3>
-                            <p class="timeline-row__place">Central European University</p>
-                        </div>
-                        <p>Intensive study across R, Python, information technology, academic English, and advanced business management.</p>
-                    </article>
-                </div>
-            </section>
-
-            <section class="section about-section" id="about">
-                <div class="about-statement reveal">
-                    <p class="kicker">The short version</p>
-                    <h2>I’m less interested in fitting one technical label than in being useful from <em>question to proof.</em></h2>
-                </div>
-                <div class="about-details reveal">
-                    <p>I’ve moved across data analysis, development, prompt work, testing, and configuration because I enjoy learning how a system behaves from more than one angle. That range helps me connect business context, implementation details, and quality—not treat them as separate rooms.</p>
-                    <p>I work best with curious teams, ambiguous problems, and projects where clarity matters as much as code.</p>
-                    <div class="language-list" aria-label="Languages">
-                        <span><b>Farsi</b> Native</span>
-                        <span><b>English</b> C1</span>
-                        <span><b>Hungarian</b> B2</span>
-                        <span><b>German</b> A2</span>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section contact-section" id="contact">
-                <div class="contact-panel reveal">
-                    <div>
-                        <p class="kicker">Have a system worth untangling?</p>
-                        <h2>Let’s compare <span class="title-accent title-accent--aqua-dark">notes.</span></h2>
-                        <p>For roles, collaborations, or a thoughtful conversation about the work.</p>
-                        <div class="contact-links">
-                            <a href="mailto:rezaisadeq0@gmail.com">rezaisadeq0@gmail.com <span aria-hidden="true">↗</span></a>
-                            <a href="https://www.linkedin.com/in/sadeqrezai/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
-                            <a href="https://github.com/Rammeshgar" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-                        </div>
-                    </div>
-
-                    <form action="https://formspree.io/f/xvzddrkk" method="POST" class="contact-form">
-                        <label for="contact-name">Your name</label>
-                        <input id="contact-name" type="text" name="name" autocomplete="name" required>
-                        <label for="contact-email">Email</label>
-                        <input id="contact-email" type="email" name="email" autocomplete="email" required>
-                        <label for="contact-message">What are you working on?</label>
-                        <textarea id="contact-message" name="message" rows="5" required></textarea>
-                        <button class="button button--primary" type="submit">Send message <span aria-hidden="true">↗</span></button>
-                    </form>
-                </div>
-            </section>
-
-            <footer class="site-footer">
-                <p>© <span id="current-year">2026</span> Sadeq Rezai</p>
-                <p>Built with data, code, curiosity—and careful testing.</p>
-                <a href="#home">Back to signal <span aria-hidden="true">↑</span></a>
-            </footer>
-        </div>
-    </main>
-
-    <button id="ai-mascot-toggle" class="ai-mascot-toggle" type="button" aria-controls="ai-mascot-panel" aria-expanded="false">
-        <span class="ai-mascot-toggle__orb" aria-hidden="true"><span class="css-icon css-icon--ai-wave"></span></span>
-        <span class="ai-mascot-toggle__label">Ask Sadeq’s AI</span>
-    </button>
-
-    <aside id="ai-mascot-panel" class="ai-mascot-panel" role="dialog" aria-modal="false" aria-label="Sadeq's AI portfolio guide" aria-hidden="true">
-        <div class="ai-mascot-header">
-            <div>
-                <p class="ai-mascot-kicker">DIGITAL TWIN / ONLINE</p>
-                <strong>Sadeq’s digital twin</strong>
-                <span id="ai-mascot-status">Ready when you are</span>
-            </div>
-            <div class="ai-mascot-header-actions">
-                <button id="ai-mascot-voice-toggle" class="ai-icon-btn" type="button" title="Mute voice" aria-label="Mute voice">
-                    <span class="css-icon css-icon--volume" data-icon="volume" aria-hidden="true"></span>
-                </button>
-                <button id="ai-mascot-expand" class="ai-icon-btn" type="button" title="Expand mascot viewer" aria-label="Expand mascot viewer" aria-pressed="false">
-                    <span class="css-icon css-icon--expand" data-icon="expand" aria-hidden="true"></span>
-                </button>
-                <button id="ai-mascot-close" class="ai-icon-btn" type="button" title="Close guide" aria-label="Close guide">
-                    <span class="css-icon css-icon--close" aria-hidden="true"></span>
-                </button>
-            </div>
+        <div class="hero__intro" data-hero-intro>
+          <p class="eyebrow"><span>Budapest / Hungary</span><span>Portfolio / 2026</span></p>
+          <h1>I turn messy signals into <em>reliable systems.</em></h1>
+          <p class="hero__role">Quality automation <i></i> Systems <i></i> AI-enabled web <i></i> Data</p>
+          <p class="hero__summary">I build and validate AI-enabled digital workflows—connecting configuration, automation, data, and interfaces into reliable, observable systems.</p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#work">Explore selected work <span aria-hidden="true">↘</span></a>
+            <button class="button button--ghost" type="button" data-open-ai>Meet my digital twin</button>
+          </div>
         </div>
 
-        <div id="ai-mascot-stage" class="ai-mascot-stage" aria-label="Interactive 3D mascot">
-            <div class="ai-stage-grid" aria-hidden="true"></div>
-            <div id="ai-mascot-loader" class="ai-mascot-loader">
-                <span class="css-icon css-icon--spinner" aria-hidden="true"></span>
-                <span>Bringing the mascot online…<small>The chat already works while the 3D model loads.</small></span>
-            </div>
+        <div class="chapter" data-chapter="0">
+          <p><span>01</span> SIGNAL</p>
+          <h2>Find what matters.</h2>
+          <small>Separate evidence from noise.</small>
+        </div>
+        <div class="chapter chapter--right" data-chapter="1">
+          <p><span>02</span> SYSTEM</p>
+          <h2>Give it structure.</h2>
+          <small>Connect the routes, rules, and interfaces.</small>
+        </div>
+        <div class="chapter" data-chapter="2">
+          <p><span>03</span> VALIDATION</p>
+          <h2>Investigate the fault.</h2>
+          <small>Make reliability visible—not assumed.</small>
+        </div>
+        <div class="chapter chapter--right" data-chapter="3">
+          <p><span>04</span> PROOF</p>
+          <h2>Ship something useful.</h2>
+          <small>Turn the validated system into real work.</small>
         </div>
 
-        <div class="ai-prompt-list" aria-label="Suggested questions">
-            <button type="button" data-ai-prompt="Which of my projects best demonstrates my approach to quality engineering?">Quality work</button>
-            <button type="button" data-ai-prompt="Give a recruiter a concise overview of my background.">Recruiter overview</button>
-            <button type="button" data-ai-prompt="How do my data, web, and testing skills connect?">Connect the dots</button>
+        <div class="hero__artifacts" data-artifacts aria-label="Featured project shortcuts">
+          <a class="hero-artifact hero-artifact--monitor" href="#case-monitor" aria-label="View Enterprise Status Monitoring project">
+            <img src="img/PC-dash.webp" alt="" decoding="async">
+            <small>01 / QUALITY</small><strong>Monitor</strong>
+            <span class="hero-artifact__arrow" aria-hidden="true">↘</span>
+          </a>
+          <a class="hero-artifact hero-artifact--analyze" href="#case-analyze" aria-label="View Exchange Universe project">
+            <img src="img/ex-uni.webp" alt="" decoding="async">
+            <small>02 / DATA</small><strong>Analyze</strong>
+            <span class="hero-artifact__arrow" aria-hidden="true">↘</span>
+          </a>
+          <button class="hero-artifact hero-artifact--build" type="button" data-open-ai aria-label="Open Portfolio Digital Twin">
+            <img src="img/twin-card.webp" alt="" decoding="async">
+            <small>03 / WEB + AI</small><strong>Build</strong>
+            <span class="hero-artifact__arrow" aria-hidden="true">↘</span>
+          </button>
         </div>
 
-        <div id="ai-chat-log" class="ai-chat-log" aria-live="polite" aria-relevant="additions">
-            <div class="ai-message ai-message-bot">Hey—I’m Sadeq’s digital twin. Ask me about my work, how I approach a problem, or which project is most relevant to what you need.</div>
+        <div class="story-hud" aria-hidden="true">
+          <span class="story-hud__label">SYSTEM TRANSFORMATION</span>
+          <span class="story-hud__track"><i id="story-progress"></i></span>
+          <span id="story-count">001 / 183</span>
         </div>
+        <a class="scroll-cue" href="#work"><span>Scroll to transform</span><i></i></a>
+      </div>
+    </section>
 
-        <form id="ai-chat-form" class="ai-chat-form">
-            <button id="ai-mic-btn" class="ai-chat-action" type="button" title="Speak" aria-label="Start voice input">
-                <span class="css-icon css-icon--mic" aria-hidden="true"></span>
-            </button>
-            <label class="sr-only" for="ai-chat-input">Ask about Sadeq's work</label>
-            <input id="ai-chat-input" type="text" maxlength="1200" autocomplete="off" placeholder="Ask about the work…" aria-label="Message to AI">
-            <button id="ai-send-btn" class="ai-chat-action ai-send-btn" type="submit" title="Send" aria-label="Send message">
-                <span class="css-icon css-icon--send" aria-hidden="true"></span>
-            </button>
-        </form>
-        <p class="ai-mascot-note">My portfolio twin uses a verified public profile. Voice recordings are used only to transcribe your question.</p>
-    </aside>
+    <div class="systems-world" id="systems-world">
+      <div class="systems-background" id="systems-background" aria-hidden="true"></div>
 
-    <audio id="bg-music" loop preload="none"><source src="2 5 2021.mp3" type="audio/mpeg"></audio>
+    <section class="proof-strip" aria-label="Professional snapshot">
+      <p>Quality Automation &amp; Systems Engineer</p>
+      <div><strong>04</strong><span>Connected disciplines</span></div>
+      <div><strong>06</strong><span>Selected systems</span></div>
+      <div><strong>04</strong><span>Working languages</span></div>
+      <div class="proof-strip__status"><i></i><span>Available for the right challenge</span></div>
+    </section>
 
-    <script defer src="script.js?v=20260825-16"></script>
+    <section class="section work" id="work">
+      <header class="section-header reveal">
+        <div>
+          <p class="kicker">Selected work / evidence over decoration</p>
+          <h2>Three systems.<br><em>Three kinds of proof.</em></h2>
+        </div>
+        <p>Different technologies, one operating principle: understand the uncertainty, build the system, and prove that it holds.</p>
+      </header>
 
-    <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-      }
-    }
-    </script>
+      <div class="featured-work">
+        <article class="case-study case-study--aqua reveal" id="case-monitor">
+          <a class="case-study__visual" href="https://rammeshgar.github.io/PC-test-automation/" target="_blank" rel="noopener noreferrer">
+            <img src="img/PC-dash.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Enterprise monitoring dashboard displaying automated test results">
+            <span class="case-study__index">01 / QUALITY ENGINEERING</span>
+            <span class="case-study__open" aria-hidden="true">↗</span>
+            <span class="scanline" aria-hidden="true"></span>
+          </a>
+          <div class="case-study__content">
+            <p class="case-study__meta">Python · Playwright · APIs · CI/CD</p>
+            <h3>Enterprise Status Monitoring</h3>
+            <p class="case-study__lead">A continuous validation surface that turns “is it working?” into visible, repeatable evidence.</p>
+            <dl>
+              <div><dt>Challenge</dt><dd>Critical workflows and AI features needed dependable monitoring.</dd></div>
+              <div><dt>System</dt><dd>End-to-end browser paths, API checks, CI execution, and live reporting.</dd></div>
+              <div><dt>Proof</dt><dd>Failures become observable before they become silent assumptions.</dd></div>
+            </dl>
+            <a class="text-link" href="https://rammeshgar.github.io/PC-test-automation/" target="_blank" rel="noopener noreferrer">Inspect the live system <span>↗</span></a>
+          </div>
+        </article>
 
-    <script>
-      window.addEventListener("load", function () {
-        var startTracking = function () {
-          window.dataLayer = window.dataLayer || [];
-          window.gtag = function(){window.dataLayer.push(arguments);};
-          window.gtag("js", new Date());
-          window.gtag("config", "G-THJ1V23VJJ");
-          var google = document.createElement("script");
-          google.async = true;
-          google.src = "https://www.googletagmanager.com/gtag/js?id=G-THJ1V23VJJ";
-          document.head.appendChild(google);
-          (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "whwno3sxgm");
-        };
-        var trackingStarted = false;
-        var startOnce = function () {
-          if (trackingStarted) return;
-          trackingStarted = true;
-          startTracking();
-          ["pointerdown", "keydown", "scroll"].forEach(function (eventName) {
-            window.removeEventListener(eventName, startOnce);
-          });
-        };
-        ["pointerdown", "keydown", "scroll"].forEach(function (eventName) {
-          window.addEventListener(eventName, startOnce, { once: true, passive: true });
-        });
-        setTimeout(startOnce, 20000);
-      }, { once: true });
-    </script>
+        <article class="case-study case-study--amber reveal" id="case-analyze">
+          <a class="case-study__visual" href="https://sadeq.shinyapps.io/exchange_universe/" target="_blank" rel="noopener noreferrer">
+            <img src="img/ex-uni.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Exchange Universe currency data visualization">
+            <span class="case-study__index">02 / DATA PRODUCT</span>
+            <span class="case-study__open" aria-hidden="true">↗</span>
+            <span class="data-orbit" aria-hidden="true"></span>
+          </a>
+          <div class="case-study__content">
+            <p class="case-study__meta">R Shiny · APIs · Visualization</p>
+            <h3>Exchange Universe</h3>
+            <p class="case-study__lead">A navigable model of a large currency universe, built to make scale understandable.</p>
+            <dl>
+              <div><dt>Challenge</dt><dd>Real-time and historical currency information is broad and fragmented.</dd></div>
+              <div><dt>System</dt><dd>API ingestion, structured exploration, comparisons, and visual context.</dd></div>
+              <div><dt>Proof</dt><dd>More than 170 currencies connected through one interactive experience.</dd></div>
+            </dl>
+            <a class="text-link" href="https://sadeq.shinyapps.io/exchange_universe/" target="_blank" rel="noopener noreferrer">Explore the live product <span>↗</span></a>
+          </div>
+        </article>
+
+        <article class="case-study case-study--coral reveal" id="case-build">
+          <button class="case-study__visual case-study__visual--button" type="button" data-open-ai aria-label="Open Sadeq's AI digital twin">
+            <img src="img/twin-card.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Sadeq Rezai's animated paper-cut digital twin in its conversational interface">
+            <span class="case-study__index">03 / INTERACTIVE WEB SYSTEM</span>
+            <span class="case-study__open" aria-hidden="true">↘</span>
+            <span class="diagnostic-pulse" aria-hidden="true"></span>
+          </button>
+          <div class="case-study__content">
+            <p class="case-study__meta">JavaScript · Three.js · Gemini · Voice</p>
+            <h3>Portfolio Digital Twin</h3>
+            <p class="case-study__lead">A portfolio that can explain itself through a verified AI profile and an animated paper-cut digital twin.</p>
+            <dl>
+              <div><dt>Challenge</dt><dd>A multidisciplinary profile is difficult to communicate through labels alone.</dd></div>
+              <div><dt>System</dt><dd>3D character, controlled AI context, speech, transcription, and graceful fallbacks.</dd></div>
+              <div><dt>Proof</dt><dd>An interactive recruiter-facing guide built as a complete frontend/backend system.</dd></div>
+            </dl>
+            <button class="text-link text-link--button" type="button" data-open-ai>Talk to the digital twin <span>↘</span></button>
+          </div>
+        </article>
+      </div>
+
+      <div class="archive reveal">
+        <div class="archive__heading"><p class="kicker">Additional systems</p><span>03 more projects</span></div>
+        <a href="https://github.com/Rammeshgar/MySQL-Power_BI" target="_blank" rel="noopener noreferrer"><span>04</span><strong>Awesome Chocolates BI</strong><small>MySQL · Power BI · ETL</small><i>↗</i></a>
+        <a href="https://rpubs.com/rammeshgar/Interactive_Insights" target="_blank" rel="noopener noreferrer"><span>05</span><strong>Interactive Insights Map</strong><small>R · Leaflet · Spatial analysis</small><i>↗</i></a>
+        <a href="https://rpubs.com/rammeshgar/Web_Scraping" target="_blank" rel="noopener noreferrer"><span>06</span><strong>Web Scraping Pipeline</strong><small>R · Extraction · Data wrangling</small><i>↗</i></a>
+      </div>
+    </section>
+
+    <section class="method" id="method">
+      <div class="method__sticky">
+        <p class="kicker">Operating method / one connected system</p>
+        <h2>From uncertainty<br>to <em>confidence.</em></h2>
+        <p>The tools change with the problem. The reasoning stays consistent.</p>
+        <div class="method__signal" aria-hidden="true"><i></i><i></i><i></i></div>
+      </div>
+      <div class="method__steps">
+        <article class="method-card reveal"><span>01 / READ</span><h3>Find the real signal.</h3><p>Understand the context, identify the fragile assumptions, and frame the question before choosing a tool.</p><small>Research · analysis · requirements</small></article>
+        <article class="method-card reveal"><span>02 / BUILD</span><h3>Make the system legible.</h3><p>Connect workflows, interfaces, data, and configuration so the result can be understood and maintained.</p><small>Web · configuration · integration</small></article>
+        <article class="method-card method-card--coral reveal"><span>03 / TEST</span><h3>Try to break the idea.</h3><p>Probe routes, edge cases, and failure states until reliability is supported by evidence.</p><small>Automation · monitoring · feedback</small></article>
+        <article class="method-card method-card--resolved reveal"><span>04 / SHIP</span><h3>Leave useful proof.</h3><p>Deliver a working product, an observable result, and a clearer path for whoever uses it next.</p><small>Documentation · results · iteration</small></article>
+      </div>
+    </section>
+
+    <section class="section profile" id="journey">
+      <header class="section-header section-header--compact reveal">
+        <div><p class="kicker">Professional trajectory</p><h2>From analysis to<br><em>system ownership.</em></h2></div>
+        <p>My path moves from evidence-based analysis into configuration, automation, integration, and production-quality delivery.</p>
+      </header>
+
+      <div class="timeline">
+        <article class="timeline__row reveal"><time>2025 — NOW</time><div><span>FRAIA / CONFIGURATION CONSULTANT</span><h3>Quality Automation &amp; AI Systems</h3></div><p>Configuration workflows, Playwright UI/API automation, CI/CD, web engineering, analytics, and production AI-assisted delivery.</p></article>
+        <article class="timeline__row reveal"><time>2024 — 2025</time><div><span>PEROPTYX</span><h3>Data Analyst</h3></div><p>Case investigation, digital-map analysis, complex rating problems, and evidence-based feedback.</p></article>
+        <article class="timeline__row reveal"><time>2023 — 2025</time><div><span>BZSH / CENTRAL EUROPEAN UNIVERSITY</span><h3>ICT, Programming &amp; Systems Foundations</h3></div><p>Applied study across ICT, Python, R, databases, web development, academic English, and business management.</p></article>
+      </div>
+
+      <div class="profile__statement reveal">
+        <p>I build and validate AI-enabled systems from <em>question to reliable proof.</em></p>
+        <div><span>Farsi / Native</span><span>English / C1</span><span>Hungarian / B2</span><span>German / A2</span></div>
+      </div>
+    </section>
+    </div>
+
+    <section class="contact" id="contact">
+      <div class="contact__signal" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="contact__content reveal">
+        <p class="kicker">A good conversation is also a system test.</p>
+        <h2>Have something<br><em>worth untangling?</em></h2>
+        <p>For roles, technical collaborations, or a thoughtful conversation about the work.</p>
+        <div class="contact__actions">
+          <a class="button button--light" href="mailto:rezaisadeq0@gmail.com">Email Sadeq <span>↗</span></a>
+          <button class="button button--outline-light" type="button" data-open-ai>Ask the digital twin</button>
+        </div>
+      </div>
+      <footer>
+        <span>© <span id="current-year">2026</span> Sadeq Rezai</span>
+        <div><a href="https://www.linkedin.com/in/sadeqrezai/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://github.com/Rammeshgar" target="_blank" rel="noopener noreferrer">GitHub</a><a href="#home">Back to signal ↑</a></div>
+      </footer>
+    </section>
+  </main>
+
+  <button id="ai-mascot-toggle" class="ai-mascot-toggle" type="button" aria-label="Ask Sadeq's AI" aria-controls="ai-mascot-panel" aria-expanded="false">
+    <span class="ai-mascot-toggle__orb" aria-hidden="true"><span class="css-icon css-icon--ai-wave"></span></span>
+    <span class="ai-mascot-toggle__label">Ask Sadeq’s AI</span>
+  </button>
+
+  <aside id="ai-mascot-panel" class="ai-mascot-panel" role="dialog" aria-modal="false" aria-label="Sadeq's AI portfolio guide" aria-hidden="true">
+    <div class="ai-mascot-header">
+      <div><p class="ai-mascot-kicker">DIGITAL TWIN / ONLINE</p><strong>Sadeq’s digital twin</strong><span id="ai-mascot-status">Ready when you are</span></div>
+      <div class="ai-mascot-header-actions">
+        <button id="ai-mascot-voice-toggle" class="ai-icon-btn ai-icon-btn--voice" type="button" title="Mute voice" aria-label="Mute voice" aria-pressed="true"><span class="ai-control-icon" data-icon="volume" aria-hidden="true"><svg class="icon-volume" viewBox="0 0 24 24"><path d="M11 5 6.8 8.5H3.5v7h3.3L11 19V5Z"/><path d="M15 9.2c1.5 1.5 1.5 4.1 0 5.6M18 6.5c3 3 3 8 0 11"/></svg><svg class="icon-muted" viewBox="0 0 24 24"><path d="M11 5 6.8 8.5H3.5v7h3.3L11 19V5Z"/><path d="m16 10 5 5m0-5-5 5"/></svg></span></button>
+        <button id="ai-mascot-expand" class="ai-icon-btn ai-icon-btn--expand" type="button" title="Expand mascot viewer" aria-label="Expand mascot viewer" aria-pressed="false"><span class="ai-control-icon" data-icon="expand" aria-hidden="true"><svg class="icon-expand" viewBox="0 0 24 24"><path d="M8.5 4H4v4.5M15.5 4H20v4.5M20 15.5V20h-4.5M8.5 20H4v-4.5"/></svg><svg class="icon-compress" viewBox="0 0 24 24"><path d="M4 8.5h4.5V4M20 8.5h-4.5V4M15.5 20v-4.5H20M8.5 20v-4.5H4"/></svg></span></button>
+        <button id="ai-mascot-close" class="ai-icon-btn ai-icon-btn--close" type="button" title="Close guide" aria-label="Close guide"><span class="ai-control-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6.5 6.5 11 11m0-11-11 11"/></svg></span></button>
+      </div>
+    </div>
+    <div id="ai-mascot-stage" class="ai-mascot-stage" aria-label="Interactive 3D mascot">
+      <div class="ai-stage-grid" aria-hidden="true"></div>
+      <div id="ai-mascot-loader" class="ai-mascot-loader"><span class="css-icon css-icon--spinner" aria-hidden="true"></span><span>Bringing the mascot online…<small>The chat works while the 3D model loads.</small></span></div>
+    </div>
+    <div class="ai-prompt-list" aria-label="Suggested questions">
+      <button type="button" data-ai-prompt="Which project best demonstrates Sadeq's approach to quality engineering?">Quality work</button>
+      <button type="button" data-ai-prompt="Give a recruiter a concise overview of Sadeq's background.">Recruiter overview</button>
+      <button type="button" data-ai-prompt="How do Sadeq's data, web, and testing skills connect?">Connect the dots</button>
+    </div>
+    <div id="ai-chat-log" class="ai-chat-log" aria-live="polite" aria-relevant="additions"><div class="ai-message ai-message-bot">Hey—I’m Sadeq’s digital twin. Ask me about the work, the method, or which project is most relevant to what you need.</div></div>
+    <form id="ai-chat-form" class="ai-chat-form">
+      <button id="ai-mic-btn" class="ai-chat-action" type="button" title="Speak" aria-label="Start voice input"><span class="ai-control-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="8.2" y="3.5" width="7.6" height="12" rx="3.8"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3M8.5 21h7"/></svg></span></button>
+      <label class="sr-only" for="ai-chat-input">Ask about Sadeq's work</label>
+      <input id="ai-chat-input" type="text" maxlength="1200" autocomplete="off" placeholder="Ask about the work…" aria-label="Message to AI">
+      <button id="ai-send-btn" class="ai-chat-action ai-send-btn" type="submit" title="Send" aria-label="Send message"><span class="ai-control-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 14-7-4.5 14-2.8-5.2L5 12Z"/><path d="m11.7 13.8 3.6-3.6"/></svg></span></button>
+    </form>
+    <p class="ai-mascot-note">The portfolio twin uses a verified public profile. Voice recordings are used only to transcribe your question.</p>
+  </aside>
+
+  <audio id="bg-music" loop preload="none"><source src="2%205%202021.mp3" type="audio/mpeg"></audio>
+
+  <script type="importmap">
+  {"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
+  </script>
+  <script defer src="v2.js"></script>
 </body>
 </html>
