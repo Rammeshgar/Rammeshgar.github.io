@@ -102,31 +102,46 @@
     order.forEach((offset) => loadFrame(center + offset).then(() => requestStoryFrame()).catch(() => {}));
   }
 
-  async function loadAllFrames() {
-    const queue = Array.from({ length: frameCount }, (_, index) => index)
-      .sort((a, b) => Math.abs(a - targetFrame) - Math.abs(b - targetFrame));
-    let cursor = 0;
-    const worker = async () => {
-      while (cursor < queue.length) {
-        const index = queue[cursor++];
-        try { await loadFrame(index); } catch (_) { /* fallback frame remains visible */ }
+  let warmupQueue = [];
+  let warmupCursor = 0;
+  let warmupScheduled = false;
+
+  function requestWarmupIdle(callback) {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(callback);
+    } else {
+      window.setTimeout(() => callback({ didTimeout: false, timeRemaining: () => 8 }), 160);
+    }
+  }
+
+  function scheduleNextWarmupFrame() {
+    if (warmupScheduled || warmupCursor >= warmupQueue.length || document.hidden) return;
+    warmupScheduled = true;
+    requestWarmupIdle(async (deadline) => {
+      warmupScheduled = false;
+      if (!deadline.didTimeout && deadline.timeRemaining() < 5) {
+        scheduleNextWarmupFrame();
+        return;
       }
-    };
-    const concurrency = compact ? 2 : 3;
-    await Promise.all(Array.from({ length: concurrency }, worker));
+      while (warmupCursor < warmupQueue.length && frames.has(warmupQueue[warmupCursor])) warmupCursor += 1;
+      if (warmupCursor >= warmupQueue.length) return;
+      const index = warmupQueue[warmupCursor++];
+      try { await loadFrame(index); } catch (_) { /* requested frames still load on demand */ }
+      scheduleNextWarmupFrame();
+    });
   }
 
   function scheduleFrameWarmup() {
-    const beginWarmup = () => {
-      const idle = window.requestIdleCallback || ((callback) => setTimeout(callback, 500));
-      idle(() => loadAllFrames());
-    };
-    if (document.readyState === "complete") {
-      window.setTimeout(beginWarmup, 2600);
-    } else {
-      window.addEventListener("load", () => window.setTimeout(beginWarmup, 2600), { once: true });
-    }
+    warmupQueue = Array.from({ length: frameCount }, (_, index) => index)
+      .filter((index) => index > 3)
+      .sort((a, b) => Math.abs(a - targetFrame) - Math.abs(b - targetFrame));
+    warmupCursor = 0;
+    scheduleNextWarmupFrame();
   }
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) scheduleNextWarmupFrame();
+  });
 
   function setLayerState(progress) {
     const introExit = 1 - smooth(.08, .2, progress);
