@@ -117,8 +117,10 @@ function applyPapercutFinish(mesh) {
 
     for (const material of materials) {
         if (!material?.isMeshStandardMaterial) continue;
-        material.roughness = Math.max(material.roughness ?? 0, isSkin ? 0.76 : 0.84);
-        material.metalness = Math.min(material.metalness ?? 0, 0.08);
+        const matteRoughness = isHair ? 0.98 : isSkin ? 0.90 : isBody ? 0.92 : 0.88;
+        material.roughness = Math.max(material.roughness ?? 0, matteRoughness);
+        material.metalness = Math.min(material.metalness ?? 0, 0.02);
+        material.envMapIntensity = Math.min(material.envMapIntensity ?? 1, isHair ? 0.18 : isSkin ? 0.30 : 0.42);
         material.flatShading = true;
         material.onBeforeCompile = (shader) => {
             shader.vertexShader = shader.vertexShader
