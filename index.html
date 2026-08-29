@@ -29,7 +29,7 @@
   <link rel="preload" as="font" href="fonts/inter-latin.woff2" type="font/woff2" crossorigin>
   <link rel="preload" as="image" href="frames/mobile/frame-0001.webp" media="(max-width: 760px)" fetchpriority="high">
   <link rel="preload" as="image" href="frames/desktop/frame-0001.webp" media="(min-width: 761px)" fetchpriority="high">
-  <link rel="stylesheet" href="v2.css?v=20260826-5">
+  <link rel="stylesheet" href="v2.css?v=20260829-1">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -55,6 +55,8 @@
       "CI/CD",
       "Data analysis",
       "AI-enabled workflows",
+      "Developer tooling",
+      "Local-first software",
       "Web development"
     ]
   }
@@ -152,16 +154,21 @@
             <small>01 / QUALITY</small><strong>Monitor</strong>
             <span class="hero-artifact__arrow" aria-hidden="true">↘</span>
           </a>
-          <a class="hero-artifact hero-artifact--analyze" href="#case-analyze" aria-label="View Exchange Universe project">
-            <img src="img/ex-uni.webp" alt="" decoding="async">
-            <small>02 / DATA</small><strong>Analyze</strong>
+          <a class="hero-artifact hero-artifact--control" href="#case-seneschal" aria-label="View Seneschal developer tool project">
+            <img src="img/seneschal-workspace.png" alt="" decoding="async">
+            <small>02 / TOOLING</small><strong>Control</strong>
             <span class="hero-artifact__arrow" aria-hidden="true">↘</span>
           </a>
-          <button class="hero-artifact hero-artifact--build" type="button" data-open-ai aria-label="Open Portfolio Digital Twin">
+          <a class="hero-artifact hero-artifact--build" href="#case-build" aria-label="View Portfolio Digital Twin project">
             <img src="img/twin-card-v2.webp" alt="" decoding="async">
             <small>03 / WEB + AI</small><strong>Build</strong>
             <span class="hero-artifact__arrow" aria-hidden="true">↘</span>
-          </button>
+          </a>
+          <a class="hero-artifact hero-artifact--analyze" href="#case-analyze" aria-label="View Exchange Universe project">
+            <img src="img/ex-uni.webp" alt="" decoding="async">
+            <small>04 / DATA</small><strong>Analyze</strong>
+            <span class="hero-artifact__arrow" aria-hidden="true">↘</span>
+          </a>
         </div>
 
         <div class="story-hud" aria-hidden="true">
@@ -179,7 +186,7 @@
     <section class="proof-strip" aria-label="Professional snapshot">
       <p>Quality Automation &amp; Systems Engineer</p>
       <div><strong>04</strong><span>Connected disciplines</span></div>
-      <div><strong>06</strong><span>Selected systems</span></div>
+      <div><strong>07</strong><span>Selected systems</span></div>
       <div><strong>04</strong><span>Working languages</span></div>
       <div class="proof-strip__status"><i></i><span>Available for the right challenge</span></div>
     </section>
@@ -188,7 +195,7 @@
       <header class="section-header reveal">
         <div>
           <p class="kicker">Selected work / evidence over decoration</p>
-          <h2>Three systems.<br><em>Three kinds of proof.</em></h2>
+          <h2>Four systems.<br><em>Four kinds of proof.</em></h2>
         </div>
         <p>Different technologies, one operating principle: understand the uncertainty, build the system, and prove that it holds.</p>
       </header>
@@ -214,23 +221,26 @@
           </div>
         </article>
 
-        <article class="case-study case-study--amber reveal" id="case-analyze">
-          <a class="case-study__visual" href="https://sadeq.shinyapps.io/exchange_universe/" target="_blank" rel="noopener noreferrer">
-            <img src="img/ex-uni.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Exchange Universe currency data visualization">
-            <span class="case-study__index">02 / DATA PRODUCT</span>
+        <article class="case-study case-study--sage reveal" id="case-seneschal">
+          <a class="case-study__visual" href="https://github.com/Rammeshgar/seneschal" target="_blank" rel="noopener noreferrer" aria-label="Explore the Seneschal repository on GitHub">
+            <img src="img/seneschal-workspace.png" width="1600" height="900" loading="lazy" decoding="async" alt="Seneschal local-first OpenCode workspace showing model selection, approval controls, sessions, and local integrations">
+            <span class="case-study__index">02 / DEVELOPER TOOL</span>
             <span class="case-study__open" aria-hidden="true">↗</span>
-            <span class="data-orbit" aria-hidden="true"></span>
+            <span class="workspace-pulse" aria-hidden="true"></span>
           </a>
           <div class="case-study__content">
-            <p class="case-study__meta">R Shiny · APIs · Visualization</p>
-            <h3>Exchange Universe</h3>
-            <p class="case-study__lead">A navigable model of a large currency universe, built to make scale understandable.</p>
+            <p class="case-study__meta">JavaScript · Node.js · Windows · WSL</p>
+            <h3>Seneschal</h3>
+            <p class="case-study__lead">A private, local-first OpenCode workspace that keeps models, tools, permissions, and project context in one calm interface.</p>
             <dl>
-              <div><dt>Challenge</dt><dd>Real-time and historical currency information is broad and fragmented.</dd></div>
-              <div><dt>System</dt><dd>API ingestion, structured exploration, comparisons, and visual context.</dd></div>
-              <div><dt>Proof</dt><dd>More than 170 currencies connected through one interactive experience.</dd></div>
+              <div><dt>Challenge</dt><dd>Agent workflows across Windows and WSL needed clearer control, context, and approval boundaries.</dd></div>
+              <div><dt>System</dt><dd>Role-based Plan, Build, and Chat modes with reusable skills, voice input, session tools, and optional browser and Blender bridges.</dd></div>
+              <div><dt>Proof</dt><dd>An installable public beta with localhost-only defaults, explicit permissions, release packaging, and documented security limits.</dd></div>
             </dl>
-            <a class="text-link" href="https://sadeq.shinyapps.io/exchange_universe/" target="_blank" rel="noopener noreferrer">Explore the live product <span>↗</span></a>
+            <div class="case-study__actions">
+              <a class="text-link" href="https://github.com/Rammeshgar/seneschal" target="_blank" rel="noopener noreferrer">View the repository <span>↗</span></a>
+              <a class="text-link text-link--secondary" href="https://github.com/Rammeshgar/seneschal/releases/latest" target="_blank" rel="noopener noreferrer">Download latest beta <span>↗</span></a>
+            </div>
           </div>
         </article>
 
@@ -253,13 +263,33 @@
             <a class="text-link" href="https://rammeshgar.github.io/digital-twin-demo/">Explore the full case study <span>↗</span></a>
           </div>
         </article>
+
+        <article class="case-study case-study--amber reveal" id="case-analyze">
+          <a class="case-study__visual" href="https://sadeq.shinyapps.io/exchange_universe/" target="_blank" rel="noopener noreferrer">
+            <img src="img/ex-uni.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Exchange Universe currency data visualization">
+            <span class="case-study__index">04 / DATA PRODUCT</span>
+            <span class="case-study__open" aria-hidden="true">↗</span>
+            <span class="data-orbit" aria-hidden="true"></span>
+          </a>
+          <div class="case-study__content">
+            <p class="case-study__meta">R Shiny · APIs · Visualization</p>
+            <h3>Exchange Universe</h3>
+            <p class="case-study__lead">A navigable model of a large currency universe, built to make scale understandable.</p>
+            <dl>
+              <div><dt>Challenge</dt><dd>Real-time and historical currency information is broad and fragmented.</dd></div>
+              <div><dt>System</dt><dd>API ingestion, structured exploration, comparisons, and visual context.</dd></div>
+              <div><dt>Proof</dt><dd>More than 170 currencies connected through one interactive experience.</dd></div>
+            </dl>
+            <a class="text-link" href="https://sadeq.shinyapps.io/exchange_universe/" target="_blank" rel="noopener noreferrer">Explore the live product <span>↗</span></a>
+          </div>
+        </article>
       </div>
 
       <div class="archive reveal">
         <div class="archive__heading"><p class="kicker">Additional systems</p><span>03 more projects</span></div>
-        <a href="https://github.com/Rammeshgar/MySQL-Power_BI" target="_blank" rel="noopener noreferrer"><span>04</span><strong>Awesome Chocolates BI</strong><small>MySQL · Power BI · ETL</small><i>↗</i></a>
-        <a href="https://rpubs.com/rammeshgar/Interactive_Insights" target="_blank" rel="noopener noreferrer"><span>05</span><strong>Interactive Insights Map</strong><small>R · Leaflet · Spatial analysis</small><i>↗</i></a>
-        <a href="https://rpubs.com/rammeshgar/Web_Scraping" target="_blank" rel="noopener noreferrer"><span>06</span><strong>Web Scraping Pipeline</strong><small>R · Extraction · Data wrangling</small><i>↗</i></a>
+        <a href="https://github.com/Rammeshgar/MySQL-Power_BI" target="_blank" rel="noopener noreferrer"><span>05</span><strong>Awesome Chocolates BI</strong><small>MySQL · Power BI · ETL</small><i>↗</i></a>
+        <a href="https://rpubs.com/rammeshgar/Interactive_Insights" target="_blank" rel="noopener noreferrer"><span>06</span><strong>Interactive Insights Map</strong><small>R · Leaflet · Spatial analysis</small><i>↗</i></a>
+        <a href="https://rpubs.com/rammeshgar/Web_Scraping" target="_blank" rel="noopener noreferrer"><span>07</span><strong>Web Scraping Pipeline</strong><small>R · Extraction · Data wrangling</small><i>↗</i></a>
       </div>
     </section>
 
