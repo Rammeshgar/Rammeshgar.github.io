@@ -27,6 +27,21 @@ const state = {
     busy: false,
     voiceEnabled: true,
     recognition: null,
+    recognitionStarting: false,
+    recognitionSubmitted: false,
+    recognitionError: "",
+    recorderSupported: false,
+    forceRecorderFallback: false,
+    mediaRecorder: null,
+    recordingStream: null,
+    recordingChunks: [],
+    recordingTimer: null,
+    discardRecording: false,
+    recordingAudioContext: null,
+    recordingAnalyser: null,
+    recordingMonitorFrame: null,
+    recordingSpeechDetected: false,
+    recordingSilenceStartedAt: 0,
     speaking: false,
     activeCharacter: "",
     previousInteractionId: null,
@@ -67,6 +82,7 @@ let headLookApplied = false;
 let neckLookApplied = false;
 
 const MODEL_URL = "avatar/mascot.glb";
+const TRANSCRIBE_API_URL = "https://test-rammeshgar-webpage.netlify.app/api/transcribe";
 let movement,spokenAt=0,lastRender=0;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 const VISEME_NAMES = ["AA/AH", "EE/IH", "OH/O", "OO/WQ", "FV", "MBP", "L", "TH"];
@@ -105,7 +121,7 @@ function closePanel() {
     ui.toggle.setAttribute("aria-expanded", "false");
     document.body.classList.remove("ai-open");
     ui.toggleLabel.textContent = "Ask Sadeq’s AI";
-    stopRecognition();
+    stopRecognition(true);
     stopAllSpeech();
 }
 
@@ -573,7 +589,7 @@ function setBusy(value) {
     state.busy = value;
     ui.input.disabled = value;
     ui.send.disabled = value;
-    ui.mic.disabled = value || !state.recognition;
+    ui.mic.disabled = value || (!state.recognition && !state.recorderSupported);
 }
 
 async function askGemini(message) {
@@ -632,9 +648,14 @@ ui.form.addEventListener("submit", (event) => {
 
 function setupSpeechRecognition() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    state.recorderSupported = Boolean(navigator.mediaDevices?.getUserMedia && window.MediaRecorder);
     if (!SpeechRecognition) {
-        ui.mic.disabled = true;
-        ui.mic.title = "Speech recognition is unavailable in this browser";
+        ui.mic.disabled = !state.recorderSupported;
+        ui.mic.title = state.recorderSupported ? "Talk instead of typing" : "Voice input is unavailable in this browser";
+        if (state.recorderSupported) {
+            ui.mic.classList.add("is-voice-ready");
+            ui.mic.setAttribute("aria-label", "Start voice input — talk instead of typing");
+        }
         return;
     }
 
@@ -644,22 +665,51 @@ function setupSpeechRecognition() {
     recognition.interimResults = true;
 
     recognition.onstart = () => {
+        state.recognitionStarting = false;
+        state.recognitionSubmitted = false;
+        state.recognitionError = "";
         ui.mic.classList.add("is-listening");
+        ui.mic.disabled = false;
+        ui.mic.title = "Stop listening";
+        ui.mic.setAttribute("aria-label", "Stop voice input");
         setStatus("Listening…");
         window.portfolioMusic?.pauseForVoice?.();
     };
+    recognition.onaudiostart = () => setStatus("Microphone active · listening…");
+    recognition.onspeechstart = () => setStatus("Speech detected · keep talking…");
     recognition.onresult = (event) => {
         let transcript = "";
-        for (let i = event.resultIndex; i < event.results.length; i++) transcript += event.results[i][0].transcript;
+        let hasFinalResult = false;
+        for (let i = 0; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+            hasFinalResult ||= event.results[i].isFinal;
+        }
         ui.input.value = transcript.trim();
-        if (event.results[event.results.length - 1].isFinal) askGemini(ui.input.value);
+        if (hasFinalResult && !state.recognitionSubmitted && ui.input.value) {
+            state.recognitionSubmitted = true;
+            askGemini(ui.input.value);
+        }
     };
     recognition.onerror = (event) => {
-        setStatus(event.error === "not-allowed" ? "Microphone permission was denied" : `Voice error: ${event.error}`);
+        const messages = {
+            "not-allowed": "Microphone blocked · allow access in the address bar and retry",
+            "service-not-allowed": "Voice recognition is blocked by this browser",
+            "audio-capture": "No working microphone was found",
+            "no-speech": "I didn’t hear anything · tap the mic and try again",
+            network: "Browser voice service blocked · tap the mic again to use secure transcription",
+            aborted: "Voice input stopped",
+        };
+        if (event.error === "network" || event.error === "service-not-allowed") state.forceRecorderFallback = true;
+        state.recognitionError = messages[event.error] || `Voice input error: ${event.error}`;
+        setStatus(state.recognitionError);
     };
     recognition.onend = () => {
+        state.recognitionStarting = false;
         ui.mic.classList.remove("is-listening");
-        if (!state.busy) setStatus("Ready");
+        ui.mic.disabled = state.busy;
+        ui.mic.title = "Talk instead of typing";
+        ui.mic.setAttribute("aria-label", "Start voice input — talk instead of typing");
+        if (!state.busy && !state.recognitionError) setStatus("Ready");
         if (!state.busy) window.portfolioMusic?.resumeAfterVoice?.();
     };
 
@@ -670,16 +720,230 @@ function setupSpeechRecognition() {
     ui.mic.setAttribute("aria-label", "Start voice input — talk instead of typing");
 }
 
-function stopRecognition() {
+function stopRecognition(discard = false) {
+    if (state.mediaRecorder?.state === "recording") {
+        stopMediaRecorder(discard);
+        return;
+    }
     if (!state.recognition) return;
-    try { state.recognition.stop(); } catch (_) { /* already stopped */ }
+    try {
+        if (discard) state.recognition.abort();
+        else state.recognition.stop();
+    } catch (_) { /* already stopped */ }
 }
 
-ui.mic.addEventListener("click", () => {
-    if (!state.recognition || state.busy) return;
+async function requestMicrophoneAccess() {
+    if (!navigator.mediaDevices?.getUserMedia) throw new Error("Microphone capture is unavailable");
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream.getTracks().forEach((track) => track.stop());
+}
+
+function preferredRecordingMimeType() {
+    return ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"]
+        .find((type) => MediaRecorder.isTypeSupported?.(type)) || "";
+}
+
+function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(reader.error || new Error("Could not read recording"));
+        reader.onloadend = () => resolve(String(reader.result || "").split(",")[1] || "");
+        reader.readAsDataURL(blob);
+    });
+}
+
+async function finishRecordedQuestion(blob) {
+    stopRecordingMonitor();
+    state.mediaRecorder = null;
+    state.recordingStream?.getTracks().forEach((track) => track.stop());
+    state.recordingStream = null;
+    state.recordingChunks = [];
+    ui.mic.classList.remove("is-listening");
+    ui.mic.title = "Talk instead of typing";
+    ui.mic.setAttribute("aria-label", "Start voice input — talk instead of typing");
+    window.portfolioMusic?.resumeAfterVoice?.();
+
+    if (state.discardRecording) {
+        state.discardRecording = false;
+        if (!state.busy) setStatus("Ready");
+        ui.mic.disabled = state.busy;
+        return;
+    }
+    if (!blob.size || (state.recordingAnalyser && !state.recordingSpeechDetected)) {
+        state.recognitionError = "I didn’t hear anything · tap the mic and try again";
+        setStatus(state.recognitionError);
+        ui.mic.disabled = false;
+        return;
+    }
+
+    setBusy(true);
+    setStatus("Transcribing your question…");
+    try {
+        const audioBase64 = await blobToBase64(blob);
+        const response = await fetch(TRANSCRIBE_API_URL, {
+            method: "POST",
+            signal: AbortSignal.timeout(30000),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ audioBase64, mimeType: blob.type || "audio/webm" }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || `Transcription failed (${response.status})`);
+        const transcript = String(data.transcript || "").trim();
+        if (!transcript) throw new Error("No speech was detected");
+        ui.input.value = transcript;
+        setBusy(false);
+        await askGemini(transcript);
+    } catch (error) {
+        setBusy(false);
+        state.recognitionError = error.message || "Couldn’t transcribe the recording";
+        setStatus(state.recognitionError);
+    }
+}
+
+function stopMediaRecorder(discard = false) {
+    const recorder = state.mediaRecorder;
+    if (!recorder || recorder.state !== "recording") return;
+    state.discardRecording = discard;
+    window.clearTimeout(state.recordingTimer);
+    state.recordingTimer = null;
+    recorder.stop();
+}
+
+function stopRecordingMonitor() {
+    if (state.recordingMonitorFrame) cancelAnimationFrame(state.recordingMonitorFrame);
+    state.recordingMonitorFrame = null;
+    state.recordingAnalyser = null;
+    state.recordingAudioContext?.close().catch(() => {});
+    state.recordingAudioContext = null;
+    state.recordingSpeechDetected = false;
+    state.recordingSilenceStartedAt = 0;
+}
+
+function startRecordingMonitor(stream) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    try {
+        const context = new AudioContextClass();
+        const analyser = context.createAnalyser();
+        analyser.fftSize = 1024;
+        analyser.smoothingTimeConstant = 0.72;
+        context.createMediaStreamSource(stream).connect(analyser);
+        const samples = new Uint8Array(analyser.fftSize);
+        state.recordingAudioContext = context;
+        state.recordingAnalyser = analyser;
+        state.recordingSpeechDetected = false;
+        state.recordingSilenceStartedAt = 0;
+        const monitor = () => {
+            if (state.mediaRecorder?.state !== "recording" || state.recordingAnalyser !== analyser) return;
+            analyser.getByteTimeDomainData(samples);
+            let energy = 0;
+            for (const sample of samples) {
+                const centered = (sample - 128) / 128;
+                energy += centered * centered;
+            }
+            const rms = Math.sqrt(energy / samples.length);
+            const now = performance.now();
+            if (rms > 0.028) {
+                if (!state.recordingSpeechDetected) setStatus("Speech detected · listening until you finish…");
+                state.recordingSpeechDetected = true;
+                state.recordingSilenceStartedAt = 0;
+            } else if (state.recordingSpeechDetected) {
+                state.recordingSilenceStartedAt ||= now;
+                if (now - state.recordingSilenceStartedAt > 1600) {
+                    stopMediaRecorder(false);
+                    return;
+                }
+            }
+            state.recordingMonitorFrame = requestAnimationFrame(monitor);
+        };
+        state.recordingMonitorFrame = requestAnimationFrame(monitor);
+    } catch (error) {
+        console.warn("Automatic voice-stop monitoring is unavailable.", error);
+    }
+}
+
+async function startMediaRecorder() {
+    state.recognitionStarting = true;
+    state.recognitionError = "";
+    state.discardRecording = false;
+    ui.mic.disabled = true;
+    setStatus("Checking microphone access…");
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+            audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+        });
+        const mimeType = preferredRecordingMimeType();
+        const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+        state.recordingStream = stream;
+        state.recordingChunks = [];
+        state.mediaRecorder = recorder;
+        recorder.ondataavailable = (event) => { if (event.data?.size) state.recordingChunks.push(event.data); };
+        recorder.onerror = () => {
+            state.recognitionError = "The microphone recording failed · please retry";
+            setStatus(state.recognitionError);
+        };
+        recorder.onstop = () => finishRecordedQuestion(new Blob(state.recordingChunks, { type: recorder.mimeType || "audio/webm" }));
+        recorder.start(250);
+        startRecordingMonitor(stream);
+        state.recognitionStarting = false;
+        ui.mic.disabled = false;
+        ui.mic.classList.add("is-listening");
+        ui.mic.title = "Stop and send recording";
+        ui.mic.setAttribute("aria-label", "Stop recording and send voice question");
+        setStatus("Listening… speak your question");
+        window.portfolioMusic?.pauseForVoice?.();
+        state.recordingTimer = window.setTimeout(() => stopMediaRecorder(false), 15000);
+    } catch (error) {
+        state.recognitionStarting = false;
+        state.recordingStream?.getTracks().forEach((track) => track.stop());
+        state.recordingStream = null;
+        ui.mic.disabled = false;
+        const blocked = error?.name === "NotAllowedError" || error?.name === "SecurityError";
+        state.recognitionError = blocked ? "Microphone blocked · allow access in the address bar and retry"
+            : error?.name === "NotFoundError" ? "No working microphone was found"
+            : "Couldn’t start microphone recording · please retry";
+        setStatus(state.recognitionError);
+    }
+}
+
+ui.mic.addEventListener("click", async () => {
+    if (state.busy || state.recognitionStarting) return;
+    if (state.mediaRecorder?.state === "recording") {
+        stopMediaRecorder(false);
+        return;
+    }
+    if (ui.mic.classList.contains("is-listening")) {
+        stopRecognition();
+        return;
+    }
     stopAllSpeech();
-    try { state.recognition.start(); }
-    catch (_) { stopRecognition(); }
+    const useRecorder = state.forceRecorderFallback || !state.recognition || Boolean(navigator.brave);
+    if (useRecorder && state.recorderSupported) {
+        await startMediaRecorder();
+        return;
+    }
+    if (!state.recognition) {
+        state.recognitionError = "Voice input is unavailable in this browser";
+        setStatus(state.recognitionError);
+        return;
+    }
+    state.recognitionStarting = true;
+    state.recognitionSubmitted = false;
+    state.recognitionError = "";
+    ui.mic.disabled = true;
+    setStatus("Checking microphone access…");
+    try {
+        await requestMicrophoneAccess();
+        state.recognition.start();
+    } catch (error) {
+        state.recognitionStarting = false;
+        ui.mic.disabled = false;
+        const blocked = error?.name === "NotAllowedError" || error?.name === "SecurityError";
+        state.recognitionError = blocked ? "Microphone blocked · allow access in the address bar and retry"
+            : error?.name === "NotFoundError" ? "No working microphone was found"
+            : "Couldn’t start voice input · please retry or type your question";
+        setStatus(state.recognitionError);
+    }
 });
 
 setupSpeechRecognition();
