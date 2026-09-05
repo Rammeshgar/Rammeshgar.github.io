@@ -1,0 +1,133 @@
+{
+  "fps": 30,
+  "clips": [
+    {
+      "name": "Explain_Right",
+      "category": "gesture",
+      "startFrame": 0,
+      "endFrame": 42,
+      "duration": 1.4
+    },
+    {
+      "name": "Present_Left",
+      "category": "gesture",
+      "startFrame": 43,
+      "endFrame": 88,
+      "duration": 1.5
+    },
+    {
+      "name": "Open_Both",
+      "category": "gesture",
+      "startFrame": 89,
+      "endFrame": 137,
+      "duration": 1.6
+    },
+    {
+      "name": "Emphasis_Right",
+      "category": "gesture",
+      "startFrame": 138,
+      "endFrame": 171,
+      "duration": 1.1
+    },
+    {
+      "name": "Emphasis_Left",
+      "category": "gesture",
+      "startFrame": 172,
+      "endFrame": 205,
+      "duration": 1.1
+    },
+    {
+      "name": "Compare_Sides",
+      "category": "gesture",
+      "startFrame": 206,
+      "endFrame": 254,
+      "duration": 1.6
+    },
+    {
+      "name": "Frame_An_Idea",
+      "category": "gesture",
+      "startFrame": 255,
+      "endFrame": 300,
+      "duration": 1.5
+    },
+    {
+      "name": "Offer_Forward",
+      "category": "gesture",
+      "startFrame": 301,
+      "endFrame": 343,
+      "duration": 1.4
+    },
+    {
+      "name": "Small_Point",
+      "category": "gesture",
+      "startFrame": 344,
+      "endFrame": 380,
+      "duration": 1.2
+    },
+    {
+      "name": "Conclude_Both",
+      "category": "gesture",
+      "startFrame": 381,
+      "endFrame": 423,
+      "duration": 1.4
+    },
+    {
+      "name": "Idle_Breathe",
+      "category": "idle",
+      "startFrame": 424,
+      "endFrame": 574,
+      "duration": 5.0
+    },
+    {
+      "name": "Idle_Settle",
+      "category": "idle",
+      "startFrame": 575,
+      "endFrame": 725,
+      "duration": 5.0
+    },
+    {
+      "name": "Idle_Attentive",
+      "category": "idle",
+      "startFrame": 726,
+      "endFrame": 876,
+      "duration": 5.0
+    },
+    {
+      "name": "Listen_Nod",
+      "category": "listening",
+      "startFrame": 877,
+      "endFrame": 952,
+      "duration": 2.5
+    },
+    {
+      "name": "Listen_Tilt",
+      "category": "listening",
+      "startFrame": 953,
+      "endFrame": 1043,
+      "duration": 3.0
+    },
+    {
+      "name": "Listen_Acknowledge",
+      "category": "listening",
+      "startFrame": 1044,
+      "endFrame": 1119,
+      "duration": 2.5
+    },
+    {
+      "name": "Think_Reflect",
+      "category": "thinking",
+      "startFrame": 1120,
+      "endFrame": 1210,
+      "duration": 3.0
+    },
+    {
+      "name": "Think_Return",
+      "category": "thinking",
+      "startFrame": 1211,
+      "endFrame": 1301,
+      "duration": 3.0
+    }
+  ],
+  "max_wrist_angle_degrees": 5.069833843054787,
+  "notes": "Ten separately authored IK gestures plus eight non-speaking clips. Original geometry and audio are unchanged."
+}
