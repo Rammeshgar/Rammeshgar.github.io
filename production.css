@@ -17,3 +17,23 @@ a,button{transition:color .18s,background-color .18s,border-color .18s,box-shado
 @media(prefers-reduced-motion:reduce){.hero-scroll{height:auto}}
 .hero-art canvas{transition:none}.hero-art:has(canvas.ready):not(.playing-film)>img{visibility:hidden}.hero-art:not(.playing-film) video{visibility:hidden}
 .round-contact{display:flex;flex-direction:column;justify-content:center;gap:4px;text-decoration:none;line-height:1}.round-contact-label{font:600 12px Inter,Arial,sans-serif;letter-spacing:0}.round-contact:hover{transform:translateY(-2px);background:#dce6d9;color:var(--ink)!important}.round-contact:focus-visible{outline:3px solid var(--copper);outline-offset:5px}@media(max-width:700px){.round-contact-label{font-size:9px}}@media(prefers-reduced-motion:reduce){.round-contact:hover{transform:none}}
+
+/* Mobile: dedicate real layout space to the film instead of cropping it below an 850px hero. */
+@media(max-width:700px){
+ .header{gap:10px}.header .brand{margin-right:auto}#music-toggle{font-size:10px!important;padding:8px 10px!important}
+ .hero-scroll{height:calc(100svh + 650px);min-height:1400px}
+ .hero-scroll .hero{display:grid;grid-template-rows:auto minmax(320px,1fr);height:100svh;min-height:740px;max-height:none;align-items:stretch}
+ .hero-inner{grid-row:1;padding-top:24px;padding-bottom:22px;width:100%;align-self:start}
+ .hero .eyebrow{margin-bottom:18px}
+ .hero h1{font-size:clamp(44px,11.5vw,70px)}
+ .hero-copy{margin-top:18px;font-size:14px;line-height:1.65}
+ .hero-cta{margin-top:20px;gap:12px;flex-wrap:wrap}
+ .hero-art{position:relative;grid-row:2;inset:auto;width:100%;height:100%;min-height:320px;overflow:hidden}
+ .hero-art canvas,.hero-art img,.hero-art video{inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+ .hero-art:after{background:linear-gradient(180deg,var(--paper),transparent 14%);pointer-events:none}
+ .hero-note{display:none}.motion-control{bottom:20px;z-index:6}
+}
+@media(max-width:700px) and (prefers-reduced-motion:reduce){
+ .hero-scroll{height:auto;min-height:0}.hero-scroll .hero{position:relative}
+}
+
