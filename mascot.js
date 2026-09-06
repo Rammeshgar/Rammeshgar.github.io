@@ -259,11 +259,6 @@ async function loadMascot() {
         });
 
         frameMascot();
-        // Match the approved studio to the same normalization as the character.
-        new GLTFLoader().loadAsync('avatar/atelier.glb').then(({scene:studio})=>{
-            studio.scale.copy(model.scale);studio.position.copy(model.position);
-            studio.traverse(o=>{if(o.isMesh)o.receiveShadow=true;});scene.add(studio);
-        }).catch(()=>{/* The neutral background remains a valid fallback. */});
 
         const gestures=await fetch('avatar/gestures.json').then(r=>{if(!r.ok)throw Error('Animation library unavailable');return r.json();});
         const clips=gestures.map(clip=>new THREE.AnimationClip(clip.name,clip.duration,clip.tracks.map(track=>new THREE.QuaternionKeyframeTrack(`${track.name}.quaternion`,track.times,track.values))));
