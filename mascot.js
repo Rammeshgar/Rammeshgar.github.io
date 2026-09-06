@@ -1,8 +1,10 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { createMovement } from './avatar/movement.mjs';
-import { blinkWeight } from './avatar/performance.mjs';
+import { refineCharacter, updateNaturalBlink } from './avatar/character-refinement.mjs';
+import { applyPapercutFinish } from './avatar/papercut-finish.mjs';
 
 const ui = {
     toggle: document.getElementById("ai-mascot-toggle"),
@@ -69,7 +71,6 @@ let audioSamples;
 const animationActions = new Map();
 let activeBodyAction;
 const lipSyncMeshes = [];
-const blinkMeshes=[];
 const clock = new THREE.Clock();
 const targetVisemes = new Map();
 const smoothedMouse = new THREE.Vector2();
@@ -81,7 +82,7 @@ const lookEuler = new THREE.Euler();
 let headLookApplied = false;
 let neckLookApplied = false;
 
-const MODEL_URL = "avatar/mascot.glb";
+const MODEL_URL = "avatar/mascot.glb?v=original-paper-18-movements";
 const TRANSCRIBE_API_URL = "https://test-rammeshgar-webpage.netlify.app/api/transcribe";
 let movement,spokenAt=0,lastRender=0;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -192,16 +193,16 @@ async function loadMascot() {
     controls.minPolarAngle = Math.PI * 0.2;
     controls.maxPolarAngle = Math.PI * 0.6;
 
-    scene.add(new THREE.HemisphereLight(0xe8f5ff, 0x17232d, 1.5));
-    const key = new THREE.DirectionalLight(0xfff8ef, 1.9);
+    scene.add(new THREE.HemisphereLight(0xffead7, 0x101d28, 1.05));
+    const key = new THREE.DirectionalLight(0xfff8ef, 1.58);
     key.position.set(2.1, 3.5, 4.8);
     key.castShadow = true;
     key.shadow.bias = -0.00012;
     scene.add(key);
-    const fill = new THREE.DirectionalLight(0xc8e4ff, 1.7);
+    const fill = new THREE.DirectionalLight(0x75e8dc, 1.08);
     fill.position.set(-2.8, 2.25, 4.1);
     scene.add(fill);
-    const eyeLight = new THREE.DirectionalLight(0xffffff, 1.05);
+    const eyeLight = new THREE.DirectionalLight(0xffead7, 0.62);
     eyeLight.position.set(0, 2.1, 5.2);
     scene.add(eyeLight);
     const rim = new THREE.DirectionalLight(0xffd7b0, 1.25);
@@ -231,19 +232,23 @@ async function loadMascot() {
     resizeRenderer();
 
     try {
-        const gltf = await new GLTFLoader().loadAsync(MODEL_URL);
+        const loader = new GLTFLoader();
+        loader.setMeshoptDecoder(MeshoptDecoder);
+        const gltf = await loader.loadAsync(MODEL_URL);
         model = gltf.scene;
+        refineCharacter(model);
         scene.add(model);
 
         model.traverse((child) => {
             if (child.isMesh) {
+                if(/^Studio_/i.test(child.name)){child.visible=false;return;}
                 const isGlasses = /glass/i.test(child.name);
                 child.castShadow = !isGlasses;
                 child.receiveShadow = !isGlasses;
+                applyPapercutFinish(child);
                 if (child.morphTargetDictionary) {
                     const names = Object.keys(child.morphTargetDictionary);
                     if (VISEME_NAMES.some((name) => names.includes(name))) lipSyncMeshes.push(child);
-                    if(names.includes('Blink_L'))blinkMeshes.push(child);
                 }
             }
             if (child.isBone) {
@@ -260,8 +265,9 @@ async function loadMascot() {
             studio.traverse(o=>{if(o.isMesh)o.receiveShadow=true;});scene.add(studio);
         }).catch(()=>{/* The neutral background remains a valid fallback. */});
 
-        const manifest=await fetch('avatar/Gesture_Library.json').then(r=>{if(!r.ok)throw Error('Animation metadata unavailable');return r.json();});
-        movement=createMovement(model,gltf.animations,manifest.clips);
+        const gestures=await fetch('avatar/gestures.json').then(r=>{if(!r.ok)throw Error('Animation library unavailable');return r.json();});
+        const clips=gestures.map(clip=>new THREE.AnimationClip(clip.name,clip.duration,clip.tracks.map(track=>new THREE.QuaternionKeyframeTrack(`${track.name}.quaternion`,track.times,track.values))));
+        movement=createMovement(model,clips,gestures);
 
         state.loaded = true;
         state.loading = false;
@@ -280,7 +286,14 @@ function frameMascot() {
     if (!model || !camera || !controls) return;
 
     model.updateMatrixWorld(true);
-    const initialBounds = new THREE.Box3().setFromObject(model);
+    const characterMeshes=[];
+    model.traverse(child=>{if(child.isMesh&&!/^Studio_/i.test(child.name))characterMeshes.push(child);});
+    const getCharacterBounds=()=>{
+        const box=new THREE.Box3();
+        for(const mesh of characterMeshes)box.expandByObject(mesh);
+        return box;
+    };
+    const initialBounds = getCharacterBounds();
     const initialSize = initialBounds.getSize(new THREE.Vector3());
     if (!Number.isFinite(initialSize.y) || initialSize.y <= 0) return;
 
@@ -291,11 +304,11 @@ function frameMascot() {
     model.updateMatrixWorld(true);
 
     // Put the feet on the stage, regardless of the model's export origin.
-    const groundedBounds = new THREE.Box3().setFromObject(model);
+    const groundedBounds = getCharacterBounds();
     model.position.y -= groundedBounds.min.y;
     model.updateMatrixWorld(true);
 
-    const bounds = new THREE.Box3().setFromObject(model);
+    const bounds = getCharacterBounds();
     const size = bounds.getSize(new THREE.Vector3());
     const center = bounds.getCenter(new THREE.Vector3());
     // Keep the default view intimate, while leaving the shoulders and authored
@@ -366,7 +379,7 @@ function animate() {
 
     updateGeneratedSpeechViseme();
     updateVisemes();
-    for(const mesh of blinkMeshes)for(const name of ['Blink_L','Blink_R']){const i=mesh.morphTargetDictionary[name];if(i!==undefined)mesh.morphTargetInfluences[i]=reducedMotion.matches?0:blinkWeight(now/1000);}
+    updateNaturalBlink(delta,reducedMotion.matches);
     renderer.render(scene, camera);
 }
 
