@@ -83,7 +83,8 @@ let headLookApplied = false;
 let neckLookApplied = false;
 
 const MODEL_URL = "avatar/mascot.glb?v=original-paper-18-movements";
-const ATELIER_FLOOR_Y = -1;
+// Top face of the atelier floor slab (its lower mesh bound is not walkable).
+const ATELIER_FLOOR_Y = -0.8825;
 const TRANSCRIBE_API_URL = "https://test-rammeshgar-webpage.netlify.app/api/transcribe";
 let movement,spokenAt=0,lastRender=0;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -195,7 +196,9 @@ async function loadMascot() {
     controls.maxDistance = 3.8;
     controls.zoomSpeed = 0.75;
     controls.minPolarAngle = Math.PI * 0.2;
-    controls.maxPolarAngle = Math.PI * 0.6;
+    // Never let the camera pass below the atelier floor. From underneath, the
+    // shadow receiver becomes an opaque obstruction across the whole viewer.
+    controls.maxPolarAngle = Math.PI * 0.48;
     controls.minAzimuthAngle = -Math.PI * 0.16;
     controls.maxAzimuthAngle = Math.PI * 0.16;
 
