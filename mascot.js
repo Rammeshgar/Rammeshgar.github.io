@@ -83,6 +83,7 @@ let headLookApplied = false;
 let neckLookApplied = false;
 
 const MODEL_URL = "avatar/mascot.glb?v=original-paper-18-movements";
+const ATELIER_FLOOR_Y = -1;
 const TRANSCRIBE_API_URL = "https://test-rammeshgar-webpage.netlify.app/api/transcribe";
 let movement,spokenAt=0,lastRender=0;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -195,6 +196,8 @@ async function loadMascot() {
     controls.zoomSpeed = 0.75;
     controls.minPolarAngle = Math.PI * 0.2;
     controls.maxPolarAngle = Math.PI * 0.6;
+    controls.minAzimuthAngle = -Math.PI * 0.16;
+    controls.maxAzimuthAngle = Math.PI * 0.16;
 
     scene.add(new THREE.HemisphereLight(0xffead7, 0x101d28, 1.05));
     const key = new THREE.DirectionalLight(0xfff8ef, 1.58);
@@ -218,7 +221,7 @@ async function loadMascot() {
             new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.26 })
         );
         ground.rotation.x = -Math.PI / 2;
-        ground.position.y = 0.001;
+        ground.position.y = ATELIER_FLOOR_Y + 0.001;
         ground.receiveShadow = true;
         scene.add(ground);
     }
@@ -314,9 +317,10 @@ function frameMascot() {
     model.scale.multiplyScalar(fittedScale);
     model.updateMatrixWorld(true);
 
-    // Put the feet on the stage, regardless of the model's export origin.
+    // The atelier's authored floor is at y=-1. Ground the feet there instead
+    // of at world zero, which leaves the character visibly floating in depth.
     const groundedBounds = getCharacterBounds();
-    model.position.y -= groundedBounds.min.y;
+    model.position.y += ATELIER_FLOOR_Y - groundedBounds.min.y;
     model.updateMatrixWorld(true);
 
     const bounds = getCharacterBounds();
