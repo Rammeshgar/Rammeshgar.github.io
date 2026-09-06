@@ -140,7 +140,10 @@ ui.expand?.addEventListener("click", () => {
     ui.expand.title = state.expanded ? "Use compact viewer" : "Expand mascot viewer";
     const icon = ui.expand.querySelector("[data-icon]");
     if (icon) icon.dataset.icon = state.expanded ? "compress" : "expand";
-    requestAnimationFrame(resizeRenderer);
+    requestAnimationFrame(()=>{
+        resizeRenderer();
+        frameMascot();
+    });
 });
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && ui.panel.classList.contains("is-open")) closePanel();
@@ -260,6 +263,19 @@ async function loadMascot() {
 
         frameMascot();
 
+        // The atelier is authored at world scale. Keep it independent from the
+        // character's normalization transform so its floor stays under his feet.
+        new GLTFLoader().loadAsync('avatar/atelier.glb').then(({scene: studio})=>{
+            studio.position.set(0,0,0);
+            studio.scale.setScalar(1);
+            studio.traverse(child=>{
+                if(!child.isMesh)return;
+                child.castShadow=false;
+                child.receiveShadow=true;
+            });
+            scene.add(studio);
+        }).catch(error=>console.warn('Studio load error:',error));
+
         const gestures=await fetch('avatar/gestures.json').then(r=>{if(!r.ok)throw Error('Animation library unavailable');return r.json();});
         const clips=gestures.map(clip=>new THREE.AnimationClip(clip.name,clip.duration,clip.tracks.map(track=>new THREE.QuaternionKeyframeTrack(`${track.name}.quaternion`,track.times,track.values))));
         movement=createMovement(model,clips,gestures);
@@ -306,24 +322,24 @@ function frameMascot() {
     const bounds = getCharacterBounds();
     const size = bounds.getSize(new THREE.Vector3());
     const center = bounds.getCenter(new THREE.Vector3());
-    // Keep the default view intimate, while leaving the shoulders and authored
-    // hand gestures in frame. Visitors can still zoom in or out manually.
-    const portraitTarget = new THREE.Vector3(
+    // Compact mode is an intimate conversation crop. Expanded mode reveals the
+    // full character and the atelier instead of magnifying the same portrait.
+    const viewTarget = new THREE.Vector3(
         center.x,
-        bounds.min.y + size.y * 0.73,
+        bounds.min.y + size.y * (state.expanded ? 0.51 : 0.73),
         center.z
     );
-    const portraitDistance = size.y * 0.83;
+    const viewDistance = size.y * (state.expanded ? 1.5 : 0.83);
 
-    controls.target.copy(portraitTarget);
-    controls.minDistance = portraitDistance * 0.7;
+    controls.target.copy(viewTarget);
+    controls.minDistance = size.y * 0.58;
     controls.maxDistance = Math.max(size.y * 2.2, 3.4);
     camera.position.set(
-        portraitTarget.x + size.x * 0.035,
-        portraitTarget.y + size.y * 0.015,
-        portraitTarget.z + portraitDistance
+        viewTarget.x + size.x * 0.035,
+        viewTarget.y + size.y * 0.015,
+        viewTarget.z + viewDistance
     );
-    camera.lookAt(portraitTarget);
+    camera.lookAt(viewTarget);
     controls.update();
 }
 

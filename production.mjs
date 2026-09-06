@@ -1,5 +1,5 @@
 let assistant;
-async function getAssistant(){return assistant??=import('./mascot.js?v=original-paper-18-framed').catch(error=>{assistant=null;document.querySelector('.ai-mascot-toggle__label').textContent='Assistant unavailable · retry';throw error;});}
+async function getAssistant(){return assistant??=import('./mascot.js?v=original-paper-18-studio-fit').catch(error=>{assistant=null;document.querySelector('.ai-mascot-toggle__label').textContent='Assistant unavailable · retry';throw error;});}
 document.querySelector('#ai-mascot-toggle').addEventListener('click',async()=>{try{(await getAssistant()).togglePanel();}catch{}});
 document.querySelectorAll('[data-open-ai]').forEach(button=>button.addEventListener('click',async e=>{e.preventDefault();try{(await getAssistant()).openPanel();}catch{}}));
 
