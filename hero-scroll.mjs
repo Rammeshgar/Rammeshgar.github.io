@@ -2,6 +2,8 @@ const section=document.querySelector('.hero-scroll'),canvas=document.querySelect
 const reduced=matchMedia('(prefers-reduced-motion: reduce)'),mobile=matchMedia('(max-width:700px)');
 const COUNT=158,LIMIT=16,cache=new Map(),pending=new Set(),failed=new Set();
 const compressed=new Map();let warmCursor=0,warmJobs=0;
+let pageLoaded=document.readyState==='complete';
+const constrained=()=>navigator.connection?.saveData||['slow-2g','2g'].includes(navigator.connection?.effectiveType);
 let directory=mobile.matches||navigator.connection?.saveData?'mobile':'desktop',queue=[],active=true,raf=0,target=0,position=0,last=0,lastPaint=-1,center=0,previousDirection=1;
 let width=0,height=0,draws=0;
 const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
@@ -17,10 +19,10 @@ function compressedFrame(index,dir=directory){
 function warm(){
  // Keep the compressed film ready (~9.8 MB desktop / 4.2 MB mobile), but only
  // sixteen decoded frames. Skip whole-film warming under Save-Data.
- if(navigator.connection?.saveData||reduced.matches||!active||document.hidden)return;
+ if(!pageLoaded||constrained()||reduced.matches||!active||document.hidden)return;
  while(warmJobs<2&&warmCursor<COUNT){
   warmJobs++;const dir=directory;
-  (async()=>{while(warmCursor<COUNT&&active&&!document.hidden&&directory===dir){const index=warmCursor++;try{await compressedFrame(index,dir);}catch{}}})().finally(()=>{warmJobs--;});
+  (async()=>{while(warmCursor<COUNT&&active&&!document.hidden&&!reduced.matches&&!constrained()&&directory===dir){const index=warmCursor++;try{await compressedFrame(index,dir);}catch{}}})().finally(()=>{warmJobs--;});
  }
 }
 function pump(){
@@ -76,7 +78,8 @@ function resize(){
 addEventListener('scroll',scroll,{passive:true});addEventListener('resize',resize,{passive:true});
 new IntersectionObserver(entries=>{active=entries[0].isIntersecting;if(active){last=0;resize();}},{rootMargin:'120px'}).observe(section);
 reduced.addEventListener('change',()=>{if(reduced.matches){cancelAnimationFrame(raf);raf=0;canvas.classList.remove('ready');}else resize();});
-document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{last=0;scroll();pump();}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{last=0;scroll();prepare(position);warm();}});
+addEventListener('load',()=>{pageLoaded=true;warm();},{once:true});
 film.addEventListener('play',()=>{art.classList.add('playing-film');film.classList.add('ready');});
 film.addEventListener('pause',()=>{art.classList.remove('playing-film');film.classList.remove('ready');});
 resize();
