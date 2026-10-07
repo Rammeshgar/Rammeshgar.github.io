@@ -105,25 +105,39 @@ function addMessage(text, role = "bot", extraClass = "") {
     return message;
 }
 
+const mobilePanel = matchMedia('(max-width: 700px)');
+let panelTrigger = null;
+function syncPanelMode() {
+    const modal = state.expanded && mobilePanel.matches && ui.panel.classList.contains('is-open');
+    ui.panel.setAttribute('aria-modal', String(modal));
+    document.querySelector('.page').inert = modal;
+    document.body.classList.toggle('ai-modal-open', modal);
+}
+mobilePanel.addEventListener('change', syncPanelMode);
+
 function openPanel() {
+    if (!ui.panel.classList.contains('is-open')) panelTrigger = document.activeElement;
     ui.panel.inert=false;
     ui.panel.classList.add("is-open");
     ui.panel.setAttribute("aria-hidden", "false");
     ui.toggle.setAttribute("aria-expanded", "true");
     document.body.classList.add("ai-open", "ai-available");
     ui.toggleLabel.textContent = "Close guide";
+    syncPanelMode();
     if (!state.loaded && !state.loading) loadMascot();
     setTimeout(() => ui.input.focus(), 260);
 }
 
 function closePanel() {
     ui.panel.inert=true;
-    ui.toggle.focus();
     ui.panel.classList.remove("is-open");
     ui.panel.setAttribute("aria-hidden", "true");
     ui.toggle.setAttribute("aria-expanded", "false");
     document.body.classList.remove("ai-open");
     ui.toggleLabel.textContent = "Ask Sadeq’s AI";
+    syncPanelMode();
+    const trigger = panelTrigger?.isConnected && panelTrigger.getClientRects().length ? panelTrigger : ui.toggle;
+    trigger.focus();
     stopRecognition(true);
     stopAllSpeech();
 }
@@ -137,6 +151,7 @@ ui.close.addEventListener("click", closePanel);
 ui.expand?.addEventListener("click", () => {
     state.expanded = !state.expanded;
     ui.panel.classList.toggle("is-expanded", state.expanded);
+    syncPanelMode();
     ui.expand.setAttribute("aria-pressed", String(state.expanded));
     ui.expand.setAttribute("aria-label", state.expanded ? "Use compact mascot viewer" : "Expand mascot viewer");
     ui.expand.title = state.expanded ? "Use compact viewer" : "Expand mascot viewer";
@@ -149,6 +164,15 @@ ui.expand?.addEventListener("click", () => {
 });
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && ui.panel.classList.contains("is-open")) closePanel();
+    if (event.key === 'Tab' && ui.panel.getAttribute('aria-modal') === 'true') {
+        const controls = [...ui.panel.querySelectorAll('button:not(:disabled),input:not(:disabled),a[href]')].filter(element => element.getClientRects().length);
+        const first = controls[0], last = controls.at(-1);
+        if (!ui.panel.contains(document.activeElement) || (event.shiftKey && document.activeElement === first)) {
+            event.preventDefault(); (event.shiftKey ? last : first)?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault(); first?.focus();
+        }
+    }
 });
 
 document.querySelectorAll("[data-ai-prompt]").forEach((button) => {
@@ -621,6 +645,7 @@ function speak(text) {
 
 function setBusy(value) {
     state.busy = value;
+    ui.form.setAttribute('aria-busy', String(value));
     ui.input.disabled = value;
     ui.send.disabled = value;
     ui.mic.disabled = value || (!state.recognition && !state.recorderSupported);

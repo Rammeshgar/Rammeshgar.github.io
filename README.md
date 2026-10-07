@@ -13,6 +13,8 @@ An editorial, paper-cut portfolio presenting configuration, quality engineering,
 - On-demand Three.js assistant with a paper-cut avatar, studio scene, blended gesture library, subtle torso and shoulder movement, and independent blinking.
 - Text and voice interface, clear microphone invitation, speaker/mute controls and accessible focus states.
 - Distinct email and copy-email actions; footer spacing accommodates the floating assistant.
+- Project walkthroughs explain the purpose, contribution, design decisions and inspectable evidence for monitoring, Seneschal and Exchange Universe.
+- Larger secondary text, consistent project framing and theme-aware keyboard focus; the expanded mobile assistant keeps focus inside its fullscreen view.
 
 ## Running locally
 
