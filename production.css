@@ -187,3 +187,14 @@ dialog{width:min(880px,calc(100vw - 32px));max-height:88dvh;border:1px solid var
  .hero-scroll{height:auto;min-height:0}.hero-scroll .hero{position:relative}
  .project-card .media:hover img{transform:none}
 }
+
+/* Exchange Universe evidence follows the portfolio's existing case-study style. */
+.project-card .media.exchange{background:#102035}
+.exchange-shot{margin:24px 0;min-width:0}
+.exchange-shot img{width:100%;height:auto;border:1px solid var(--line);border-radius:4px}
+.exchange-shot figcaption{font:12px/1.7 Inter,Arial,sans-serif;color:var(--muted);margin-top:10px}
+.exchange-gallery{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:start}
+.exchange-mobile-shot img{max-width:270px;margin-inline:auto}
+#exchange-dialog .project-links{gap:12px 24px}
+#exchange-dialog .project-links a{min-height:44px;align-items:center;line-height:1.5}
+@media(max-width:700px){.exchange-gallery{grid-template-columns:1fr;gap:0}.exchange-mobile-shot img{max-width:230px}.exchange-shot figcaption{font-size:12px}}
