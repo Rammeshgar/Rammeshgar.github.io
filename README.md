@@ -22,7 +22,22 @@ The October 2026 update presents the rebuilt currency atlas with real desktop Ex
 
 [Live dashboard](https://sadeq.shinyapps.io/exchange_universe/) · [Source and documentation](https://github.com/Rammeshgar/Exchange_Universe_shiny)
 
-Screenshot examples were captured during the local review on 7 October 2026; their rates are not current quotes. Images are compressed WebP with dimensions, descriptive alternative text and lazy loading. No API keys, private configuration or personal correspondence are included.
+### Rebuilt dashboard — October 2026
+
+![Exchange Universe Explore view with six currency comparisons and a linked world map](assets/exchange-atlas-202610.webp)
+
+### Convert
+
+![Exchange Universe light-theme converter with quote direction, timestamp and comparison amounts](assets/exchange-convert-202610.webp)
+
+<details>
+<summary>Mobile dashboard</summary>
+
+<img src="assets/exchange-mobile-202610.webp" width="300" alt="Mobile Exchange Universe with accessible settings, charts and world atlas">
+
+</details>
+
+Screenshots were captured during the local review on 7 October 2026; their rates are not current quotes. No API keys, private configuration or personal correspondence are included.
 
 ## Running locally
 
