@@ -147,4 +147,34 @@ check('preview routes are allowlisted without weakening private-path safeguards'
  assert(server.includes("s.startsWith('.')"));assert(server.includes('target.startsWith(root+sep)'));
  assert(server.includes("if(!['GET','HEAD'].includes(req.method))"));
 });
+check('homepage metadata has one canonical identity and aligned social descriptions',()=>{
+ const decode=s=>s.replaceAll('&amp;','&');
+ const meta=name=>{const matches=[...home.matchAll(new RegExp('<meta (?:name|property)="'+name+'" content="([^"]*)"','g'))];assert.equal(matches.length,1,name);return decode(matches[0][1]);};
+ const title=decode(home.match(/<title>([^<]+)<\/title>/)[1]);
+ assert.equal(title,'Sadeq Rezai — Software, Automation & AI Integration');
+ assert.equal(meta('og:title'),title);assert.equal(meta('twitter:title'),title);
+ assert.equal(meta('description'),meta('og:description'));assert.equal(meta('description'),meta('twitter:description'));
+ assert.equal(meta('og:url'),'https://rammeshgar.github.io/');
+ assert.equal((home.match(/rel="canonical"/g)||[]).length,1);
+ assert(home.includes('rel="canonical" href="https://rammeshgar.github.io/"'));
+ assert.equal(meta('og:image'),meta('twitter:image'));
+ assert.equal(meta('og:image:alt'),meta('twitter:image:alt'));
+ assert.equal(meta('twitter:card'),'summary_large_image');
+ const data=JSON.parse(home.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1])['@graph'];
+ assert.equal(data.find(n=>n['@type']==='ProfilePage').name,title);
+ assert.equal(data.find(n=>n['@type']==='ProfilePage').description,meta('description'));
+ assert.equal(data.find(n=>n['@type']==='Person').jobTitle,'Configuration Consultant');
+ assert(!home.includes('name="keywords"'));
+});
+check('social card and favicon are real PNGs and declared card dimensions match the file',()=>{
+ const card=readFileSync(join(root,'assets/social-preview-20261015.png'));
+ assert.equal(card.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
+ assert.equal(card.readUInt32BE(16),1200);assert.equal(card.readUInt32BE(20),630);
+ assert(card.length<300000);
+ assert(home.includes('https://rammeshgar.github.io/assets/social-preview-20261015.png'));
+ assert(home.includes('property="og:image:type" content="image/png"'));
+ assert(home.includes('property="og:image:width" content="1200"'));assert(home.includes('property="og:image:height" content="630"'));
+ assert(!home.includes('social-preview-20260905.png'));
+ const icon=readFileSync(join(root,'assets/brand-mark.png'));assert.equal(icon.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
+});
 console.log(total+' focused portfolio checks passed. Rendering and end-to-end services require separate browser checks.');
