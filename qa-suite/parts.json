@@ -1,0 +1,307 @@
+[
+  {
+    "name": "stand.foot-pad.-116.-44",
+    "part": "base",
+    "moving": null
+  },
+  {
+    "name": "stand.foot.-116.-44",
+    "part": "base",
+    "moving": null
+  },
+  {
+    "name": "stand.foot-pad.-116.58",
+    "part": "base",
+    "moving": null
+  },
+  {
+    "name": "stand.foot.-116.58",
+    "part": "base",
+    "moving": null
+  },
+  {
+    "name": "stand.foot-pad.112.-44",
+    "part": "base",
+    "moving": null
+  },
+  {
+    "name": "stand.foot.112.-44",
+    "part": "base",
+    "moving": null
+  },
+  {
+    "name": "stand.foot-pad.112.58",
+    "part": "base",
+    "moving": null
+  },
+  {
+    "name": "stand.foot.112.58",
+    "part": "base",
+    "moving": null
+  },
+  {
+    "name": "stand.bedplate",
+    "part": "base",
+    "moving": null
+  },
+  {
+    "name": "checks.gantry-post.-48",
+    "part": "checks",
+    "moving": null
+  },
+  {
+    "name": "checks.shutter-guide.-8",
+    "part": "checks",
+    "moving": null
+  },
+  {
+    "name": "evidence.tray-floor",
+    "part": "evidence",
+    "moving": null
+  },
+  {
+    "name": "alerts.mount",
+    "part": "alerts",
+    "moving": null
+  },
+  {
+    "name": "run.bearing-rail.-36",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "checks.post-cap.-48",
+    "part": "checks",
+    "moving": null
+  },
+  {
+    "name": "checks.shutter",
+    "part": "checks",
+    "moving": "shutter"
+  },
+  {
+    "name": "evidence.record",
+    "part": "evidence",
+    "moving": "record"
+  },
+  {
+    "name": "alerts.post",
+    "part": "alerts",
+    "moving": null
+  },
+  {
+    "name": "run.cross-member.-108",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.cross-member.102",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "evidence.clip",
+    "part": "evidence",
+    "moving": "record"
+  },
+  {
+    "name": "run.deck",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.bearing-rail.32",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.0",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.1",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "alerts.flag",
+    "part": "alerts",
+    "moving": "alert"
+  },
+  {
+    "name": "review.control-housing",
+    "part": "review",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.2",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "checks.specimen-pallet",
+    "part": "checks",
+    "moving": "sample"
+  },
+  {
+    "name": "review.button.-58",
+    "part": "review",
+    "moving": null
+  },
+  {
+    "name": "review.button.-44",
+    "part": "review",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.3",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "checks.locating-pad.-8",
+    "part": "checks",
+    "moving": "sample"
+  },
+  {
+    "name": "checks.locating-pad.6",
+    "part": "checks",
+    "moving": "sample"
+  },
+  {
+    "name": "run.belt-slat.4",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "checks.specimen-face",
+    "part": "checks",
+    "moving": "sample"
+  },
+  {
+    "name": "run.belt-slat.5",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.6",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.7",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.8",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.9",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.10",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.11",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.exit-guide.62",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.12",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "evidence.tray-wall.44.60",
+    "part": "evidence",
+    "moving": null
+  },
+  {
+    "name": "run.belt-slat.13",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "evidence.tray-end.60",
+    "part": "evidence",
+    "moving": null
+  },
+  {
+    "name": "checks.shutter-guide.6",
+    "part": "checks",
+    "moving": null
+  },
+  {
+    "name": "checks.lens-rim",
+    "part": "checks",
+    "moving": null
+  },
+  {
+    "name": "checks.lens-barrel",
+    "part": "checks",
+    "moving": null
+  },
+  {
+    "name": "checks.lens-mount",
+    "part": "checks",
+    "moving": null
+  },
+  {
+    "name": "checks.camera",
+    "part": "checks",
+    "moving": null
+  },
+  {
+    "name": "checks.bridge",
+    "part": "checks",
+    "moving": null
+  },
+  {
+    "name": "checks.gantry-post.40",
+    "part": "checks",
+    "moving": null
+  },
+  {
+    "name": "checks.post-cap.40",
+    "part": "checks",
+    "moving": null
+  },
+  {
+    "name": "run.diverter",
+    "part": "run",
+    "moving": "diverter"
+  },
+  {
+    "name": "run.exit-guide.96",
+    "part": "run",
+    "moving": null
+  },
+  {
+    "name": "evidence.tray-wall.44.96",
+    "part": "evidence",
+    "moving": null
+  },
+  {
+    "name": "evidence.tray-end.116",
+    "part": "evidence",
+    "moving": null
+  },
+  {
+    "name": "evidence.tray-wall.70",
+    "part": "evidence",
+    "moving": null
+  }
+]

@@ -1,0 +1,27 @@
+/* Only decorative card thumbnails: preserve the full interactive guide layouts. */
+html:has(body[data-layout=preview]),html:has(body.preview){height:100%;overflow:hidden}
+body[data-layout=preview],body.preview{height:100%;padding:0!important;margin:0;overflow:hidden}
+body[data-layout=preview] main,body[data-layout=preview] .iso-page,body.preview main{height:100%;min-height:0;padding:0!important;margin:0;max-width:none;overflow:hidden}
+/* QA keeps the existing title and live model readout, not a second animation. */
+body[data-layout=preview] .iso-figure{height:100%;min-height:0;margin:0}
+body[data-layout=preview] .iso-plate{height:100%;min-height:0;border:0;border-radius:0;box-sizing:border-box;padding:10px 12px!important;overflow:hidden}
+body[data-layout=preview] .iso-plate:has(.iso-plate-corners){display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:4px}
+body[data-layout=preview] .iso-plate .iso-plate-corners{display:contents!important}
+body[data-layout=preview] .iso-plate-corner{position:static!important;inset:auto!important;max-width:none;font:11px/1.4 PortfolioInter,Inter,Arial,sans-serif;text-transform:none;letter-spacing:normal;transform:none!important}
+body[data-layout=preview] .iso-plate-corner[data-corner=fig],body[data-layout=preview] .iso-plate-corner[data-corner=hint]{display:none!important}
+body[data-layout=preview] .iso-plate-corner[data-corner=title]{grid-row:1;display:block}
+body[data-layout=preview] .iso-plate-corner[data-corner=readout]{grid-row:3;display:block;text-align:right;min-height:16px}
+body[data-layout=preview] .iso-stage{height:auto;min-height:0;overflow:hidden}
+body[data-layout=preview] .iso-plate:has(.iso-plate-corners) .iso-stage{grid-row:2}
+body[data-layout=preview] .iso-stage svg,body.preview .iso-stage svg{display:block;width:100%;height:100%!important;min-height:0!important;max-height:none!important;object-fit:contain}
+/* Seneschal and Twin use the same title / fitted machine / live phase arrangement. */
+body[data-layout=preview] main:has(.plate-top) figure,body.preview .figure-card{height:100%;min-height:0;margin:0}
+body[data-layout=preview] .iso-plate:has(.plate-top),body.preview .figure-card{display:flex;flex-direction:column;border:0;border-radius:0;overflow:hidden}
+body[data-layout=preview] .plate-top,body.preview .card-head{display:flex!important;flex:none;flex-wrap:wrap;gap:0 8px;padding:0 0 4px;border:0;font-size:11px;line-height:1.4}
+body[data-layout=preview] .plate-top span:first-child{display:none}
+body[data-layout=preview] .iso-plate:has(.plate-top) .iso-stage,body.preview .iso-stage{flex:1;min-height:0}
+body[data-layout=preview] .plate-bottom,body.preview .card-foot{display:flex!important;flex:none;min-height:20px;padding:4px 0 0;justify-content:flex-end;border:0;font-size:11px;line-height:1.4}
+body[data-layout=preview] .plate-bottom>span,body.preview .card-foot>span{display:none}
+body[data-layout=preview] .plate-bottom strong,body.preview .card-foot strong{max-width:100%;font-weight:400;text-align:right}
+body.preview .figure-card{padding:10px 12px;box-sizing:border-box}
+body.preview .iso-stage{background:transparent}

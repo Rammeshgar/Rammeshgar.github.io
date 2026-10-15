@@ -1,9 +1,9 @@
 let assistant;
+import './hero-scroll-native.mjs';
+import './exchange-card-preview.mjs';
 async function getAssistant(){return assistant??=import('./mascot.js?v=portfolio-refinement-20261007').catch(error=>{assistant=null;document.querySelector('.ai-mascot-toggle__label').textContent='Assistant unavailable · retry';throw error;});}
 document.querySelector('#ai-mascot-toggle').addEventListener('click',async()=>{try{(await getAssistant()).togglePanel();}catch{}});
 document.querySelectorAll('[data-open-ai]').forEach(button=>button.addEventListener('click',async e=>{e.preventDefault();try{(await getAssistant()).openPanel();}catch{}}));
-
-import './hero-scroll.mjs';
 
 /* Original soundtrack: explicit opt-in, separate from assistant voice. */
 const music = document.createElement('audio');
@@ -14,15 +14,15 @@ const musicButton=document.createElement('button');
 musicButton.type='button'; musicButton.id='music-toggle';
 musicButton.setAttribute('aria-pressed','false');
 musicButton.setAttribute('aria-label','Play background music');
-musicButton.textContent='♫ Play music';
-musicButton.style.cssText='border:1px solid var(--line);border-radius:24px;padding:10px 13px;font:500 11px Inter,Arial,sans-serif;white-space:nowrap;min-height:42px;color:var(--ink);background:var(--paper)';
-document.querySelector('.header').append(musicButton);
+musicButton.textContent='Play music';
+musicButton.style.cssText='border:1px solid var(--line);border-radius:24px;padding:10px 13px;font:500 11px Inter,Arial,sans-serif;white-space:nowrap;min-height:44px;color:var(--ink);background:var(--paper)';
+document.querySelector('#music-controls').append(musicButton);
 let musicWanted=false, musicRevision=0;
-const musicBlocked=()=>document.hidden || document.querySelector('#ai-mascot-panel')?.classList.contains('is-open') || document.querySelector('.hero-art')?.classList.contains('playing-film');
+const musicBlocked=()=>document.hidden || document.querySelector('#ai-mascot-panel')?.classList.contains('is-open') || document.querySelector('.intro-art')?.classList.contains('playing-film');
 function musicLabel(){
  musicButton.setAttribute('aria-pressed',String(musicWanted));
- musicButton.setAttribute('aria-label',musicWanted?'Turn off background music':'Play background music');
- musicButton.textContent=musicWanted?(musicBlocked()?'♫ Music paused':'♫ Music on'):'♫ Play music';
+ musicButton.setAttribute('aria-label',musicWanted?'Pause music':'Play music');
+ musicButton.textContent=musicWanted?'Pause music':'Play music';
 }
 async function syncMusic(){
  const revision=++musicRevision;
@@ -33,7 +33,7 @@ async function syncMusic(){
 }
 musicButton.addEventListener('click',()=>{musicWanted=!musicWanted;void syncMusic();});
 document.addEventListener('visibilitychange',syncMusic);
-for(const element of [document.querySelector('#ai-mascot-panel'),document.querySelector('.hero-art')]){
+for(const element of [document.querySelector('#ai-mascot-panel'),document.querySelector('.intro-art')]){
  if(element)new MutationObserver(syncMusic).observe(element,{attributes:true,attributeFilter:['class']});
 }
 music.addEventListener('error',()=>{musicWanted=false;musicLabel();musicButton.textContent='Music unavailable';});

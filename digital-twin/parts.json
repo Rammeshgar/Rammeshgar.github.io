@@ -1,0 +1,1344 @@
+{
+  "count": 70,
+  "projection": {
+    "origin": [
+      235.67504839504468,
+      278.4627474369863
+    ],
+    "scale": 1.1945664140397014,
+    "azimuth": 62,
+    "elevation": 24
+  },
+  "parts": [
+    {
+      "name": "stand.foot.-87.-28",
+      "part": "avatar",
+      "plan": {
+        "x": -87,
+        "y": -28,
+        "w": 10,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": -12,
+      "h": 8,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "stand.foot.77.-28",
+      "part": "avatar",
+      "plan": {
+        "x": 77,
+        "y": -28,
+        "w": 10,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": -12,
+      "h": 8,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "stand.foot.-87.36",
+      "part": "avatar",
+      "plan": {
+        "x": -87,
+        "y": 36,
+        "w": 10,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": -12,
+      "h": 8,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "stand.foot.77.36",
+      "part": "avatar",
+      "plan": {
+        "x": 77,
+        "y": 36,
+        "w": 10,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": -12,
+      "h": 8,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "base.deck",
+      "part": "avatar",
+      "plan": {
+        "x": -98,
+        "y": -38,
+        "w": 196,
+        "d": 94,
+        "r": 0.8
+      },
+      "z": -4,
+      "h": 8,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "base.apron",
+      "part": "avatar",
+      "plan": {
+        "x": -98,
+        "y": 52,
+        "w": 196,
+        "d": 4,
+        "r": 0.8
+      },
+      "z": 4,
+      "h": 12,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "base.trim.-98",
+      "part": "avatar",
+      "plan": {
+        "x": -98,
+        "y": -38,
+        "w": 4,
+        "d": 90,
+        "r": 0.8
+      },
+      "z": 4,
+      "h": 3,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "base.trim.94",
+      "part": "avatar",
+      "plan": {
+        "x": 94,
+        "y": -38,
+        "w": 4,
+        "d": 90,
+        "r": 0.8
+      },
+      "z": 4,
+      "h": 3,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "base.board.0",
+      "part": "avatar",
+      "plan": {
+        "x": -89,
+        "y": -31,
+        "w": 58,
+        "d": 77,
+        "r": 0.8
+      },
+      "z": 4,
+      "h": 1,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "base.board.1",
+      "part": "avatar",
+      "plan": {
+        "x": -29,
+        "y": -31,
+        "w": 58,
+        "d": 77,
+        "r": 0.8
+      },
+      "z": 4,
+      "h": 1,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "base.board.2",
+      "part": "avatar",
+      "plan": {
+        "x": 31,
+        "y": -31,
+        "w": 58,
+        "d": 77,
+        "r": 0.8
+      },
+      "z": 4,
+      "h": 1,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "base.step.low",
+      "part": "fallback",
+      "plan": {
+        "x": -37,
+        "y": 66,
+        "w": 74,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": -4,
+      "h": 4,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "base.step.high",
+      "part": "fallback",
+      "plan": {
+        "x": -33,
+        "y": 56,
+        "w": 66,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 0,
+      "h": 4,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.rear.-84",
+      "part": "context",
+      "plan": {
+        "x": -84,
+        "y": -34,
+        "w": 8,
+        "d": 8,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 130,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.front.-84",
+      "part": "avatar",
+      "plan": {
+        "x": -84,
+        "y": 22,
+        "w": 8,
+        "d": 8,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 118,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.cap.-84.5",
+      "part": "avatar",
+      "plan": {
+        "x": -87,
+        "y": 19,
+        "w": 14,
+        "d": 14,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 6,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.cap.-84.129",
+      "part": "avatar",
+      "plan": {
+        "x": -87,
+        "y": 19,
+        "w": 14,
+        "d": 14,
+        "r": 0.8
+      },
+      "z": 129,
+      "h": 6,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.bracket.-84",
+      "part": "context",
+      "plan": {
+        "x": -84,
+        "y": -26,
+        "w": 8,
+        "d": 45,
+        "r": 0.8
+      },
+      "z": 128,
+      "h": 4,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.screw.-84.14",
+      "part": "avatar",
+      "plan": {
+        "x": -81,
+        "y": 30,
+        "w": 2,
+        "d": 1,
+        "r": 0.2
+      },
+      "z": 14,
+      "h": 2,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.screw.-84.120",
+      "part": "avatar",
+      "plan": {
+        "x": -81,
+        "y": 30,
+        "w": 2,
+        "d": 1,
+        "r": 0.2
+      },
+      "z": 120,
+      "h": 2,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.rear.76",
+      "part": "context",
+      "plan": {
+        "x": 76,
+        "y": -34,
+        "w": 8,
+        "d": 8,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 130,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.front.76",
+      "part": "avatar",
+      "plan": {
+        "x": 76,
+        "y": 22,
+        "w": 8,
+        "d": 8,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 118,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.cap.76.5",
+      "part": "avatar",
+      "plan": {
+        "x": 73,
+        "y": 19,
+        "w": 14,
+        "d": 14,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 6,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.cap.76.129",
+      "part": "avatar",
+      "plan": {
+        "x": 73,
+        "y": 19,
+        "w": 14,
+        "d": 14,
+        "r": 0.8
+      },
+      "z": 129,
+      "h": 6,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.bracket.76",
+      "part": "context",
+      "plan": {
+        "x": 76,
+        "y": -26,
+        "w": 8,
+        "d": 45,
+        "r": 0.8
+      },
+      "z": 128,
+      "h": 4,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.screw.76.14",
+      "part": "avatar",
+      "plan": {
+        "x": 79,
+        "y": 30,
+        "w": 2,
+        "d": 1,
+        "r": 0.2
+      },
+      "z": 14,
+      "h": 2,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.screw.76.120",
+      "part": "avatar",
+      "plan": {
+        "x": 79,
+        "y": 30,
+        "w": 2,
+        "d": 1,
+        "r": 0.2
+      },
+      "z": 120,
+      "h": 2,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.backbar",
+      "part": "context",
+      "plan": {
+        "x": -84,
+        "y": -34,
+        "w": 168,
+        "d": 8,
+        "r": 0.8
+      },
+      "z": 135,
+      "h": 7,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.frontbar",
+      "part": "avatar",
+      "plan": {
+        "x": -87,
+        "y": 19,
+        "w": 174,
+        "d": 14,
+        "r": 0.8
+      },
+      "z": 135,
+      "h": 7,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "frame.crown",
+      "part": "avatar",
+      "plan": {
+        "x": -66,
+        "y": 21,
+        "w": 132,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 142,
+      "h": 8,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "curtain.track.12",
+      "part": "avatar",
+      "plan": {
+        "x": -76,
+        "y": 12,
+        "w": 152,
+        "d": 3,
+        "r": 0.6
+      },
+      "z": 127,
+      "h": 3,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "curtain.track.19",
+      "part": "avatar",
+      "plan": {
+        "x": -73,
+        "y": 19,
+        "w": 146,
+        "d": 3,
+        "r": 0.6
+      },
+      "z": 127,
+      "h": 3,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "curtain.stop.-73",
+      "part": "avatar",
+      "plan": {
+        "x": -73,
+        "y": 12,
+        "w": 4,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 130,
+      "h": 3,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "curtain.stop.69",
+      "part": "avatar",
+      "plan": {
+        "x": 69,
+        "y": 12,
+        "w": 4,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 130,
+      "h": 3,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "curtainL.carrier",
+      "part": "avatar",
+      "plan": {
+        "x": -64,
+        "y": 12,
+        "w": 64,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 124,
+      "h": 3,
+      "move": [
+        -30,
+        0,
+        0
+      ],
+      "ride": "curtainL"
+    },
+    {
+      "name": "curtainL.pleat.0",
+      "part": "avatar",
+      "plan": {
+        "x": -64,
+        "y": 14,
+        "w": 12.8,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 113,
+      "move": [
+        -30,
+        0,
+        0
+      ],
+      "ride": "curtainL"
+    },
+    {
+      "name": "curtainL.pleat.1",
+      "part": "avatar",
+      "plan": {
+        "x": -51.2,
+        "y": 16,
+        "w": 12.8,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 113,
+      "move": [
+        -30,
+        0,
+        0
+      ],
+      "ride": "curtainL"
+    },
+    {
+      "name": "curtainL.pleat.2",
+      "part": "avatar",
+      "plan": {
+        "x": -38.4,
+        "y": 14,
+        "w": 12.8,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 113,
+      "move": [
+        -30,
+        0,
+        0
+      ],
+      "ride": "curtainL"
+    },
+    {
+      "name": "curtainL.pleat.3",
+      "part": "avatar",
+      "plan": {
+        "x": -25.599999999999994,
+        "y": 16,
+        "w": 12.8,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 113,
+      "move": [
+        -30,
+        0,
+        0
+      ],
+      "ride": "curtainL"
+    },
+    {
+      "name": "curtainL.pleat.4",
+      "part": "avatar",
+      "plan": {
+        "x": -12.799999999999997,
+        "y": 14,
+        "w": 12.8,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 113,
+      "move": [
+        -30,
+        0,
+        0
+      ],
+      "ride": "curtainL"
+    },
+    {
+      "name": "curtainL.hem",
+      "part": "avatar",
+      "plan": {
+        "x": -64,
+        "y": 14,
+        "w": 64,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 6,
+      "move": [
+        -30,
+        0,
+        0
+      ],
+      "ride": "curtainL"
+    },
+    {
+      "name": "curtainR.carrier",
+      "part": "avatar",
+      "plan": {
+        "x": 0,
+        "y": 12,
+        "w": 64,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 124,
+      "h": 3,
+      "move": [
+        30,
+        0,
+        0
+      ],
+      "ride": "curtainR"
+    },
+    {
+      "name": "curtainR.pleat.0",
+      "part": "avatar",
+      "plan": {
+        "x": 0,
+        "y": 14,
+        "w": 12.8,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 113,
+      "move": [
+        30,
+        0,
+        0
+      ],
+      "ride": "curtainR"
+    },
+    {
+      "name": "curtainR.pleat.1",
+      "part": "avatar",
+      "plan": {
+        "x": 12.8,
+        "y": 16,
+        "w": 12.8,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 113,
+      "move": [
+        30,
+        0,
+        0
+      ],
+      "ride": "curtainR"
+    },
+    {
+      "name": "curtainR.pleat.2",
+      "part": "avatar",
+      "plan": {
+        "x": 25.6,
+        "y": 14,
+        "w": 12.8,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 113,
+      "move": [
+        30,
+        0,
+        0
+      ],
+      "ride": "curtainR"
+    },
+    {
+      "name": "curtainR.pleat.3",
+      "part": "avatar",
+      "plan": {
+        "x": 38.400000000000006,
+        "y": 16,
+        "w": 12.8,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 113,
+      "move": [
+        30,
+        0,
+        0
+      ],
+      "ride": "curtainR"
+    },
+    {
+      "name": "curtainR.pleat.4",
+      "part": "avatar",
+      "plan": {
+        "x": 51.2,
+        "y": 14,
+        "w": 12.8,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 11,
+      "h": 113,
+      "move": [
+        30,
+        0,
+        0
+      ],
+      "ride": "curtainR"
+    },
+    {
+      "name": "curtainR.hem",
+      "part": "avatar",
+      "plan": {
+        "x": 0,
+        "y": 14,
+        "w": 64,
+        "d": 5,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 6,
+      "move": [
+        30,
+        0,
+        0
+      ],
+      "ride": "curtainR"
+    },
+    {
+      "name": "puppet.support",
+      "part": "context",
+      "plan": {
+        "x": -2,
+        "y": -9,
+        "w": 4,
+        "d": 4,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 93,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.hip",
+      "part": "avatar",
+      "plan": {
+        "x": -12,
+        "y": -5,
+        "w": 24,
+        "d": 13,
+        "r": 0.8
+      },
+      "z": 43,
+      "h": 6,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.torso",
+      "part": "avatar",
+      "plan": {
+        "x": -14,
+        "y": -5,
+        "w": 28,
+        "d": 14,
+        "r": 0.8
+      },
+      "z": 49,
+      "h": 36,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.leg.-11",
+      "part": "avatar",
+      "plan": {
+        "x": -11,
+        "y": -3,
+        "w": 8,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 12,
+      "h": 31,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.shoe.-11",
+      "part": "avatar",
+      "plan": {
+        "x": -11,
+        "y": 0,
+        "w": 8,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 7,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.leg.3",
+      "part": "avatar",
+      "plan": {
+        "x": 3,
+        "y": -3,
+        "w": 8,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 12,
+      "h": 31,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.shoe.3",
+      "part": "avatar",
+      "plan": {
+        "x": 3,
+        "y": 0,
+        "w": 8,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 7,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.neck",
+      "part": "voice",
+      "plan": {
+        "x": -4,
+        "y": 0,
+        "w": 8,
+        "d": 6,
+        "r": 0.8
+      },
+      "z": 85,
+      "h": 4,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.head",
+      "part": "voice",
+      "plan": {
+        "x": -12,
+        "y": -3,
+        "w": 24,
+        "d": 13,
+        "r": 0.8
+      },
+      "z": 99,
+      "h": 23,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.jawtrack",
+      "part": "voice",
+      "plan": {
+        "x": -3,
+        "y": -3,
+        "w": 6,
+        "d": 3,
+        "r": 0.6
+      },
+      "z": 87,
+      "h": 12,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.jaw",
+      "part": "voice",
+      "plan": {
+        "x": -12,
+        "y": 0,
+        "w": 24,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 93,
+      "h": 6,
+      "move": [
+        0,
+        0,
+        -4
+      ],
+      "ride": "jaw"
+    },
+    {
+      "name": "puppet.eye.-7",
+      "part": "avatar",
+      "plan": {
+        "x": -7,
+        "y": 10,
+        "w": 2,
+        "d": 1,
+        "r": 0.2
+      },
+      "z": 110,
+      "h": 2,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.eye.5",
+      "part": "avatar",
+      "plan": {
+        "x": 5,
+        "y": 10,
+        "w": 2,
+        "d": 1,
+        "r": 0.2
+      },
+      "z": 110,
+      "h": 2,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.arm.left",
+      "part": "avatar",
+      "plan": {
+        "x": -29,
+        "y": -2,
+        "w": 15,
+        "d": 7,
+        "r": 0.8
+      },
+      "z": 67,
+      "h": 8,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.hand.left",
+      "part": "avatar",
+      "plan": {
+        "x": -35,
+        "y": -2,
+        "w": 6,
+        "d": 9,
+        "r": 0.8
+      },
+      "z": 67,
+      "h": 8,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.arm.right",
+      "part": "avatar",
+      "plan": {
+        "x": 14,
+        "y": -2,
+        "w": 8,
+        "d": 7,
+        "r": 0.8
+      },
+      "z": 67,
+      "h": 8,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "puppet.hand.right",
+      "part": "avatar",
+      "plan": {
+        "x": 22,
+        "y": -2,
+        "w": 7,
+        "d": 9,
+        "r": 0.8
+      },
+      "z": 67,
+      "h": 8,
+      "move": [
+        0,
+        4,
+        0
+      ],
+      "ride": "hand"
+    },
+    {
+      "name": "cue.rail",
+      "part": "input",
+      "plan": {
+        "x": -87,
+        "y": 34,
+        "w": 56,
+        "d": 12,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 2,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "cue.card",
+      "part": "input",
+      "plan": {
+        "x": -85,
+        "y": 36,
+        "w": 22,
+        "d": 8,
+        "r": 0.8
+      },
+      "z": 7,
+      "h": 1,
+      "move": [
+        25,
+        0,
+        0
+      ],
+      "ride": "cue"
+    },
+    {
+      "name": "cue.contextstop",
+      "part": "context",
+      "plan": {
+        "x": -31,
+        "y": 34,
+        "w": 4,
+        "d": 12,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 6,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "reply.tray",
+      "part": "reply",
+      "plan": {
+        "x": 34,
+        "y": 34,
+        "w": 47,
+        "d": 14,
+        "r": 0.8
+      },
+      "z": 5,
+      "h": 2,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    },
+    {
+      "name": "reply.card",
+      "part": "fallback",
+      "plan": {
+        "x": 36,
+        "y": 36,
+        "w": 43,
+        "d": 10,
+        "r": 0.8
+      },
+      "z": 7,
+      "h": 1,
+      "move": [
+        0,
+        0,
+        0
+      ],
+      "ride": "fixed"
+    }
+  ]
+}

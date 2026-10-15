@@ -1,0 +1,58 @@
+{
+  "repository": "Rammeshgar/PC-test-automation",
+  "revision": "ebe41cbe080f87084eceede27b3ad91976658456",
+  "evidence": [
+    {
+      "path": "README.md",
+      "sha": "bd21cf0ddbb4fcc2f790dc7fcf3dc569c5b30923",
+      "anchors": [
+        {
+          "phrase": "three distinct",
+          "line": 39
+        },
+        {
+          "phrase": "10-Minute Smoke",
+          "line": 3
+        },
+        {
+          "phrase": "Failure Screenshots",
+          "line": 71
+        },
+        {
+          "phrase": "Live Monitoring",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "path": ".github/workflows/smoke_test.yml",
+      "sha": "50b9f776c2ffb2744f5353df982e9fb3dbcde435",
+      "anchors": [
+        {
+          "phrase": "cron:",
+          "line": 6
+        },
+        {
+          "phrase": "Upload screenshots",
+          "line": 48
+        },
+        {
+          "phrase": "current_hour >= 4",
+          "line": 84
+        },
+        {
+          "phrase": "diff > 3600",
+          "line": 92
+        },
+        {
+          "phrase": "DASHBOARD SYNC",
+          "line": 134
+        },
+        {
+          "phrase": "fail job",
+          "line": 162
+        }
+      ]
+    }
+  ]
+}

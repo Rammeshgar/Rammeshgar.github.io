@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="../assets/portfolio-theme.js"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eee9df"><meta name="description" content="Explore Exchange Universe: a source-linked system map and an interactive guide to the R Shiny currency atlas, caching and provider requests.">
+<meta name="robots" content="index,follow,max-image-preview:large"><meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; frame-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<link rel="canonical" href="https://rammeshgar.github.io/exchange-universe/"><link rel="icon" href="../assets/brand-mark.png">
+<meta property="og:title" content="Exchange Universe — inside the currency atlas"><meta property="og:description" content="Follow the data from a currency choice to saved observations, charts and provider requests."><meta property="og:type" content="article"><meta property="og:url" content="https://rammeshgar.github.io/exchange-universe/"><meta property="og:image" content="https://rammeshgar.github.io/assets/exchange-atlas-20261014.png">
+<title>Exchange Universe — System map & interactive guide | Sadeq Rezai</title>
+<link rel="stylesheet" href="case-study.css"><script src="case-study.js" defer></script>
+<link rel="stylesheet" href="../assets/portfolio-theme.css">
+</head>
+<body>
+<a class="skip" href="#project">Skip to the case study</a>
+<header class="site-header"><a class="brand" href="../#work"><img src="../assets/brand-mark.png" alt="" width="34" height="34"><span>Sadeq Rezai<small>The Working Studio</small></span></a><nav aria-label="Project navigation"><a href="../#work">← Selected work</a><a href="https://sadeq.shinyapps.io/exchange_universe/" target="_blank" rel="noopener noreferrer">Open live app ↗</a></nav></header>
+<main id="project">
+ <section class="project-intro wrap" aria-labelledby="project-heading">
+  <p class="eyebrow">02 / Data products · R / Shiny</p>
+  <div class="intro-grid"><div><h1 id="project-heading">Exchange Universe<span class="serif">Compare exchange rates.</span></h1><p class="lead">Compare currencies over time, convert an amount and select currencies on a world map. The R/Shiny app reuses saved rates and requests missing data from APILayer.</p><div class="project-actions"><a class="project-button" href="https://sadeq.shinyapps.io/exchange_universe/" target="_blank" rel="noopener noreferrer">Try the live app ↗</a><a href="https://github.com/Rammeshgar/Exchange_Universe_shiny" target="_blank" rel="noopener noreferrer">Read the source ↗</a><a href="#inside">Inspect the system ↓</a></div></div><div class="intro-aside"><span class="status-dot" aria-hidden="true"></span><p>Working app. Public source.<br>Interactive explanation.</p><a href="https://github.com/Rammeshgar/Exchange_Universe_shiny" target="_blank" rel="noopener noreferrer">Source & documentation ↗</a></div></div>
+ </section>
+ <section class="explainer wrap" id="inside" aria-labelledby="inside-heading">
+  <div class="section-top"><div><p class="eyebrow">Inside the project</p><h2 id="inside-heading">How a currency choice becomes a chart.</h2></div><p>The map shows the software parts.<br>The animation shows when saved data or a new request is used.</p></div>
+  <div class="dual-explainers">
+   <section class="explainer-panel" id="panel-map" aria-labelledby="map" tabindex="0"><div class="tool-heading"><h3 id="map" tabindex="-1">How the app gets its data</h3><a href="system-map.html" target="_blank" rel="noopener">Full-size map ↗</a></div><p class="panel-note">Select a box to read its role, then use the button to watch the relevant example.</p><iframe id="system-map" src="system-map.html?embed=1&amp;layout=compact" title="Interactive Exchange Universe architecture and source links" referrerpolicy="no-referrer" height="540"></iframe></section>
+   <section class="explainer-panel" id="panel-guide" aria-labelledby="guide" tabindex="0"><div class="tool-heading"><h3 id="guide" tabindex="-1">Watch saved rates and requests</h3><a href="guide.html?view=guide" target="_blank" rel="noopener">Full-size guide ↗</a></div><p class="panel-note">Compare currencies, request newer rates or see what happens when the provider asks the app to wait.</p><iframe id="animated-guide" data-src="guide.html?view=guide&amp;layout=compact" title="Animated guide to saved rates, requests and waiting periods" referrerpolicy="no-referrer" height="540"></iframe><noscript><p class="frame-fallback"><a href="guide.html?view=guide">Open the complete animated guide →</a></p></noscript></section>
+  </div>
+  <p class="dual-note">These examples send no API requests and show no live provider activity. Open either view full-size to explore it in more detail.</p>
+ </section>
+ <section class="evidence-section wrap" aria-labelledby="evidence-heading">
+  <div class="section-top"><div><p class="eyebrow">The actual product</p><h2 id="evidence-heading">Explore, convert, inspect.</h2></div><a class="text-link" href="https://sadeq.shinyapps.io/exchange_universe/" target="_blank" rel="noopener noreferrer">Try the live app ↗</a></div>
+  <figure><img class="dashboard-shot" src="../assets/exchange-atlas-20261014.png" alt="Published dashboard with the How it works button, current quote cards, comparison chart and currency atlas" width="1600" height="1000" fetchpriority="high" decoding="async"><figcaption>Published dashboard captured on 14 October 2026. Rates and dates are a snapshot, not current market values.</figcaption></figure>
+
+ </section>
+ <section class="project-story wrap" aria-labelledby="story-heading">
+  <div class="story-title"><p class="eyebrow">The work behind the interface</p><h2 id="story-heading">What I changed and why.</h2></div>
+  <div class="story-copy"><article><h3>The problem</h3><p>The original dashboard presented rates without enough geographic context. Long layouts made it harder to compare charts, find controls and inspect detailed values.</p></article><article><h3>What I rebuilt</h3><p>I reorganised the app into Explore, Convert and Data views, connected a Leaflet atlas to currency selection, and refined the interface for desktop and mobile. API integration and data preparation remain in R/Shiny.</p></article><article><h3>Connected interactions</h3><p>Select a supported country to add or remove its currency from a comparison of up to six. Charts, map colours and exact-value tables follow the selection. Conversion, CSV export, optional 3D plots and fullscreen views offer different ways to inspect it.</p></article><article><h3>Reliability decisions</h3><p>Shared caches, bounded request queues, deduplication and retry backoff reduce unnecessary provider calls. Focused offline checks cover quota controls and date validation; they are not a complete security audit.</p></article></div>
+ </section>
+ <section class="evidence-section wrap" aria-label="Additional product views">
+  <details class="more-views"><summary>More product views: conversion and mobile</summary><div class="evidence-grid"><figure><img src="../assets/exchange-convert-202610.webp" alt="Light-theme amount converter with quote direction and timestamp" width="1556" height="812" loading="lazy" decoding="async"><figcaption>Convert · 7 October local review.</figcaption></figure><figure class="mobile-shot"><img src="../assets/exchange-mobile-202610.webp" alt="Phone dashboard with settings access, comparison charts and map" width="390" height="3123" loading="lazy" decoding="async"><figcaption>Mobile · 7 October local review.</figcaption></figure></div></details>
+ </section>
+ <section class="boundaries wrap" aria-labelledby="limits-heading"><h2 id="limits-heading">Data coverage and limits.</h2><p>Historical observations are daily, not hourly. Quotes are indicative and exclude fees and buy/sell spreads. Coverage and freshness depend on the API plan. Shinyapps.io local storage is not a durable shared archive.</p><p>The map is a reviewed overview of a pinned source revision, not an automatically updated dependency graph or live telemetry. The animated guide is a simplified teaching example. Neither contacts the rate provider.</p><p>My focus: R/Shiny development, interface design, API integration, quota-aware caching and making those decisions easier to inspect.</p></section>
+</main>
+<footer class="site-footer wrap"><a href="../#work">← Back to selected work</a><p>Built by Sadeq Rezai · Budapest</p><a href="https://github.com/Rammeshgar/Exchange_Universe_shiny" target="_blank" rel="noopener noreferrer">Read the source ↗</a></footer>
+<noscript><p class="wrap">The system map and all project evidence remain available. Open the standalone guide above for its complete explanation.</p></noscript>
+</body></html>

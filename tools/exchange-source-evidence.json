@@ -1,0 +1,90 @@
+{
+  "revision": "6c3fe6778aee948a4ed8fb3cba72c56d3c0ff8d0",
+  "repository": "https://github.com/Rammeshgar/Exchange_Universe_shiny",
+  "evidence": [
+    {
+      "component": "dashboard",
+      "path": "R/ui.R",
+      "line": 37,
+      "sha256": "78659ad1a5f60634af1c56fb35ae49e862ee30ecac0b907b2a7c389ed09a5b53"
+    },
+    {
+      "component": "dashboard",
+      "path": "www/app.js",
+      "line": null,
+      "sha256": "11356567ab43089aa808763db884d27a391ec47c57db8cb84c461930f532bb29"
+    },
+    {
+      "component": "session",
+      "path": "app.R",
+      "line": 32,
+      "sha256": "f63611d89b0f1affb9cae45fb4d64e06e0c510797f7d3acc37821193254765d2"
+    },
+    {
+      "component": "session",
+      "path": "app.R",
+      "line": 9,
+      "sha256": "f63611d89b0f1affb9cae45fb4d64e06e0c510797f7d3acc37821193254765d2"
+    },
+    {
+      "component": "charts",
+      "path": "R/analytics.R",
+      "line": 20,
+      "sha256": "56ee81ce7c0eebc240fd0290a23dac94165654707e1eb01c168186f4cee7bc84"
+    },
+    {
+      "component": "charts",
+      "path": "R/charts.R",
+      "line": 13,
+      "sha256": "afd5cc9f9a92aa75a0bc9ce5bf64a925b0784f1ceef866ebcd6d0853cfabcf15"
+    },
+    {
+      "component": "cache",
+      "path": "R/store.R",
+      "line": 37,
+      "sha256": "2959afe8e992807bec5d112b02403ed6da33ab25d6185622a1c34131a0eb6102"
+    },
+    {
+      "component": "cache",
+      "path": "R/store.R",
+      "line": 66,
+      "sha256": "2959afe8e992807bec5d112b02403ed6da33ab25d6185622a1c34131a0eb6102"
+    },
+    {
+      "component": "queue",
+      "path": "R/store.R",
+      "line": 49,
+      "sha256": "2959afe8e992807bec5d112b02403ed6da33ab25d6185622a1c34131a0eb6102"
+    },
+    {
+      "component": "queue",
+      "path": "R/store.R",
+      "line": 162,
+      "sha256": "2959afe8e992807bec5d112b02403ed6da33ab25d6185622a1c34131a0eb6102"
+    },
+    {
+      "component": "provider",
+      "path": "R/provider.R",
+      "line": 8,
+      "sha256": "b48ef1d95f3ba41e5b0db74d857f9ce69ea1303e9b82c3333f867a2f37a111c1"
+    },
+    {
+      "component": "provider",
+      "path": "R/provider.R",
+      "line": 53,
+      "sha256": "b48ef1d95f3ba41e5b0db74d857f9ce69ea1303e9b82c3333f867a2f37a111c1"
+    },
+    {
+      "component": "worker",
+      "path": "R/store.R",
+      "line": 132,
+      "sha256": "2959afe8e992807bec5d112b02403ed6da33ab25d6185622a1c34131a0eb6102"
+    },
+    {
+      "component": "worker",
+      "path": "R/provider.R",
+      "line": 133,
+      "sha256": "b48ef1d95f3ba41e5b0db74d857f9ce69ea1303e9b82c3333f867a2f37a111c1"
+    }
+  ]
+}

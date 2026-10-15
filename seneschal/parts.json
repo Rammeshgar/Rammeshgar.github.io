@@ -1,0 +1,376 @@
+{
+  "title": "Interlocking railway",
+  "solids": 74,
+  "parts": [
+    {
+      "name": "stand.plinth",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "stand.foot0",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "stand.foot1",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "stand.foot2",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "stand.foot3",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.mainSleeper0",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.mainSleeper1",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.mainSleeper2",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.mainSleeper3",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.mainSleeper4",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.mainSleeper5",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.mainSleeper6",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.mainSleeper7",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.mainRail27",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.mainRail51",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.stop-151",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.stop146",
+      "part": "handoff",
+      "move": null
+    },
+    {
+      "name": "railway.sidingSleeper00",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.sidingSleeper01",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.sidingSleeper02",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.sidingSleeper03",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.sidingRail0-7",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.sidingRail09",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.tokenShoe0",
+      "part": "dependencies",
+      "move": "tokenA"
+    },
+    {
+      "name": "railway.tokenCard0",
+      "part": "dependencies",
+      "move": "tokenA"
+    },
+    {
+      "name": "railway.sidingSleeper10",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.sidingSleeper11",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.sidingSleeper12",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.sidingSleeper13",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.sidingRail1-7",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.sidingRail19",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.tokenShoe1",
+      "part": "dependencies",
+      "move": "tokenB"
+    },
+    {
+      "name": "railway.tokenCard1",
+      "part": "dependencies",
+      "move": "tokenB"
+    },
+    {
+      "name": "railway.signalFoot0",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.signalPost0",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.signalHead0",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.signalGuide0-7",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.signalGuide06",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.signalShutter0",
+      "part": "dependencies",
+      "move": "signalA"
+    },
+    {
+      "name": "railway.signalFoot1",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.signalPost1",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.signalHead1",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.signalGuide1-7",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.signalGuide16",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.signalShutter1",
+      "part": "dependencies",
+      "move": "signalB"
+    },
+    {
+      "name": "railway.signalFoot2",
+      "part": "review",
+      "move": null
+    },
+    {
+      "name": "railway.signalPost2",
+      "part": "review",
+      "move": null
+    },
+    {
+      "name": "railway.signalHead2",
+      "part": "review",
+      "move": null
+    },
+    {
+      "name": "railway.signalGuide2-7",
+      "part": "review",
+      "move": null
+    },
+    {
+      "name": "railway.signalGuide26",
+      "part": "review",
+      "move": null
+    },
+    {
+      "name": "railway.signalShutter2",
+      "part": "review",
+      "move": "signalC"
+    },
+    {
+      "name": "railway.gateFoot0",
+      "part": "permissions",
+      "move": null
+    },
+    {
+      "name": "railway.gatePost0",
+      "part": "permissions",
+      "move": null
+    },
+    {
+      "name": "railway.gateFoot1",
+      "part": "permissions",
+      "move": null
+    },
+    {
+      "name": "railway.gatePost1",
+      "part": "permissions",
+      "move": null
+    },
+    {
+      "name": "railway.gateLintel",
+      "part": "permissions",
+      "move": null
+    },
+    {
+      "name": "railway.barrier",
+      "part": "permissions",
+      "move": "barrier"
+    },
+    {
+      "name": "railway.carrierWheel0",
+      "part": "handoff",
+      "move": "carrier"
+    },
+    {
+      "name": "railway.carrierWheel1",
+      "part": "handoff",
+      "move": "carrier"
+    },
+    {
+      "name": "railway.carrierWheel2",
+      "part": "handoff",
+      "move": "carrier"
+    },
+    {
+      "name": "railway.carrierWheel3",
+      "part": "handoff",
+      "move": "carrier"
+    },
+    {
+      "name": "railway.carrierChassis",
+      "part": "handoff",
+      "move": "carrier"
+    },
+    {
+      "name": "railway.handoffTicket",
+      "part": "handoff",
+      "move": "carrier"
+    },
+    {
+      "name": "railway.ticketClip28",
+      "part": "handoff",
+      "move": "carrier"
+    },
+    {
+      "name": "railway.ticketClip51",
+      "part": "handoff",
+      "move": "carrier"
+    },
+    {
+      "name": "railway.reviewPlatform",
+      "part": "review",
+      "move": null
+    },
+    {
+      "name": "railway.receiverLip17",
+      "part": "review",
+      "move": null
+    },
+    {
+      "name": "railway.receiverLip63",
+      "part": "review",
+      "move": null
+    },
+    {
+      "name": "railway.receiverStop",
+      "part": "review",
+      "move": null
+    },
+    {
+      "name": "railway.label",
+      "part": "permissions",
+      "move": null
+    },
+    {
+      "name": "railway.cornerBolt0",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.cornerBolt1",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.cornerBolt2",
+      "part": "dependencies",
+      "move": null
+    },
+    {
+      "name": "railway.cornerBolt3",
+      "part": "dependencies",
+      "move": null
+    }
+  ]
+}
