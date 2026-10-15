@@ -161,7 +161,11 @@ dialog{width:min(880px,calc(100vw - 32px));max-height:88dvh;border:1px solid var
  .email-line{font-size:15px}.footer{font-size:12px;padding-bottom:90px}.footer-links{gap:22px;flex-wrap:wrap}
  .dialog-head{padding:15px 18px;gap:12px}.dialog-head h2{font-size:20px}.dialog-body{padding:20px}.dialog-body .case-lead{font-size:23px;margin-block:18px 25px}.case-grid{grid-template-columns:1fr;gap:21px}
  .dialog-body p,.dialog-body ul{font-size:15px}
- .ai-mascot-panel,.ai-mascot-panel.is-expanded{bottom:78px;height:calc(100dvh - 94px);grid-template-rows:auto minmax(110px,.75fr) auto minmax(110px,1fr) auto auto}
+ /* Override the later desktop width, and let grid tracks shrink below their contents. */
+ .ai-mascot-panel,.ai-mascot-panel.is-expanded{left:10px;right:10px;width:auto;max-width:calc(100% - 20px);min-width:0;bottom:78px;height:calc(100dvh - 94px);grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,.75fr) auto minmax(0,1fr) auto auto}
+ .ai-mascot-panel>*,.ai-chat-log,.ai-message{min-width:0;max-width:100%;box-sizing:border-box}
+ .ai-chat-log{min-height:0;overflow-x:hidden;overscroll-behavior:contain}
+ .ai-chat-form input{width:0;min-width:0;max-width:100%}
  .ai-mascot-panel.is-expanded{top:10px;bottom:10px;height:auto;border-radius:10px}
  body:has(.ai-mascot-panel.is-expanded.is-open) .ai-mascot-toggle{display:none}
  .ai-mascot-header{display:flex;gap:8px;padding:12px;position:relative}
