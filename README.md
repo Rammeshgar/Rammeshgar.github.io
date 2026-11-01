@@ -1,5 +1,105 @@
 # Sadeq Rezai — The Working Studio
 
+## Maps and remaining reading surfaces — 1 November 2026
+
+Selected Work and About now use broad feathered reading shades instead of
+rectangular masks behind individual text columns. The existing hero and footer
+transitions, project cards and interactive depth field retain their owners.
+
+The four interactive system maps add local `assets/map-motion.js` and
+`assets/map-motion.css` through `tools/portfolio-theme-build.mjs`. Native SVG
+packets, arrow cues and arrival rings follow the existing source-linked paths;
+selected connections are brighter. This is explanatory animation, not live
+traffic, provider activity or telemetry. Pause map motion is a separate named
+control whose preference survives selection, visibility and reload. Native SVG
+clocks pause offscreen, on hidden documents and page exit. Reduced motion keeps
+the original static arrows and selection controls. No JavaScript frame loop,
+network request or geometry rewrite is added. Script-free exports stay static.
+
+Project introductions retain warm ivory/copper/sage accents in dark mode and
+forest/copper in light mode. Tool panels have distinct raised headers and borders.
+Guide panels name their automatic looping and manual Pause. All four existing
+guide controllers retain indefinite cycles and explicit user pause, with temporary
+offscreen/hidden suspension and reduced-motion stillness.
+
+Run `node tools/check-map-motion.mjs` for directional path references, selection,
+manual pause, reduced motion and native clock lifecycle checks, alongside the
+existing four guide suites which exercise multiple complete cycles and held pauses.
+
+## Homepage polish — 1 November 2026
+
+The hero uses warm ivory or charcoal text with copper emphasis, a sage action
+in dark mode and a restrained forest action in light mode.
+The shared Balanced Studio palette now carries warm ivory, charcoal, copper and sage
+through the surrounding pages, project surfaces, maps and guides. How I Work uses one broad radial reading shade with transparent
+edges instead of rectangular heading/step masks. The shading is static and does
+not filter or alter the 3D renderer.
+
+The opening hero uses the available viewport below the sticky navigation. Its
+film controls occupy a real layout row, with clearance for the optional assistant;
+short desktop windows use a smaller headline. Narrow phones may grow naturally
+instead of clipping their copy. The original native film timeline is unchanged.
+
+Static gradient overlays at the start of Selected Work and the end of About
+soften the transition into the interactive field and into the muted olive-charcoal contact area.
+They add no scroll listener, rendering loop, blur animation or new dependency.
+Projects retain opaque raised surfaces. How I Work uses a quieter divided sequence,
+with tighter section spacing and headings aligned with the other sections.
+
+Background intensity, Ripple and Pause previews now live in a native Display
+disclosure. Pause background remains directly visible. Escape closes Display and
+returns focus to its summary; clicking outside closes it too. Its controls do not
+trigger background ripples. The phone assistant uses a 52px orb with its existing
+accessible name. The Digital Twin CTA retains the semantic action foreground,
+and the biography shows the confirmed FRAIA end date, September 2026.
+
+## Balanced Studio palette — 1 November 2026
+
+The background below the hero now uses a genuine Three.js perspective scene:
+a continuous twisting particle ribbon plus particles distributed through depth.
+The existing local Three.js r160 runtime is reused. The engine loads lazily when
+the content enters view; it does not load the assistant or contact a provider.
+The cursor changes the camera position, scene orientation and local ribbon depth.
+Mouse/pen input stays enabled in narrow desktop windows, including MouseEvent-only
+previews. Click or tap an empty area, or use the keyboard-accessible Ripple button,
+to send a propagating deformation through the actual 3D geometry. Immersive mode
+uses stronger camera movement and flowing depth particles; Calm softens both.
+Immersive/Calm adjusts brightness and camera response, with a saved preference.
+
+`assets/system-field.mjs` owns controls and visibility; `system-field-3d.mjs`
+owns geometry, shaders and the renderer; `system-field-loop.mjs` owns the single
+bounded render chain. Drawing is capped at 30 fps on desktop and 20 on phones,
+with capped pixel ratio and smaller initial phone geometry. Those are configured
+limits, not a hardware-performance benchmark. Pause preserves scene time;
+offscreen/hidden/pagehide stops the loop. Reduced motion holds the 3D scene still.
+Data Saver skips the 3D import, and unavailable WebGL gets an explicitly labelled
+static fallback. The hero film and project preview controls retain their owners.
+
+Run `node tools/check-system-field.mjs` for actual depth geometry, perspective,
+camera response, shader uniforms and render-loop lifecycle checks.
+
+Light mode uses warm ivory `#F3EFE6`, warm-charcoal text `#2A302D`, stone
+project cards and copper emphasis `#965036`. Dark mode uses charcoal `#171D1B`
+with a subtle green undertone, lighter warm-charcoal cards `#2C2E2A`, ivory text
+and neutral secondary copy. Green is reserved for sage actions and selected
+surfaces; copper remains the emphasis and interaction color. The ending uses a
+muted olive-charcoal surface, cream copy and cream actions. The 3D field uses
+desaturated stone/sage particles and copper highlights; geometry and motion are unchanged.
+The same semantic roles drive project pages, map selection, controls and the
+four-tone warm-metal guide solids. Contrast checks read the actual palette tokens.
+
+Seneschal uses the user-selected Night Studio screenshot with the desktop mascot,
+stored unchanged as `assets/seneschal-studio-20261101.png` (1919 × 1079).
+
+`assets/palette-02.css` is the editable palette source. Run
+`node tools/build-palette.mjs` to bundle it into the existing shared theme, then
+`node tools/build-twin-case-integration.mjs` to refresh the separate Twin package.
+Theme preference, motion controls and iframe selection remain unchanged.
+The diagrams retain their original solids and motion; project screenshots, film
+and brand mark retain their original colors. Historical notes below describe
+earlier design revisions. No extra font, library or network request is introduced.
+
+
 [Visit the portfolio](https://rammeshgar.github.io/)
 
 An editorial, paper-cut portfolio focused on configuration and workflow validation, with supporting data products and practical AI work.

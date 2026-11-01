@@ -26,7 +26,8 @@ check('one project overview is ordered QA, Exchange, Seneschal',()=>{
  assert(index.indexOf('Peoples Clinic')<index.indexOf('Exchange Universe'));
  assert(index.indexOf('Exchange Universe')<index.indexOf('Seneschal'));
  assert.equal((index.match(/My contribution/g)||[]).length,3);
- assert(index.includes('Product illustration, not a private-session screenshot.'));
+ assert(index.includes('Seneschal Night Studio with its desktop mascot.'));
+ assert(index.includes('assets/seneschal-studio-20261101.png'));
  assert(!home.includes('class="seneschal-story"'));assert(!home.includes('class="story-divider"'));
  for(const [id,route] of [['qa-case','qa-suite/'],['exchange-case','exchange-universe/'],['seneschal-case','seneschal/']]){
   const card=index.match(new RegExp('<article id="'+id+'"[^>]*>([\\s\\S]*?)</article>'))?.[1];assert(card,id);
@@ -167,11 +168,11 @@ check('homepage metadata has one canonical identity and aligned social descripti
  assert(!home.includes('name="keywords"'));
 });
 check('social card and favicon are real PNGs and declared card dimensions match the file',()=>{
- const card=readFileSync(join(root,'assets/social-preview-20261015.png'));
+ const card=readFileSync(join(root,'assets/social-preview-20261031.png'));
  assert.equal(card.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
  assert.equal(card.readUInt32BE(16),1200);assert.equal(card.readUInt32BE(20),630);
  assert(card.length<300000);
- assert(home.includes('https://rammeshgar.github.io/assets/social-preview-20261015.png'));
+ assert(home.includes('https://rammeshgar.github.io/assets/social-preview-20261031.png'));
  assert(home.includes('property="og:image:type" content="image/png"'));
  assert(home.includes('property="og:image:width" content="1200"'));assert(home.includes('property="og:image:height" content="630"'));
  assert(!home.includes('social-preview-20260905.png'));

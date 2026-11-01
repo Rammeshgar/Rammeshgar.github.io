@@ -15,8 +15,8 @@ let canonical=original.replace('<link rel="stylesheet" href="style.css">','<link
 canonical=withTheme(canonical,{prefix:'explainers/'}).replace('<body>','<body data-case="digital-twin">');
 mkdirSync(join(out,'explainers'),{recursive:true});mkdirSync(join(preview,'explainers'),{recursive:true});
 writeFileSync(join(out,'index.html'),canonical);
-for(const file of ['guide.html','guide-light.html','guide-dark.html','system-map.html','map-static.html','map-dark.html','map-editorial.html']){const content=read('digital-twin/'+file).replaceAll('href="./"','href="../#inside"').replaceAll('../assets/portfolio-theme.','portfolio-theme.');writeFileSync(join(out,'explainers',file),content);writeFileSync(join(preview,'explainers',file),content);}
-for(const file of ['portfolio-theme.js','portfolio-theme.css'])for(const target of [out,preview])copyFileSync(join(root,'assets',file),join(target,'explainers',file));
+for(const file of ['guide.html','guide-light.html','guide-dark.html','system-map.html','map-static.html','map-dark.html','map-editorial.html']){const content=read('digital-twin/'+file).replaceAll('href="./"','href="../#inside"').replaceAll('../assets/portfolio-theme.','portfolio-theme.').replaceAll('../assets/map-motion.','map-motion.');writeFileSync(join(out,'explainers',file),content);writeFileSync(join(preview,'explainers',file),content);}
+for(const file of ['portfolio-theme.js','portfolio-theme.css','map-motion.js','map-motion.css'])for(const target of [out,preview])copyFileSync(join(root,'assets',file),join(target,'explainers',file));
 copyFileSync(join(root,'tools/vendor/seneschal-anatomy/LICENSE'),join(out,'explainers/ANATOMY-LICENSE.txt'));copyFileSync(join(root,'tools/vendor/seneschal-anatomy/LICENSE'),join(preview,'explainers/ANATOMY-LICENSE.txt'));
 copyFileSync(join(root,'digital-twin/case-study.js'),join(out,'explainers/case-study.js'));copyFileSync(join(root,'digital-twin/case-study.js'),join(preview,'explainers/case-study.js'));
 copyFileSync(join(root,'tools/twin-case-tools.css'),join(out,'explainers/case-tools.css'));copyFileSync(join(root,'tools/twin-case-tools.css'),join(preview,'explainers/case-tools.css'));
