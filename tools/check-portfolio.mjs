@@ -167,15 +167,19 @@ check('homepage metadata has one canonical identity and aligned social descripti
  assert.equal(data.find(n=>n['@type']==='Person').jobTitle,'Configuration Consultant');
  assert(!home.includes('name="keywords"'));
 });
-check('social card and favicon are real PNGs and declared card dimensions match the file',()=>{
- const card=readFileSync(join(root,'assets/social-preview-20261031.png'));
- assert.equal(card.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
- assert.equal(card.readUInt32BE(16),1200);assert.equal(card.readUInt32BE(20),630);
- assert(card.length<300000);
- assert(home.includes('https://rammeshgar.github.io/assets/social-preview-20261031.png'));
- assert(home.includes('property="og:image:type" content="image/png"'));
- assert(home.includes('property="og:image:width" content="1200"'));assert(home.includes('property="og:image:height" content="630"'));
- assert(!home.includes('social-preview-20260905.png'));
+check('both sharing cards have unique aligned metadata and real, correctly sized PNGs',()=>{
+ for(const html of [home,seneschal]){
+  const meta=name=>{const m=[...html.matchAll(new RegExp('<meta (?:name|property)="'+name+'" content="([^"]*)"','g'))];assert.equal(m.length,1,name);return m[0][1];};
+  for(const name of ['title','description','image','image:alt']){assert.equal(meta('og:'+name),meta('twitter:'+name));assert(meta('og:'+name).trim());}
+  assert.equal(meta('twitter:card'),'summary_large_image');assert.equal(meta('og:image:type'),'image/png');
+  assert.equal(meta('og:url'),html.match(/rel="canonical" href="([^"]+)"/)[1]);
+  assert(meta('og:site_name'));assert.equal(meta('og:locale'),'en_US');
+  const image=new URL(meta('og:image'));assert.equal(image.origin,'https://rammeshgar.github.io');
+  const card=readFileSync(join(root,image.pathname.slice(1)));
+  assert.equal(card.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
+  assert.equal(card.readUInt32BE(16),Number(meta('og:image:width')));assert.equal(card.readUInt32BE(20),Number(meta('og:image:height')));
+  assert.equal(card.readUInt32BE(16),1200);assert.equal(card.readUInt32BE(20),630);assert(card.length<300000);
+ }
  const icon=readFileSync(join(root,'assets/brand-mark.png'));assert.equal(icon.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
 });
 console.log(total+' focused portfolio checks passed. Rendering and end-to-end services require separate browser checks.');
