@@ -10,16 +10,22 @@ function eligible(){return timeline&&visible&&!stopped&&!document.hidden&&!reduc
 function stop(){if(frame)cancelAnimationFrame(frame);frame=0;if(presented&&film.cancelVideoFrameCallback)film.cancelVideoFrameCallback(presented);presented=0;}
 function markFrame(_now,metadata){presented=0;art.dataset.presentedTime=metadata.mediaTime.toFixed(3);if(eligible()){film.classList.add('ready');if(film.requestVideoFrameCallback)presented=film.requestVideoFrameCallback(markFrame);}}
 function wake(){if(eligible()&&!frame)frame=requestAnimationFrame(sample);if(eligible()&&!presented&&film.requestVideoFrameCallback)presented=film.requestVideoFrameCallback(markFrame);}
+function loadFilm(){if(!film.getAttribute('src')){film.preload='metadata';film.src=film.dataset.src;film.load();}}
 function sample(now){
  frame=0;if(!eligible())return;
  if(now-lastSample>=1000/30){
   lastSample=now;const time=timeline.currentTime;
-  if(time&&Number.isFinite(time.value)&&Number.isFinite(film.duration)&&film.duration>0&&film.paused&&!film.seeking){
+  if(time&&Number.isFinite(time.value)){
    // Native view progress runs from entry to exit. Map the hero's exit range to the film.
    const progress=clamp((time.value/100*(viewport+height)-viewport)/height);
-   const desired=progress*Math.max(0,film.duration-.05);
-   if(Math.abs(desired-film.currentTime)>.07)film.currentTime=desired;
-   art.dataset.scrollProgress=progress.toFixed(4);art.dataset.scrollTime=film.currentTime.toFixed(3);
+   // The poster already presents the opening frame. Fetch the unchanged full-quality film
+   // when scrolling first needs another frame, including keyboard/anchor/scrollbar navigation.
+   if(progress>.001)loadFilm();
+   if(Number.isFinite(film.duration)&&film.duration>0&&film.paused&&!film.seeking){
+    const desired=progress*Math.max(0,film.duration-.05);
+    if(Math.abs(desired-film.currentTime)>.07)film.currentTime=desired;
+    art.dataset.scrollProgress=progress.toFixed(4);art.dataset.scrollTime=film.currentTime.toFixed(3);
+   }
   }
  }
  frame=requestAnimationFrame(sample);
@@ -31,7 +37,6 @@ function activate(){
  if(!timeline)timeline=new ViewTimeline({subject:hero,axis:'block'});
  button.hidden=false;art.classList.add('scroll-film');
  status(stopped?'Scroll motion paused.':'Scroll animates the original film.','native');
- if(visible&&!film.getAttribute('src')){film.preload='metadata';film.src=film.dataset.src;film.load();}
  wake();
 }
 button.addEventListener('click',()=>{stopped=!stopped;button.setAttribute('aria-pressed',String(stopped));button.textContent=stopped?'Resume scroll motion':'Pause scroll motion';if(stopped)stop();activate();});

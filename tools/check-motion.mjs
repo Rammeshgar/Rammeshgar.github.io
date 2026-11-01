@@ -20,7 +20,10 @@ function nativeFixture({supported=true,calm=false,saveData=false}={}){
  return {art,film,document,button,note,events,callbacks,advance,loads:()=>loads,show:value=>observers[0]([{isIntersecting:value}]),progress:value=>{View.instance.currentTime.value=value}};
 }
 check('native view progress seeks the actual original movie at different times',()=>{
- const f=nativeFixture();assert.equal(f.loads(),0);f.show(true);assert.equal(f.loads(),1);f.progress(70);f.advance();const first=f.film.currentTime;f.progress(90);f.advance();assert(f.film.currentTime>first);assert(f.film.currentTime>8);assert.equal(f.art.dataset.scrollStatus,'native');
+ const f=nativeFixture();assert.equal(f.loads(),0);f.show(true);f.advance();assert.equal(f.loads(),0);f.progress(70);f.advance();assert.equal(f.loads(),1);const first=f.film.currentTime;f.progress(90);f.advance();assert.equal(f.loads(),1);assert(f.film.currentTime>first);assert(f.film.currentTime>8);assert.equal(f.art.dataset.scrollStatus,'native');
+});
+check('scrolling requests the original movie even before metadata is available',()=>{
+ const f=nativeFixture();f.film.duration=NaN;f.show(true);f.advance();assert.equal(f.loads(),0);f.progress(72);f.advance();assert.equal(f.loads(),1);assert.equal(f.film.currentTime,0);f.film.duration=12;f.advance();assert(f.film.currentTime>0);
 });
 check('scroll pause, offscreen and document hiding stop the bounded sampler',()=>{
  const f=nativeFixture();f.show(true);f.events['button-click']();assert.equal(f.callbacks.size,0);const time=f.film.currentTime;f.progress(90);f.advance();assert.equal(f.film.currentTime,time);f.events['button-click']();f.show(false);assert.equal(f.callbacks.size,0);f.show(true);f.document.hidden=true;f.events.visibilitychange();assert.equal(f.callbacks.size,0);
