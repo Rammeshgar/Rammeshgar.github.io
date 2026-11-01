@@ -167,8 +167,8 @@ check('homepage metadata has one canonical identity and aligned social descripti
  assert.equal(data.find(n=>n['@type']==='Person').jobTitle,'Configuration Consultant');
  assert(!home.includes('name="keywords"'));
 });
-check('both sharing cards have unique aligned metadata and real, correctly sized PNGs',()=>{
- for(const html of [home,seneschal]){
+check('all four sharing cards have unique aligned metadata and real, correctly sized PNGs',()=>{
+ for(const html of [home,seneschal,casePage,qa]){
   const meta=name=>{const m=[...html.matchAll(new RegExp('<meta (?:name|property)="'+name+'" content="([^"]*)"','g'))];assert.equal(m.length,1,name);return m[0][1];};
   for(const name of ['title','description','image','image:alt']){assert.equal(meta('og:'+name),meta('twitter:'+name));assert(meta('og:'+name).trim());}
   assert.equal(meta('twitter:card'),'summary_large_image');assert.equal(meta('og:image:type'),'image/png');
