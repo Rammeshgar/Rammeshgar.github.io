@@ -18,7 +18,7 @@ All solids record their real rounded plans into the Anatomy audit. Moving geomet
 
 ## Source evidence
 
-Pinned public repository: `Rammeshgar/seneschal`, commit `a4ab85ebca0551b0aab5bb3de9028cec91482ec1`.
+Pinned public repository: `Rammeshgar/seneschal`, commit `97587605a63a8dc89b32a81245205b51a9538b2c`.
 
 | Statement | Read primary source |
 |---|---|

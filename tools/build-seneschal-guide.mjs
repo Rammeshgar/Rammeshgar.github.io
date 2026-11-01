@@ -82,7 +82,7 @@ if(process.argv.includes('--audit'))A.auditOrExit(R,P,{frames:states,apart:state
 const clickable=name=>/railway\.(tokenCard|tokenShoe|signalHead|signalShutter|gatePost|gateLintel|barrier|handoffTicket|carrierChassis|receiverLip|receiverStop|reviewPlatform)/.test(name);
 const geometry=R.items.map(it=>`<g class="assembly" data-shape-name="${it.name}" data-assembly="${it.piece}"${clickable(it.name)?` data-hit-part="${it.piece}"`:''}${it.motion?` data-motion="${it.motion}"`:''} data-key="${it.key}" data-move="${(it.move||[0,0,0]).join(',')}">${it.svg}</g>`).join('');
 const svg=k.figureSvg({width:640,height:340,label:'A miniature railway interlocking. Two prerequisite token sidings release signals; an access barrier lifts before the handoff carrier travels to a review platform.',body:`<path class="iso-halo" d="${k.haloOf({x:-166,y:-84,w:332,d:168,r:7},-7,10,P)}"/><g id="mechanism">${geometry}</g>`});
-const source='https://github.com/Rammeshgar/seneschal/blob/a4ab85ebca0551b0aab5bb3de9028cec91482ec1/README.md#agent-board';
+const source='https://github.com/Rammeshgar/seneschal/blob/97587605a63a8dc89b32a81245205b51a9538b2c/README.md#agent-board';
 const css=`${k.ISO_CSS}
 @font-face{font-family:Inter;src:url('../assets/inter-latin.woff2')}@font-face{font-family:Space;src:url('../assets/space-grotesk-latin.woff2')}
 *{box-sizing:border-box}html{color-scheme:light}body{margin:0;background:#eee9df;color:#142e2e;font:14px/1.6 Inter,Arial,sans-serif}.iso{--anatomy-paper:#eee9df;--anatomy-hi:#142e2e;--anatomy-mid:#3e5b52;--anatomy-lo:#71837a;--anatomy-faint:#a6b2a6;--anatomy-lit:#142e2e;--anatomy-shade-0:#c1c8bc;--anatomy-shade-1:#cad0c4;--anatomy-shade-2:#d4d9cc;--anatomy-shade-3:#dfe2d5;--anatomy-top:#e9eadf;--anatomy-muted:#53635d;--anatomy-plate:#eee9df}

@@ -27,7 +27,7 @@ check('one project overview is ordered QA, Exchange, Seneschal',()=>{
  assert(index.indexOf('Exchange Universe')<index.indexOf('Seneschal'));
  assert.equal((index.match(/My contribution/g)||[]).length,3);
  assert(index.includes('Seneschal Night Studio with its desktop mascot.'));
- assert(index.includes('assets/seneschal-studio-20261101.webp'));
+ assert(index.includes('assets/seneschal-beta20-workspace.webp'));
  assert(!home.includes('class="seneschal-story"'));assert(!home.includes('class="story-divider"'));
  for(const [id,route] of [['qa-case','qa-suite/'],['exchange-case','exchange-universe/'],['seneschal-case','seneschal/']]){
   const card=index.match(new RegExp('<article id="'+id+'"[^>]*>([\\s\\S]*?)</article>'))?.[1];assert(card,id);
