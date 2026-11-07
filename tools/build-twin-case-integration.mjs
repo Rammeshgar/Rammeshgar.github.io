@@ -1,5 +1,6 @@
 import{readFileSync,writeFileSync,mkdirSync,copyFileSync}from'node:fs';
 import{withTheme}from'./portfolio-theme-build.mjs';
+import{withAnalytics}from'./analytics-install.mjs';
 import{dirname,join}from'node:path';import{fileURLToPath}from'node:url';
 const root=join(dirname(fileURLToPath(import.meta.url)),'..'),out=join(root,'../Digital-Twin-Case-Integration/source'),preview=join(root,'digital-twin-demo');
 const read=p=>readFileSync(join(root,p),'utf8');
@@ -12,7 +13,7 @@ let canonical=original.replace('<link rel="stylesheet" href="style.css">','<link
  .replace('    <section class="evidence" id="evidence">',tools+'\n    <section class="evidence" id="evidence">')
  .replace('<h2>Input becomes a coordinated performance.</h2>','<h2>Technical workflow: from input to animation.</h2>')
  .replace('  </main>','<section id="integration-notes" aria-label="Contribution, implementation and limits">'+notes+'</section>\n  </main>');
-canonical=withTheme(canonical,{prefix:'explainers/'}).replace('<body>','<body data-case="digital-twin">');
+canonical=withAnalytics(withTheme(canonical,{prefix:'explainers/'}).replace('<body>','<body data-case="digital-twin">'),'/assets/portfolio-analytics.js?v=20261107');
 mkdirSync(join(out,'explainers'),{recursive:true});mkdirSync(join(preview,'explainers'),{recursive:true});
 writeFileSync(join(out,'index.html'),canonical);
 for(const file of ['guide.html','guide-light.html','guide-dark.html','system-map.html','map-static.html','map-dark.html','map-editorial.html']){const content=read('digital-twin/'+file).replaceAll('href="./"','href="../#inside"').replaceAll('../assets/portfolio-theme.','portfolio-theme.').replaceAll('../assets/map-motion.','map-motion.');writeFileSync(join(out,'explainers',file),content);writeFileSync(join(preview,'explainers',file),content);}

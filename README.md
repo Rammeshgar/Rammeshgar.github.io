@@ -1,5 +1,26 @@
 # Sadeq Rezai — The Working Studio
 
+## Analytics repair — 7 November 2026
+
+The homepage and Exchange Universe, QA Suite, Seneschal and the separately hosted
+Digital Twin demo share `assets/portfolio-analytics.js`. Existing Clarity project
+`whwno3sxgm` and GA4 measurement `G-THJ1V23VJJ` are retained. Case-study CSP rules
+allow only the required analytics script and collection hosts; guides, maps and
+iframes retain their existing network restrictions and are not counted separately.
+
+There is no banner or consent-settings UI. Both providers receive denied storage
+and advertising signals and operate in their supported cookieless modes. This is
+not full cookie-based session tracking: session continuity, returning-user counts
+and recordings may be limited. No consent grant is fabricated. DNT and GPC are
+respected. Old GA/Clarity cookies are cleared when the new loader runs. Local
+previews and embedded guides do not initialize analytics, and blocked tags cannot
+break the portfolio. Third-party scripts load after the page load/idle boundary.
+
+Run `node tools/check-analytics.mjs` with Playwright available to check five public
+entry pages, CSP collection permissions, denied consent, duplicate loading,
+DNT/GPC and blocked-tag behavior. Network calls in that suite are mocked. A
+successful live collection response confirms receipt, not dashboard processing.
+
 ## Maps and remaining reading surfaces — 1 November 2026
 
 Selected Work and About now use broad feathered reading shades instead of
