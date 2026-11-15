@@ -44,6 +44,21 @@
   <figure><img class="dashboard-shot" src="../assets/exchange-atlas-20261014.png" alt="Published dashboard with the How it works button, current quote cards, comparison chart and currency atlas" width="1600" height="1000" fetchpriority="high" decoding="async"><figcaption>Published dashboard captured on 14 October 2026. Rates and dates are a snapshot, not current market values.</figcaption></figure>
 
  </section>
+ <section class="evidence-section wrap" id="monitoring" aria-labelledby="monitoring-heading">
+  <div class="section-top">
+   <div><p class="eyebrow">Browser monitoring</p><h2 id="monitoring-heading">How I monitor the live app.</h2></div>
+   <p>Smoke checks exercise Shiny startup, chart rendering and EUR-to-HUF conversion. Regression also checks the interactive atlas and a real CSV export.</p>
+  </div>
+  <figure>
+   <img class="dashboard-shot" src="../assets/exchange-monitor-dashboard.webp" alt="Local Exchange Universe monitor showing Smoke, Regression and Currency Conversion status with three PASS and FAIL timelines." width="1600" height="900" loading="lazy" decoding="async">
+   <figcaption>The monitor dashboard with illustrative run history. In the local app, select a run to inspect the checks and available screenshots.</figcaption>
+  </figure>
+  <p>The monitor runs on Windows. It keeps browser evidence locally and can send failure, reminder and recovery emails through a configured SMTP account.</p>
+  <div class="project-actions">
+   <a class="project-button" href="https://github.com/Rammeshgar/exchange-universe-monitor/releases/tag/v1.0.0" target="_blank" rel="noopener noreferrer">Get the Windows release ↗</a>
+   <a href="https://github.com/Rammeshgar/exchange-universe-monitor" target="_blank" rel="noopener noreferrer">View the monitor source ↗</a>
+  </div>
+ </section>
  <section class="project-story wrap" aria-labelledby="story-heading">
   <div class="story-title"><p class="eyebrow">The work behind the interface</p><h2 id="story-heading">What I changed and why.</h2></div>
   <div class="story-copy"><article><h3>The problem</h3><p>The original dashboard presented rates without enough geographic context. Long layouts made it harder to compare charts, find controls and inspect detailed values.</p></article><article><h3>What I rebuilt</h3><p>I reorganised the app into Explore, Convert and Data views, connected a Leaflet atlas to currency selection, and refined the interface for desktop and mobile. API integration and data preparation remain in R/Shiny.</p></article><article><h3>Connected interactions</h3><p>Select a supported country to add or remove its currency from a comparison of up to six. Charts, map colours and exact-value tables follow the selection. Conversion, CSV export, optional 3D plots and fullscreen views offer different ways to inspect it.</p></article><article><h3>Reliability decisions</h3><p>Shared caches, bounded request queues, deduplication and retry backoff reduce unnecessary provider calls. Focused offline checks cover quota controls and date validation; they are not a complete security audit.</p></article></div>
