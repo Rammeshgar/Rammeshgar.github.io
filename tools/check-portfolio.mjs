@@ -19,19 +19,21 @@ check('CV request is an honest email action, not a fabricated download',()=>{
  assert(home.includes('id="request-cv" href="mailto:rezaisadeq0@gmail.com?subject=CV%20request"'));
  assert(!/href=["'][^"']*(?:Desktop|Resume\.pdf|CV\.pdf)/i.test(home));
 });
-check('one project overview is ordered QA, Exchange, Seneschal',()=>{
+check('one project overview is ordered Monitor, Exchange, Seneschal',()=>{
  const start=home.indexOf('class="project-index"'),end=home.indexOf('class="work-end"');
  assert(start>0&&end>start);
  const index=home.slice(start,end);
- assert(index.indexOf('Peoples Clinic')<index.indexOf('Exchange Universe'));
- assert(index.indexOf('Exchange Universe')<index.indexOf('Seneschal'));
+ assert(index.indexOf('id="qa-case"')<index.indexOf('id="exchange-case"'));
+ assert(index.indexOf('id="exchange-case"')<index.indexOf('id="seneschal-case"'));
+ assert(index.includes('Exchange Universe Monitor'));
+ assert(!index.includes('Peoples Clinic'));
  assert.equal((index.match(/My contribution/g)||[]).length,3);
  assert(index.includes('Seneschal Night Studio with its desktop mascot.'));
  assert(index.includes('assets/seneschal-beta20-workspace.webp'));
  assert(!home.includes('class="seneschal-story"'));assert(!home.includes('class="story-divider"'));
- for(const [id,route] of [['qa-case','qa-suite/'],['exchange-case','exchange-universe/'],['seneschal-case','seneschal/']]){
+ for(const [id,route,label] of [['qa-case','exchange-universe/#monitoring','Monitoring case study'],['exchange-case','exchange-universe/','Interactive case study'],['seneschal-case','seneschal/','Interactive case study']]){
   const card=index.match(new RegExp('<article id="'+id+'"[^>]*>([\\s\\S]*?)</article>'))?.[1];assert(card,id);
-  assert(card.includes('href="'+route+'"'));assert(card.includes('Interactive case study'));assert(card.includes('Source ↗'));
+  assert(card.includes('href="'+route+'"'));assert(card.includes(label));assert(card.includes('Source ↗'));
  }
 });
 check('old frame sequence is retained but native video timeline owns scroll motion',()=>{
@@ -67,7 +69,8 @@ check('known project evidence and boundaries are preserved in dedicated pages',(
  for(const text of ['10-minute smoke-test schedule','three suites','clinical accuracy','Cloud model use','R is my strongest','Farsi native','not current market values']){
   assert((home+casePage+qa+seneschal).includes(text),text);
  }
- for(const id of ['monitor-dialog','seneschal-dialog','exchange-dialog'])assert(home.includes('id="'+id+'"'));
+ for(const id of ['seneschal-dialog','exchange-dialog'])assert(home.includes('id="'+id+'"'));
+ assert(casePage.includes('id="monitoring"'));
  assert(home.includes("dialog.addEventListener('close',()=>lastTrigger?.focus())"));
  assert((qa+read('qa-suite/system-map.html')).includes('saved screenshots and run history'));
  assert(seneschal.includes('Plan mode is read-only; Build asks by default'));
@@ -100,14 +103,14 @@ check('inline JavaScript and JSON metadata parse',()=>{
   else if(m[2].trim())new vm.Script(m[2]);
  }
 });
-check('all four real lazy figures remain outside native links and preserve focus/touch controls',()=>{
+check('all three real lazy figures remain outside native links and preserve focus/touch controls',()=>{
  const index=home.slice(home.indexOf('class="project-index"'),home.indexOf('class="work-end"'));
  assert.equal((index.match(/class="index-preview"/g)||[]).length,0);
- assert.equal((index.match(/<iframe\b/g)||[]).length,3);assert(!/<video\b/.test(index));
+ assert.equal((index.match(/<iframe\b/g)||[]).length,2);assert(!/<video\b/.test(index));
  assert(index.includes('data-src="exchange-universe/guide.html?view=guide&amp;layout=preview"'));assert(!/id="exchange-machine-preview"[^>]*\ssrc=/.test(index));
  for(const link of index.matchAll(/<a\b[^>]*>[\s\S]*?<\/a>/g))assert(!link[0].includes('<iframe'));
  assert(!home.includes('class="preview-toggle"'));assert(home.includes('id="project-preview-motion"'));
- for(const name of ['qa-suite','seneschal','digital-twin']){assert(home.includes('data-src="'+name+'/guide.html?view=guide&amp;layout=preview"'));assert(!new RegExp('id="'+name+'-machine-preview"[^>]*\\ssrc=').test(home));}
+ for(const name of ['seneschal','digital-twin']){assert(home.includes('data-src="'+name+'/guide.html?view=guide&amp;layout=preview"'));assert(!new RegExp('id="'+name+'-machine-preview"[^>]*\\ssrc=').test(home));}
  const previews=read('exchange-card-preview.mjs');assert(previews.includes("card.addEventListener('focusin'"));assert(previews.includes("card.addEventListener('pointerenter'"));assert(previews.includes('owner?.deactivate()'));assert(previews.includes('saveData'));
  assert(css.includes('@media(prefers-reduced-motion:reduce){.intro-art video{display:none!important}.index-preview,.index-image>img{transition:none}}'));
 });

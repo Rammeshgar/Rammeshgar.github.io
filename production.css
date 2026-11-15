@@ -243,8 +243,8 @@ dialog{width:min(880px,calc(100vw - 32px));max-height:88dvh;border:1px solid var
 /* Selected A hierarchy, keeping each real thumbnail owner and native navigation. */
 .page .project-index{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;margin-bottom:36px}
 .page .project-index #qa-case{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);column-gap:50px;align-items:start;background:transparent;border:0;border-bottom:1px solid var(--line);padding:0 0 40px}
-#qa-case>.index-media{grid-column:1;grid-row:1/span 8;aspect-ratio:1907/972;margin:0;background:var(--pale);border:1px solid var(--line);padding:16px}
-#qa-case>.index-media .index-image{border:0}#qa-case>.index-media .real-machine-preview{inset:16px}
+#qa-case>.index-media{grid-column:1;grid-row:1/span 8;aspect-ratio:16/9;margin:0;background:var(--pale);border:1px solid var(--line);padding:16px}
+#qa-case>.index-media .index-image{border:0}#qa-case .index-image>img{object-fit:contain}
 /* Stable navigation: no scroll listener, blur or hide/reveal animation. */
 html:root{scroll-padding-top:107px}
 .page .header{position:sticky;top:0;z-index:90;background:var(--surface,var(--paper));background:color-mix(in srgb,var(--surface,var(--paper)) 97%,transparent);backdrop-filter:none}
@@ -256,4 +256,4 @@ html:root{scroll-padding-top:107px}
 .page .project-index .index-image{background:#0c2323}.page .project-index .image-guide-label{display:none!important}
 .page .project-index .index-link:focus-visible,.page .index-evidence-links a:focus-visible{outline-color:var(--copper)}
 @media(max-width:850px){.page .project-index #qa-case{column-gap:30px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}#qa-case h3{font-size:30px}}
-@media(max-width:700px){.page .project-index{grid-template-columns:1fr;gap:28px}.page .project-index #qa-case{display:flex;gap:0;grid-column:auto;padding-bottom:28px}#qa-case>.index-media{margin-bottom:22px;padding:12px}#qa-case>.index-media .real-machine-preview{inset:12px}#qa-case .index-contribution{width:100%;margin-block:16px}.page .project-index article:not(#qa-case) h3{font-size:27px}}
+@media(max-width:700px){.page .project-index{grid-template-columns:1fr;gap:28px}.page .project-index #qa-case{display:flex;gap:0;grid-column:auto;padding-bottom:28px}#qa-case>.index-media{margin-bottom:22px;padding:12px}#qa-case .index-contribution{width:100%;margin-block:16px}.page .project-index article:not(#qa-case) h3{font-size:27px}}

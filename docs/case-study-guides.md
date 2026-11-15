@@ -19,14 +19,11 @@ and actually presented media time are exposed as local diagnostic data attribute
 only browser review can establish that decoded frames really changed. The local
 loopback preview supports single byte-range media responses for native seeking.
 
-The homepage has one overview in QA → Exchange Universe → Seneschal order. Each
-project has a visible case-study link, specific guide invitation, contribution and
-external evidence links. `#qa-case` and `#seneschal-case` remain meaningful anchors
-on their cards. CSS hover and `:focus-within` reveal matching decorative previews;
-leaving restores the screenshot. Every project now previews its actual local
-machine in a decorative iframe on hover or link focus.
-QA uses an inspection station, Seneschal an interlocking railway, and Twin a puppet
-theatre; Exchange retains its original press/drawer mechanism. Only one preview
+The homepage features Exchange Universe Monitor, Exchange Universe and Seneschal.
+The monitor opens its case study from a dashboard screenshot. The Exchange app,
+Seneschal and Digital Twin reveal their decorative previews on hover or link
+focus. The Exchange app uses a press and drawer, Seneschal uses an interlocking
+railway, and the Digital Twin uses a puppet theatre. Only one preview
 owns playback at a time. Leaving, hiding or scrolling offscreen stops it; Save-Data
 prevents loading. One Pause previews control sits above the cards, never over the
 artwork. Each miniature shows a short explanation and its model-driven phase. Its
