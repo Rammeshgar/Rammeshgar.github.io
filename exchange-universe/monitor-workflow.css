@@ -1,0 +1,50 @@
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--surface); color: var(--foreground); font: 1rem/1.45 system-ui, sans-serif; }
+.monitor-flow { max-width: 56rem; margin: auto; padding: clamp(.8rem, 3vw, 2rem); }
+.flow-heading { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: .8rem; }
+.flow-heading p { margin: 0 0 .3rem; color: var(--secondary); font-size: .82rem; font-weight: 650; }
+.flow-heading h1 { margin: 0; font-size: clamp(1.22rem, 4vw, 2rem); line-height: 1.1; letter-spacing: -.04em; }
+.flow-controls, .flow-steps { display: flex; gap: .4rem; flex-wrap: wrap; }
+.flow-controls button, .flow-steps button {
+ padding: .4rem .6rem; min-height: 2.15rem; background: var(--surface-raised); color: var(--foreground);
+ border: 1px solid var(--border); border-radius: .35rem; font: inherit; font-size: .84rem; cursor: pointer;
+}
+.monitor-flow button[aria-pressed="true"], .monitor-flow button:hover { border-color: var(--accent); background: var(--focal); }
+.monitor-flow :is(a, button):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.flow-art { display: block; width: 100%; max-width: 42rem; margin: .4rem auto; }
+.flow-stop rect { fill: var(--surface-raised); stroke: var(--secondary); }
+.monitor-flow:not([data-layout="preview"]) .flow-stop { cursor: pointer; }
+.flow-stop text { fill: var(--foreground); font-size: 15px; font-weight: 700; text-anchor: middle; pointer-events: none; }
+.flow-stop .flow-caption { fill: var(--secondary); font-size: 9px; letter-spacing: .07em; }
+.flow-stop.is-current rect { fill: var(--focal); stroke: var(--accent); stroke-width: 2.5; }
+.flow-routes { fill: none; stroke: var(--secondary); stroke-width: 1.5; }
+.flow-routes path { marker-end: url(#monitor-arrow); }
+.flow-routes .conditional { stroke-dasharray: 4 3; }
+#monitor-arrow path { fill: var(--secondary); }
+.flow-signals use { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; opacity: 0; stroke-dasharray: 5 8; }
+.flow-signals .is-current { opacity: 1; }
+[data-moving="true"] .flow-signals .is-current { animation: monitor-signal 780ms linear infinite; }
+@keyframes monitor-signal { to { stroke-dashoffset: -26; } }
+.flow-steps { padding-block: .65rem; border-top: 1px solid var(--border); }
+#flow-detail section { margin: .25rem 0 .6rem; }
+#flow-detail h2 { margin: 0 0 .2rem; font-size: 1rem; }
+#flow-detail p { margin: 0 0 .25rem; color: var(--secondary); font-size: .91rem; }
+#flow-detail a { color: var(--foreground); text-underline-offset: .22em; font-size: .86rem; }
+.flow-note { margin: .7rem 0 0; color: var(--secondary); font-size: .78rem; }
+.monitor-flow[data-layout="compact"] { max-width: 100%; padding: .85rem 1rem; }
+[data-layout="compact"] .flow-art { max-width: 40rem; }
+.monitor-flow[data-layout="preview"] {
+ display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 100dvh; max-width: none;
+ padding: clamp(.5rem, 3vw, 1.5rem); background: var(--surface-raised); overflow: hidden;
+}
+[data-layout="preview"] .flow-heading h1 { font-size: clamp(1rem, 4.1vw, 2.1rem); }
+[data-layout="preview"] .flow-heading p { font-size: clamp(.65rem, 2.2vw, .9rem); }
+[data-layout="preview"] .flow-art { width: 100%; height: 100%; min-height: 0; max-width: none; margin: 0; }
+[data-layout="preview"] :is(.flow-controls, .flow-steps, .flow-note, #flow-detail a) { display: none; }
+[data-layout="preview"] #flow-detail section { margin: 0; border-top: 1px solid var(--border); padding-top: .35em; }
+[data-layout="preview"] #flow-detail h2 { font-size: clamp(.76rem, 2.7vw, 1.15rem); }
+[data-layout="preview"] #flow-detail p { margin: 0; font-size: clamp(.65rem, 2.1vw, .9rem); }
+@media (prefers-reduced-motion: reduce), print {
+ .flow-signals .is-current { animation: none !important; }
+}

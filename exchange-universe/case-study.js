@@ -1,5 +1,6 @@
 (()=>{'use strict';
  const map=document.getElementById('system-map'),guide=document.getElementById('animated-guide');
+ const monitor=document.getElementById('monitor-workflow');
  const allowedParts=new Set(['cache','worker','queue','gate']),allowedStories=new Set(['compare','refresh','history','wait']);
  let guideVisible=false,pendingSelection=null,guideReady=false,suspended=false;
  function loadGuide(){if(!guide.getAttribute('src'))guide.src='guide.html?view=guide&layout=compact';}
@@ -20,6 +21,9 @@
  window.addEventListener('message',event=>{
   if(event.origin!==location.origin||!event.data||typeof event.data!=='object')return;
   const m=event.data;
+  if(monitor&&event.source===monitor.contentWindow&&m.type==='monitor-workflow-height'&&Number.isFinite(m.height)&&m.height>=200&&m.height<=1600){
+   monitor.height=String(Math.ceil(m.height));
+  }
   if(event.source===map.contentWindow){
    if(m.type==='exchange-case-map-height'&&Number.isFinite(m.height)&&m.height>=200&&m.height<=3000)map.dataset.naturalHeight=String(Math.ceil(m.height));
    if(m.type==='exchange-case-guide'&&allowedParts.has(m.part)&&allowedStories.has(m.story)){

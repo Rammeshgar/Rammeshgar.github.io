@@ -33,4 +33,4 @@ motionControl.addEventListener('click',()=>{paused=!paused;syncControl();preview
 globalThis.navigator?.connection?.addEventListener?.('change',syncControl);
 syncControl();
 preview({card:document.getElementById('exchange-case'),frame:document.getElementById('exchange-machine-preview'),url:'exchange-universe/guide.html?view=guide&layout=preview',exchange:true});
-for(const card of document.querySelectorAll?.('[data-figure-preview]')||[]){const name=card.dataset.figurePreview;preview({card,frame:document.getElementById(name+'-machine-preview'),url:name+'/guide.html?view=guide&layout=preview'});}
+for(const card of document.querySelectorAll?.('[data-figure-preview]')||[]){const name=card.dataset.figurePreview,frame=document.getElementById(name+'-machine-preview');preview({card,frame,url:frame.getAttribute('data-src')||name+'/guide.html?view=guide&layout=preview'});}

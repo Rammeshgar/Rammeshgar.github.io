@@ -49,16 +49,20 @@
    <div><p class="eyebrow">Browser monitoring</p><h2 id="monitoring-heading">How I monitor the live app.</h2></div>
    <p>Smoke checks exercise Shiny startup, chart rendering and EUR-to-HUF conversion. Regression also checks the interactive atlas and a real CSV export.</p>
   </div>
-  <figure>
-   <img class="dashboard-shot" src="../assets/exchange-monitor-dashboard.webp?v=1.1.0" alt="Local Exchange Universe monitor showing Smoke, Regression and Currency Conversion status with three PASS and FAIL timelines." width="1600" height="900" loading="lazy" decoding="async">
-   <figcaption>A snapshot of the live dashboard. Select a dot to inspect the checks and any available screenshots.</figcaption>
-  </figure>
-  <p>GitHub Actions runs Smoke every 15 minutes and Regression hourly. The live dashboard shows the results and available failure screenshots. The Windows package runs the same checks locally.</p>
+  <p>GitHub Actions schedules Smoke every 15 minutes and Regression hourly. The dashboard publishes the outcomes and available browser screenshots. Configured SMTP alerts go to the project’s recipients. The Windows package runs the same checks locally.</p>
   <div class="project-actions">
    <a class="project-button" href="https://rammeshgar.github.io/exchange-universe-monitor/" target="_blank" rel="noopener noreferrer">Open live monitoring ↗</a>
    <a href="https://github.com/Rammeshgar/exchange-universe-monitor/releases/latest" target="_blank" rel="noopener noreferrer">Get the Windows release ↗</a>
    <a href="https://github.com/Rammeshgar/exchange-universe-monitor" target="_blank" rel="noopener noreferrer">View the monitor source ↗</a>
   </div>
+  <section class="explainer-panel monitor-explainer" aria-labelledby="monitor-workflow-heading">
+   <div class="tool-heading"><h3 id="monitor-workflow-heading">From browser check to evidence</h3><div><a href="monitor-workflow.html" target="_blank" rel="noopener">Full-size guide ↗</a><a href="monitor-workflow.html?view=map" target="_blank" rel="noopener">Full-size map ↗</a></div></div>
+   <iframe id="monitor-workflow" src="monitor-workflow.html?layout=compact" title="Animated Exchange Universe Monitor guide and selectable system map" loading="lazy" referrerpolicy="no-referrer" height="560"></iframe>
+  </section>
+  <figure>
+   <img class="dashboard-shot" src="../assets/exchange-monitor-dashboard.webp?v=1.1.0" alt="Exchange Universe Monitor showing Smoke, Regression and Currency Conversion status with three PASS and FAIL timelines." width="1600" height="900" loading="lazy" decoding="async">
+   <figcaption>A snapshot of the live dashboard. Select a dot in the live dashboard to inspect the checks and available screenshots.</figcaption>
+  </figure>
  </section>
  <section class="project-story wrap" aria-labelledby="story-heading">
   <div class="story-title"><p class="eyebrow">The work behind the interface</p><h2 id="story-heading">What I changed and why.</h2></div>

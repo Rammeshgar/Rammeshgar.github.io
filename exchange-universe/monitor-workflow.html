@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="robots" content="noindex,follow">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+ <title>Exchange Universe Monitor · Workflow</title>
+ <link rel="stylesheet" href="../assets/portfolio-theme.css">
+ <link rel="stylesheet" href="monitor-workflow.css">
+ <script src="../assets/portfolio-theme.js"></script>
+ <script src="monitor-workflow.js" defer></script>
+</head>
+<body>
+ <main class="monitor-flow" aria-labelledby="flow-title" data-motion-mode="loop">
+  <header class="flow-heading">
+   <div><p>Exchange Universe Monitor</p><h1 id="flow-title">Follow a browser check.</h1></div>
+   <div class="flow-controls" hidden>
+    <button type="button" id="view-guide" aria-pressed="true">Guide</button>
+    <button type="button" id="view-map" aria-pressed="false">System map</button>
+    <button type="button" id="flow-playback">Pause animation</button>
+   </div>
+  </header>
+  <svg class="flow-art" viewBox="0 0 600 206" role="img" aria-labelledby="monitor-map-title monitor-map-desc" xmlns="http://www.w3.org/2000/svg">
+   <title id="monitor-map-title">Exchange Universe Monitor system map</title>
+   <desc id="monitor-map-desc">GitHub Actions triggers Playwright against the live Shiny app. The result and available screenshots go to the public dashboard. Configured SMTP alerts use the result and incident state.</desc>
+   <defs>
+    <marker id="monitor-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8Z"/></marker>
+   </defs>
+   <g class="flow-routes">
+    <path id="to-browser" d="M132 103H163"/>
+    <path id="to-evidence" d="M281 103H312"/>
+    <path id="to-dashboard" d="M430 90H447Q454 90 454 83V62Q454 55 461 55H478"/>
+    <path id="to-alerts" class="conditional" d="M430 116H447Q454 116 454 123V144Q454 151 461 151H478"/>
+   </g>
+   <g class="flow-signals" aria-hidden="true">
+    <use href="#to-browser" data-route="browser"/><use href="#to-evidence" data-route="evidence"/>
+    <use href="#to-dashboard" data-route="dashboard"/><use href="#to-alerts" data-route="alerts"/>
+   </g>
+   <g class="flow-stop" data-flow-node="trigger" transform="translate(14 68)">
+    <rect width="118" height="70" rx="9"/><text x="59" y="22" class="flow-caption">TRIGGER</text><text x="59" y="47">GitHub Actions</text>
+   </g>
+   <g class="flow-stop" data-flow-node="browser" transform="translate(163 68)">
+    <rect width="118" height="70" rx="9"/><text x="59" y="22" class="flow-caption">LIVE SHINY APP</text><text x="59" y="47">Playwright</text>
+   </g>
+   <g class="flow-stop" data-flow-node="evidence" transform="translate(312 68)">
+    <rect width="118" height="70" rx="9"/><text x="59" y="22" class="flow-caption">PASS / FAIL</text><text x="59" y="47">Run evidence</text>
+   </g>
+   <g class="flow-stop" data-flow-node="dashboard" transform="translate(478 20)">
+    <rect width="108" height="70" rx="9"/><text x="54" y="22" class="flow-caption">PUBLIC</text><text x="54" y="47">Dashboard</text>
+   </g>
+   <g class="flow-stop" data-flow-node="alerts" transform="translate(478 116)">
+    <rect width="108" height="70" rx="9"/><text x="54" y="22" class="flow-caption">IF CONFIGURED</text><text x="54" y="47">Email alerts</text>
+   </g>
+  </svg>
+  <div class="flow-steps" role="group" aria-label="Select a workflow component" hidden>
+   <button type="button" data-flow-step="trigger" aria-controls="flow-detail" aria-pressed="true">Schedule</button>
+   <button type="button" data-flow-step="browser" aria-controls="flow-detail" aria-pressed="false">Browser checks</button>
+   <button type="button" data-flow-step="evidence" aria-controls="flow-detail" aria-pressed="false">Evidence</button>
+   <button type="button" data-flow-step="dashboard" aria-controls="flow-detail" aria-pressed="false">Dashboard</button>
+   <button type="button" data-flow-step="alerts" aria-controls="flow-detail" aria-pressed="false">Email alerts</button>
+  </div>
+  <div id="flow-detail">
+   <section data-flow-detail="trigger"><h2>Start a scheduled run</h2><p>GitHub Actions schedules Smoke every 15 minutes and Regression hourly. Both suites can also run on demand.</p><a href="https://github.com/Rammeshgar/exchange-universe-monitor/blob/main/.github/workflows/monitor.yml" target="_blank" rel="noopener">Workflow source ↗</a></section>
+   <section data-flow-detail="browser"><h2>Exercise the live currency app</h2><p>Playwright checks startup, the history chart and EUR-to-HUF conversion. Regression adds the atlas and CSV export.</p><a href="https://github.com/Rammeshgar/exchange-universe-monitor/blob/main/monitor.cjs" target="_blank" rel="noopener">Browser checks source ↗</a></section>
+   <section data-flow-detail="evidence"><h2>Capture what the browser saw</h2><p>The runner saves timing and check outcomes, screenshots of completed checkpoints, and a browser screenshot when a check fails and capture is available.</p><a href="https://github.com/Rammeshgar/exchange-universe-monitor/blob/main/tools/hosted-monitor.cjs" target="_blank" rel="noopener">Evidence publisher source ↗</a></section>
+   <section data-flow-detail="dashboard"><h2>Publish the run history</h2><p>GitHub Pages serves the results and screenshots. Select a timeline point or a table row to inspect a run.</p><a href="https://rammeshgar.github.io/exchange-universe-monitor/" target="_blank" rel="noopener">Open live dashboard ↗</a></section>
+   <section data-flow-detail="alerts"><h2>Send incident email when configured</h2><p>The SMTP policy can send a failure message, a cooldown-limited reminder or a recovery message to configured recipients.</p><a href="https://github.com/Rammeshgar/exchange-universe-monitor/blob/main/alerts.cjs" target="_blank" rel="noopener">Alert policy source ↗</a></section>
+  </div>
+  <p class="flow-note">Illustrated workflow. The dashed route uses configured email and the incident policy.</p>
+ </main>
+</body>
+</html>

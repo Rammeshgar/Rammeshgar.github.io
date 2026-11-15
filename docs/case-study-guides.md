@@ -20,9 +20,11 @@ only browser review can establish that decoded frames really changed. The local
 loopback preview supports single byte-range media responses for native seeking.
 
 The homepage features Exchange Universe Monitor, Exchange Universe and Seneschal.
-The monitor opens its case study from a dashboard screenshot. The Exchange app,
-Seneschal and Digital Twin reveal their decorative previews on hover or link
-focus. The Exchange app uses a press and drawer, Seneschal uses an interlocking
+The monitor’s dashboard screenshot reveals a preview of the browser checks,
+evidence and email policy on hover or link focus. Its case study embeds that
+guide and a selectable map of the same workflow. The Exchange app, Seneschal and
+Digital Twin also reveal previews on hover or link focus. The Exchange app uses
+a press and drawer, Seneschal uses an interlocking
 railway, and the Digital Twin uses a puppet theatre. Only one preview
 owns playback at a time. Leaving, hiding or scrolling offscreen stops it; Save-Data
 prevents loading. One Pause previews control sits above the cards, never over the
