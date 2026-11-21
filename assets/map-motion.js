@@ -12,10 +12,10 @@
   if(!svg.id)svg.id='map-motion-diagram-'+index;
   const signals=[...svg.querySelectorAll(routeSelector)].map((edge,i)=>{
    if(!edge.id)edge.id=svg.id+'-route-'+i;
-   const duration=3.6+(i%3)*.45,begin=String(-(i*.67)%duration)+'s';
+   const duration=3.2+(i%3)*.35,begin=String(-(i*.59)%duration)+'s';
    const outer=create('g',{'class':'map-flow-signal','aria-hidden':'true'});
    const packet=create('g',{'class':'map-flow-packet'});
-   packet.append(create('circle',{'class':'map-flow-halo',r:5.5}),create('circle',{'class':'map-flow-core',r:2.2}),create('path',{'class':'map-flow-arrow',d:'M-8 -3L-4 0L-8 3'}));
+   packet.append(create('circle',{'class':'map-flow-halo',r:5}),create('circle',{'class':'map-flow-core',r:2}),create('path',{'class':'map-flow-arrow',d:'M-8 -3L-4 0L-8 3'}));
    const motion=create('animateMotion',{dur:duration+'s',begin,repeatCount:'indefinite',rotate:'auto'});
    motion.append(create('mpath',{href:'#'+edge.id}));packet.append(motion);
    packet.append(create('animate',{attributeName:'opacity',values:'0;1;1;0',keyTimes:'0;.08;.88;1',dur:duration+'s',begin,repeatCount:'indefinite'}));
@@ -39,6 +39,24 @@
  const header=main.querySelector('header,.map-header'),layout=main.querySelector('.map-layout');
  if(header?.parentElement===main)header.after(toolbar);else if(layout?.parentElement===main)main.insertBefore(toolbar,layout);else main.prepend(toolbar);
  function select(){for(const {signals}of states)for(const {edge,outer}of signals)outer.dataset.active=String(edge.dataset.incident==='true'||edge.dataset.selected==='true'||edge.dataset.active==='true'||edge.classList.contains('connected')||edge.classList.contains('selected'));}
+ // Preview related connections without changing the real selected component.
+ // Node numbers in the Twin drawing are display identifiers, not route names.
+ const hitSelector='button[data-component],button[data-select]';
+ const twinNames=['','input','profile','provider','reply','voice','avatar','fallback'];
+ let hovered=null,focused=null;
+ const getNode=target=>target?.closest?.(hitSelector)||null;
+ function preview(){
+  const active=hovered||focused,id=active?.dataset.component||active?.dataset.select||'';
+  const routeId=/^[1-7]$/.test(id)&&location.pathname.includes('/digital-twin/')?twinNames[Number(id)]:id;
+  for(const {svg,signals}of states){
+   for(const node of svg.querySelectorAll('[data-node]'))node.dataset.mapHover=String(Boolean(id)&&node.dataset.node===id);
+   for(const {edge,outer}of signals){const on=Boolean(routeId)&&(edge.dataset.from===routeId||edge.dataset.to===routeId);edge.dataset.mapHover=String(on);outer.dataset.mapHover=String(on);}
+  }
+ }
+ document.addEventListener('pointerover',event=>{const node=getNode(event.target);if(node&&node!==hovered){hovered=node;preview();}});
+ document.addEventListener('pointerout',event=>{if(hovered&&getNode(event.relatedTarget)!==hovered&&getNode(event.target)===hovered){hovered=null;preview();}});
+ document.addEventListener('focusin',event=>{focused=getNode(event.target);preview();});
+ document.addEventListener('focusout',event=>{focused=getNode(event.relatedTarget);preview();});
  function sync(){
   const reason=!supported?'unavailable':reduced.matches?'reduced':paused?'paused':'enabled';
   document.body.dataset.mapMotion=reason;

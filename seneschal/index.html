@@ -1,87 +1,202 @@
-<!DOCTYPE html>
-<html lang="en"><head>
-<script src="../assets/portfolio-theme.js"></script>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#eee9df">
-<meta name="description" content="Seneschal is a Windows/WSL workspace for OpenCode. Explore its agent workflows, explicit approvals and rebuilt 3D companion.">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.clarity.ms https://scripts.clarity.ms; style-src 'self'; font-src 'self'; img-src 'self' https://*.google-analytics.com https://*.clarity.ms; frame-src 'self'; connect-src https://*.google-analytics.com https://*.clarity.ms; object-src 'none'; base-uri 'none'; form-action 'none'">
-<link rel="canonical" href="https://rammeshgar.github.io/seneschal/"><link rel="icon" href="../assets/brand-mark.png">
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<!-- studio-release-seo:start -->
+<title>Seneschal | AI Workflow Workspace | Sadeq Rezai</title>
+<meta name="description" content="A beta Windows and WSL workspace for OpenCode with AI-agent task dependencies, configurable tool permissions, handoffs and review.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<link rel="canonical" href="https://rammeshgar.github.io/seneschal/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.googletagmanager.com https://www.clarity.ms https://scripts.clarity.ms; style-src 'self' 'sha256-6HMegWUW/77DFdK1W+GQLBYqImzrSde/Nlfst4HeYJo='; style-src-attr 'none'; font-src 'self'; img-src 'self' data: blob: https://www.googletagmanager.com https://*.google-analytics.com https://*.clarity.ms; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.google.com https://*.clarity.ms; media-src 'self' blob: data:; frame-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Sadeq Rezai — The Working Studio">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="Seneschal — Your private AI atelier">
-<meta property="og:description" content="A Windows/WSL workspace for OpenCode, with explicit approvals, agent coordination, private phone access and a rebuilt 3D companion.">
+<meta property="og:title" content="Seneschal | AI Workflow Workspace | Sadeq Rezai">
+<meta property="og:description" content="A beta Windows and WSL workspace for OpenCode with AI-agent task dependencies, configurable tool permissions, handoffs and review.">
 <meta property="og:url" content="https://rammeshgar.github.io/seneschal/">
-<meta property="og:image" content="https://rammeshgar.github.io/assets/seneschal-social-preview-20261101.png">
+<meta property="og:image" content="https://rammeshgar.github.io/assets/social/seneschal-20261122.png">
+<meta property="og:image:secure_url" content="https://rammeshgar.github.io/assets/social/seneschal-20261122.png">
 <meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Seneschal Night Studio with city wallpaper, compact sidebars and the companion panel.">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Seneschal Night Studio workspace screenshot with task composer, project controls and desktop companion.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Seneschal — Your private AI atelier">
-<meta name="twitter:description" content="A Windows/WSL workspace for OpenCode, with explicit approvals, agent coordination, private phone access and a rebuilt 3D companion.">
-<meta name="twitter:image" content="https://rammeshgar.github.io/assets/seneschal-social-preview-20261101.png">
-<meta name="twitter:image:alt" content="Seneschal Night Studio with city wallpaper, compact sidebars and the companion panel.">
-<title>Seneschal — AI workspace and agent coordination | Sadeq Rezai</title>
-<link rel="stylesheet" href="../exchange-universe/case-study.css"><link rel="stylesheet" href="../case-studies.css"><link rel="stylesheet" href="case-study.css"><script src="case-study.js" defer></script>
-<link rel="stylesheet" href="../assets/portfolio-theme.css">
-<script defer src="../assets/portfolio-analytics.js?v=20261107"></script>
-</head><body class="case-page">
-<a class="skip" href="#project">Skip to the case study</a>
-<header class="site-header"><a class="brand" href="../#work"><img src="../assets/brand-mark.png" alt="" width="34" height="34"><span>Sadeq Rezai<small>The Working Studio</small></span></a><nav aria-label="Project navigation"><a href="../#work">← Selected work</a><a href="https://github.com/Rammeshgar/seneschal/releases" target="_blank" rel="noopener noreferrer">Beta releases ↗</a></nav></header>
-<main id="project">
- <section class="project-intro wrap" aria-labelledby="project-heading">
-  <p class="eyebrow">03 / AI workspace · Windows / WSL / OpenCode</p>
-  <div class="intro-grid"><div><h1 id="project-heading">Seneschal<span class="serif">Models, tools and a workspace of your own.</span></h1><p class="lead">A personal workspace for OpenCode on Windows and WSL. Keep conversations, models, tools and multi-agent work together, with explicit approvals and a configurable interface.</p><p class="example-line">For example, two agents can finish separate tasks before a reviewer receives both results. The examples below show what happens when a prerequisite or access decision holds up the next task.</p><div class="project-actions"><a class="project-button" href="https://github.com/Rammeshgar/seneschal/releases/tag/v0.2.1-beta.20" target="_blank" rel="noopener noreferrer">Get Beta 20 ↗</a><a href="https://github.com/Rammeshgar/seneschal/blob/97587605a63a8dc89b32a81245205b51a9538b2c/docs/USER-GUIDE.md" target="_blank" rel="noopener noreferrer">Read the user guide ↗</a><a href="#inside">Explore the examples ↓</a><a href="#companion">See the 3D companion ↓</a></div></div><aside class="intro-aside"><p>Beta 20 · 1 November 2026.<br>Runs on your Windows/WSL PC.<br>Uses your connected model providers.</p></aside></div>
- </section>
- <section class="explainer wrap" id="inside" aria-labelledby="inside-heading">
-  <div class="section-top"><div><p class="eyebrow">Understand the workflow</p><h2 id="inside-heading">How Seneschal connects tasks.</h2></div></div>
-  <div class="dual-explainers">
-   <section class="explainer-panel" id="panel-map" aria-labelledby="map"><div class="tool-heading"><h3 id="map" tabindex="-1">01 / How tasks connect</h3><a href="system-map.html" target="_blank" rel="noopener">Full-size map ↗</a></div><p class="panel-note">Select a box to read its role and connections. Its example link names the step you can watch; some components share an animation.</p><iframe id="system-map" src="system-map.html?layout=compact" title="How Seneschal connects tasks: interactive map" loading="lazy"></iframe></section>
-   <section class="explainer-panel" id="panel-guide" aria-labelledby="guide"><div class="tool-heading"><h3 id="guide" tabindex="-1">02 / Watch a task continue</h3><a href="guide.html?view=guide" target="_blank" rel="noopener">Full-size guide ↗</a></div><p class="panel-note">The carrier is a task result. The barrier represents its access policy. Try a wait or a correction.<span class="guide-loop-note">Repeats automatically while in view. Pause to hold a moment.</span></p><iframe id="animated-guide" data-guide="guide.html?view=guide&amp;layout=compact" title="Watch a Seneschal task wait and continue" loading="lazy"></iframe></section>
-  </div>
-  <p class="dual-note">These examples explain the workflow without running agents or reading sessions. A <a href="flow-static.html" target="_blank" rel="noopener">script-free map</a> is also available.</p>
- </section>
- <section class="evidence-section wrap" aria-label="Seneschal Night Studio workspace"><figure><img class="product-image" src="../assets/seneschal-beta20-workspace.webp" srcset="../assets/seneschal-beta20-workspace-640.webp 640w, ../assets/seneschal-beta20-workspace-1024.webp 1024w, ../assets/seneschal-beta20-workspace.webp 1919w" sizes="(max-width: 1400px) 90vw, 1280px" alt="Seneschal Night Studio workspace with city pixel art and its desktop mascot" width="1919" height="1079" loading="lazy" decoding="async"><figcaption class="product-caption">Seneschal Night Studio with city pixel art and the desktop mascot. Screenshot from the Beta 20 repository.</figcaption></figure></section>
- <section class="evidence-section wrap" id="companion" aria-labelledby="companion-heading">
-  <div class="section-top"><h2 id="companion-heading">The rebuilt 3D companion</h2></div>
-  <figure>
-   <img class="product-image illustration-image" src="../assets/seneschal-companion-v07.webp" alt="Front view with a fitted chest badge and articulated shoulders, beside a rear view with a flush service panel" width="1056" height="566" loading="lazy" decoding="async">
-   <figcaption class="product-caption">Front and rear views captured in Seneschal’s renderer. The revised Blender model is available in the source build.</figcaption>
-  </figure>
-  <p class="integration-note">I directed the redesign around fitted ceramic panels, fixed shoulder sockets and a recessed chest badge. The validation sampled 78 poses across six animation states for arm-to-shell intersections. Browser checks covered camera rotation and simulated speech at sidebar size. <a href="https://github.com/Rammeshgar/seneschal/blob/c391649e6377d1277376b3c6acdb3e81383f66a2/README.md#3d-companion" target="_blank" rel="noopener noreferrer">See the model in the source repository ↗</a></p>
- </section>
- <section class="workflow-notes wrap" id="workspace" aria-labelledby="workspace-heading">
-  <p class="eyebrow">Inside the Beta 20 workspace</p><h2 id="workspace-heading">Beyond the task board.</h2>
-  <div class="workflow-grid">
-   <article><h3>Models, roles and approvals</h3><p>Choose a model per session. Plan explores without changing files, Build works under the configured permission policy, and Chat leaves active tools off. Tool availability and permission to use it are separate decisions.</p></article>
-   <article><h3>Teams with retained context</h3><p>Turn one selected plan into a team, or configure the board yourself. Up to eight independent workers can run in parallel. Dependencies pass completed results downstream; bounded correction requests and a configurable supervisor keep review visible. Saved boards retain their linked sessions.</p></article>
-   <article><h3>Activity you can inspect</h3><p>Overview, Sessions, Usage and Service views bring activity into the workspace. An optional local history service indexes OpenCode history. Live progress and recorded history remain separate, and usage estimates are not provider invoices.</p></article>
-   <article><h3>Voice and a 3D companion</h3><p>Use browser speech or optional NVIDIA cloud speech, with separate mic and speaker controls. The local companion follows listening, thinking and speaking, with docking, resizing and camera controls. NVIDIA speech requires explicit consent and sends audio to its provider.</p></article>
-   <article><h3>A workspace that feels personal</h3><p>Nine animated wallpaper scenes include the Afterlight worlds, with scene interactions, lighting and motion controls. English and فارسی controls support right-to-left panels without rewriting technical paths or chat content. Wallpaper art needs no model or speech call.</p></article>
-   <article><h3>Your paired phone, your running PC</h3><p>Private Phone Access pairs your own browser through Tailscale after the installation passes its local checks. The PC stays awake and runs the engine. Pairing, credentials and sensitive service controls stay on the PC; this is remote access, not cloud hosting.</p></article>
-  </div>
-  <p class="integration-note">Optional integrations connect browser automation, Blender and a VS Code companion. Each needs its own supported local setup. <a href="https://github.com/Rammeshgar/seneschal/blob/97587605a63a8dc89b32a81245205b51a9538b2c/docs/USER-GUIDE.md" target="_blank" rel="noopener noreferrer">Explore the controls in the user guide ↗</a></p>
- </section>
- <section class="case-contribution wrap" aria-labelledby="contribution-heading"><div><p class="eyebrow">My contribution</p><h2 id="contribution-heading">Keeping dependent<br><span class="serif">work connected.</span></h2></div><div><p>Working with several agents creates decisions about who does what, which tasks depend on others and what an agent may change. I structured the workflow and directed the AI-assisted implementation: sessions, roles, access controls and a board for coordinating dependent work.</p><p>A dependent task starts after its selected prerequisites finish. Each board card retains a session, and a configured supervisor can review the completed work. The source and beta releases document the Windows/WSL setup and local integrations.</p></div></section>
- <section class="workflow-notes wrap" id="workflow" aria-labelledby="workflow-heading">
-  <p class="eyebrow">Workflow decisions</p><h2 id="workflow-heading">What a task needs before it continues.</h2>
-  <div class="workflow-grid">
-   <article><h3>Wait for selected prerequisites</h3><p id="seneschal-dependencies">Selected dependencies define what a task waits for. A downstream task starts after all its selected prerequisite tasks finish. The overview omits parallel branches and repeated tasks to keep the main path readable.</p></article>
-   <article><h3>Choose the access policy</h3><p id="seneschal-permissions">Modes and permissions describe the selected agent’s access. Plan mode is read-only; Build asks by default. The policy is configurable, and actions, providers and integrations do not all have the same enforcement.</p></article>
-   <article><h3>Keep the result with its session</h3><p id="seneschal-session">Each board card is an OpenCode session. Completed prerequisites can pass labelled handoffs downstream, keeping the context and result connected to the dependent work.</p></article>
-   <article><h3>Review before acceptance</h3><p id="seneschal-review">A configured supervisor is responsible for final acceptance. The board makes review and handoffs visible. Generated work still needs to be checked for correctness and safety.</p></article>
-  </div>
- </section>
- <section class="workflow-notes wrap" id="install" aria-labelledby="install-heading">
-  <p class="eyebrow">Download and setup</p><h2 id="install-heading">Start with the published beta.</h2>
-  <div class="workflow-grid">
-   <article><h3>Windows / WSL setup</h3><p>Requires Windows 11, WSL, Node.js 20+ and an existing OpenCode installation with a connected provider. Node 22.16+ is recommended for the full feature set. Download the Beta 20 ZIP, extract it and run <code>install.cmd</code>; then open the desktop shortcut. It is a script-based installer, not a standalone signed native app.</p></article>
-   <article><h3>Updates and private access</h3><p>Packaged copies check published releases through Settings → App updates. Downloads are checksum-verified and local data is preserved. Source checkouts update through Git. Finish active tasks before restarting. Phone Access has its own setup and verification steps.</p></article>
-  </div>
-  <div class="evidence-links"><a href="https://github.com/Rammeshgar/seneschal/releases/tag/v0.2.1-beta.20" target="_blank" rel="noopener noreferrer">Beta 20 release and ZIP ↗</a><a href="https://github.com/Rammeshgar/seneschal/blob/97587605a63a8dc89b32a81245205b51a9538b2c/docs/PRIVATE-ACCESS-SETUP.md" target="_blank" rel="noopener noreferrer">Private phone setup ↗</a><a href="https://github.com/Rammeshgar/seneschal/blob/97587605a63a8dc89b32a81245205b51a9538b2c/README.md#requirements" target="_blank" rel="noopener noreferrer">Requirements and limitations ↗</a></div>
- </section>
- <section class="case-evidence wrap" aria-labelledby="evidence-heading"><h2 id="evidence-heading">What you can inspect.</h2><div class="evidence-notes"><article><h3>Published Beta 20</h3><p>The release, user guide and current repository document the workspace, Agent Board, Activity, voice and phone access. The screenshot below the interactive examples matches the image in the current repository.</p></article><article><h3>Published validation scope</h3><p>Beta 20 reports 288 passing source/package tests and 207 separate synthetic Phone Access checks. Those checks cover source behavior and packaging; they do not replace testing a fresh Windows/WSL installation, physical phone or microphone. <a href="https://github.com/Rammeshgar/seneschal/blob/97587605a63a8dc89b32a81245205b51a9538b2c/docs/VALIDATION.md" target="_blank" rel="noopener noreferrer">Read the validation record ↗</a></p></article></div><div class="evidence-links"><a href="https://github.com/Rammeshgar/seneschal" target="_blank" rel="noopener noreferrer">Source & documentation ↗</a><a href="https://github.com/Rammeshgar/seneschal/releases" target="_blank" rel="noopener noreferrer">Beta releases ↗</a></div></section>
- <section class="boundaries wrap" aria-labelledby="limits-heading"><h2 id="limits-heading">Beta and privacy boundaries.</h2><p>Cloud model use depends on the selected provider. A local workspace does not mean that model requests remain entirely on the computer; the provider receives the prompt context needed for a request.</p><p>This page runs no agents and reads no private sessions. Its interactive map and railway explain the task-board workflow, not every feature listed above. Beta software and generated results still require review.</p></section>
- <p class="source-review wrap">Companion update, 15 November 2026. <a href="https://github.com/Rammeshgar/seneschal/blob/c391649e6377d1277376b3c6acdb3e81383f66a2/README.md#3d-companion" target="_blank" rel="noopener noreferrer">Source revision c391649</a>. Setup and workspace screenshots refer to the published Beta 20 release.</p>
-</main><footer class="site-footer wrap"><a href="../#work">← Back to selected work</a><a href="../exchange-universe/#monitoring">Explore the monitoring workflow →</a><p>Sadeq Rezai · Budapest</p></footer>
-<noscript><p class="wrap">The complete map and workflow explanations are available without JavaScript.</p></noscript>
-</body></html>
+<meta name="twitter:title" content="Seneschal | AI Workflow Workspace | Sadeq Rezai">
+<meta name="twitter:description" content="A beta Windows and WSL workspace for OpenCode with AI-agent task dependencies, configurable tool permissions, handoffs and review.">
+<meta name="twitter:image" content="https://rammeshgar.github.io/assets/social/seneschal-20261122.png">
+<meta name="twitter:image:alt" content="Seneschal Night Studio workspace screenshot with task composer, project controls and desktop companion.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://rammeshgar.github.io/seneschal/#webpage",
+      "url": "https://rammeshgar.github.io/seneschal/",
+      "name": "Seneschal | AI Workflow Workspace | Sadeq Rezai",
+      "description": "A beta Windows and WSL workspace for OpenCode with AI-agent task dependencies, configurable tool permissions, handoffs and review.",
+      "inLanguage": "en",
+      "image": "https://rammeshgar.github.io/assets/social/seneschal-20261122.png",
+      "isPartOf": {
+        "@id": "https://rammeshgar.github.io/#website"
+      },
+      "dateModified": "2026-11-22T00:05:01+01:00",
+      "mainEntity": {
+        "@id": "https://rammeshgar.github.io/seneschal/#case-study"
+      }
+    },
+    {
+      "@type": "Article",
+      "@id": "https://rammeshgar.github.io/seneschal/#case-study",
+      "headline": "Seneschal | AI Workflow Workspace | Sadeq Rezai",
+      "description": "A beta Windows and WSL workspace for OpenCode with AI-agent task dependencies, configurable tool permissions, handoffs and review.",
+      "inLanguage": "en",
+      "image": [
+        "https://rammeshgar.github.io/assets/social/seneschal-20261122.png"
+      ],
+      "dateModified": "2026-11-22T00:05:01+01:00",
+      "mainEntityOfPage": {
+        "@id": "https://rammeshgar.github.io/seneschal/#webpage"
+      },
+      "author": {
+        "@type": "Person",
+        "@id": "https://rammeshgar.github.io/#sadeq-rezai",
+        "name": "Sadeq Rezai",
+        "url": "https://rammeshgar.github.io/"
+      },
+      "publisher": {
+        "@id": "https://rammeshgar.github.io/#sadeq-rezai"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "Seneschal",
+        "url": "https://github.com/Rammeshgar/seneschal",
+        "operatingSystem": "Windows, WSL",
+        "applicationCategory": "DeveloperApplication",
+        "description": "Local-first OpenCode workspace for coordinating AI-agent tasks and configurable permissions."
+      },
+      "url": "https://rammeshgar.github.io/seneschal/"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://rammeshgar.github.io/#website",
+      "url": "https://rammeshgar.github.io/",
+      "name": "Sadeq Rezai — The Working Studio"
+    }
+  ]
+}
+</script>
+<script defer src="/assets/portfolio-analytics.js?v=20261122"></script>
+<!-- studio-release-seo:end -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/assets/brand-mark.png" type="image/png">
+  <link rel="stylesheet" href="/studio-case.css">
+  <script type="module" src="/studio-case.mjs"></script>
+  <script type="module" src="/studio-v3-seneschal.mjs"></script>
+  <style>
+    #system-map{height:590px}
+    #animated-guide{height:790px}
+    @media(max-width:620px){#system-map{height:650px}#animated-guide{height:820px}}
+  </style>
+</head>
+<body class="case-studio">
+  <a class="skip" href="#project">Skip to the case study</a>
+  <header class="case-top">
+    <div class="case-shell case-header">
+      <a class="brand" href="/" aria-label="Return to Sadeq Rezai's portfolio"><img src="/assets/brand-mark.png" alt="" width="40" height="40"><span><strong>Sadeq Rezai</strong><small>The Working Studio</small></span></a>
+      <nav class="case-nav" aria-label="Case study navigation"><a href="/#work">← Selected work</a><a href="#inside">Workflow</a><a href="#companion">Companion</a><a href="#evidence">Evidence</a></nav>
+      <button type="button" data-case-theme aria-pressed="false" aria-label="Switch to night theme"><span aria-hidden="true">☾</span> Night</button>
+    </div>
+  </header>
+  <main id="project">
+    <section class="case-intro case-shell" aria-labelledby="project-title">
+      <div class="case-kicker"><span>Case 03 / AI workspace</span><span>Beta 20 · Windows / WSL</span></div>
+      <div class="case-hero-grid">
+        <div><h1 id="project-title">Seneschal<span class="period">.</span><em>Keep dependent<br>work connected.</em></h1></div>
+        <div><p class="case-lead">I wanted one workspace where I could choose a model, plan a task, hand work to another agent and see what each agent could change. Seneschal brings those decisions into a local Windows/WSL interface for OpenCode. I structured the workflow and directed the AI-assisted implementation.</p>
+          <div class="case-actions"><a class="case-button" href="#inside">Follow a task ↓</a><a class="case-link" href="https://github.com/Rammeshgar/seneschal/releases/tag/v0.2.1-beta.20">Beta 20 release ↗</a><a class="case-link" href="https://github.com/Rammeshgar/seneschal">Source ↗</a></div>
+        </div>
+      </div>
+    </section>
+    <div class="case-shell">
+      <figure class="case-plate">
+        <div class="plate-meta"><span>Plate 03 / The workspace</span><span>Beta 20 repository capture · November 2026</span></div>
+        <div class="case-media"><img src="/assets/seneschal-beta20-workspace-1024.webp" alt="Seneschal Night Studio, with its city wallpaper, OpenCode chat composer, task controls and companion panel" width="1024" height="576" fetchpriority="high"></div>
+        <figcaption>Night Studio workspace with city pixel art and the 3D companion. This is an actual earlier repository screenshot, not a running agent session.</figcaption>
+      </figure>
+    </div>
+    <section class="case-chapter" id="inside" aria-labelledby="inside-heading">
+      <div class="case-shell">
+        <div class="case-section-head"><div><p class="eyebrow">01 / Agent coordination</p><h2 id="inside-heading">How a task continues.</h2></div><p>Two agents can finish different tasks before a reviewer receives both results. A prerequisite, an access decision or a correction can hold up the next task. Select the map or use the guide to see an example.</p></div>
+        <div class="case-explainers" data-guide-protocol="portfolio">
+          <section class="case-panel" id="panel-map" aria-labelledby="map">
+            <div class="case-toolhead"><h3 id="map" tabindex="-1">01 / How tasks connect</h3><a class="case-link" href="/seneschal/system-map.html" target="_blank" rel="noopener">Full-size map ↗</a></div>
+            <p class="panel-note">Choose a component to read what it does and open its example in the guide.</p>
+            <iframe id="system-map" src="/seneschal/system-map.html?layout=compact" title="Interactive Seneschal task and dependency system map" loading="lazy"></iframe>
+          </section>
+          <section class="case-panel" id="panel-guide" aria-labelledby="guide">
+            <div class="case-toolhead"><h3 id="guide" tabindex="-1">02 / Watch a task continue</h3><a class="case-link" href="/seneschal/guide.html?view=guide" target="_blank" rel="noopener">Full-size guide ↗</a></div>
+            <p class="panel-note">The carrier represents a task result; the barrier represents its access policy. Try a wait, an approval or a correction. Motion runs while the guide is in view and can be paused.</p>
+            <iframe id="animated-guide" data-src="/seneschal/guide.html?view=guide&amp;layout=compact" title="Animated Seneschal railway guide showing prerequisites, approval, handoffs and review" loading="lazy"></iframe>
+            <noscript><p><a class="case-link" href="/seneschal/guide.html?view=guide">Open the complete guide ↗</a></p></noscript>
+          </section>
+        </div>
+        <p class="case-detail-note">The map and railway are explanatory illustrations. They run no agents and read no private sessions. A <a class="case-link" href="/seneschal/flow-static.html" target="_blank" rel="noopener">script-free map ↗</a> and the <a class="case-link" href="https://rammeshgar.github.io/seneschal/">original published case study ↗</a> are also available.</p>
+      </div>
+    </section>
+    <section class="case-chapter" id="workflow" aria-labelledby="workflow-heading">
+      <div class="case-shell">
+        <div class="case-section-head"><div><p class="eyebrow">02 / Design decisions</p><h2 id="workflow-heading">Decide what can happen next.</h2></div><p>Working with several agents introduces dependencies, permissions and review. I made those points explicit in the task board rather than leaving them entirely in a conversation.</p></div>
+        <div class="case-grid">
+          <article class="case-card"><p class="eyebrow">01 / Wait</p><h3>Selected prerequisites</h3><p>A downstream task can wait until all of its selected prerequisite tasks finish. The board can run independent workers in parallel and show what is blocking the next task.</p></article>
+          <article class="case-card"><p class="eyebrow">02 / Access</p><h3>Mode and policy</h3><p>Plan explores without changing files; Build uses the configured permissions, and Chat leaves active tools off. Tool availability and permission to use one are separate decisions.</p></article>
+          <article class="case-card"><p class="eyebrow">03 / Handoff</p><h3>Keep each task's context</h3><p>Each board card retains its OpenCode session. Completed prerequisites can pass labelled handoffs downstream so the next agent receives the relevant work.</p></article>
+          <article class="case-card"><p class="eyebrow">04 / Review</p><h3>Review before acceptance</h3><p>A configured supervisor can review completed work and request bounded corrections. Generated results still need someone to check them for correctness and safety.</p></article>
+        </div>
+        <div class="case-actions"><a class="case-link" href="https://github.com/Rammeshgar/seneschal/blob/97587605a63a8dc89b32a81245205b51a9538b2c/docs/USER-GUIDE.md">Task board and controls in the user guide ↗</a><a class="case-link" href="#inside">Return to the interactive explanation ↑</a></div>
+      </div>
+    </section>
+    <section class="case-chapter" id="companion" aria-labelledby="companion-heading">
+      <div class="case-shell">
+        <div class="case-section-head"><div><p class="eyebrow">03 / A personal workspace</p><h2 id="companion-heading">A companion, built as an actual model.</h2></div><p>I wanted a configurable local interface, including a companion that could respond to listening, thinking and speaking. I directed the Blender redesign around fitted ceramic panels, fixed shoulder sockets and a recessed chest badge.</p></div>
+        <figure class="case-plate">
+          <div class="plate-meta"><span>Plate 03.B / Companion revision</span><span>Captured in the Seneschal renderer</span></div>
+          <div class="case-media"><img src="/assets/seneschal-companion-v07.webp" alt="Front and rear render views of the revised Seneschal 3D companion with fitted chest badge, shoulder joints and rear service panel" width="1056" height="566" loading="lazy" decoding="async"></div>
+          <figcaption>Front and rear views from the 15 November 2026 companion update. The revised Blender model is available through the source build.</figcaption>
+        </figure>
+        <div class="case-grid case-evidence">
+          <article class="case-card"><p class="eyebrow">Recorded model checks</p><h3>78 sampled poses</h3><p>The model validation sampled 78 poses over six animation states for arm-to-shell intersections. Browser checks also covered camera rotation and simulated speech at sidebar size.</p></article>
+          <article class="case-card"><p class="eyebrow">Interaction boundary</p><h3>Voice is optional</h3><p>Browser speech or an optional NVIDIA cloud speech provider can be used with separate microphone and speaker controls. Cloud speech sends audio to its provider only when explicitly enabled.</p></article>
+        </div>
+        <div class="case-actions"><a class="case-link" href="https://github.com/Rammeshgar/seneschal/blob/c391649e6377d1277376b3c6acdb3e81383f66a2/README.md#3d-companion">Companion source and validation ↗</a></div>
+      </div>
+    </section>
+    <section class="case-chapter" id="workspace" aria-labelledby="workspace-heading">
+      <div class="case-shell">
+        <div class="case-section-head"><div><p class="eyebrow">04 / The workspace</p><h2 id="workspace-heading">Beyond the task board.</h2></div><p>Seneschal is a personal interface around a running OpenCode installation. These are features documented for the Beta 20 workspace.</p></div>
+        <div class="case-grid">
+          <article class="case-card"><h3>Sessions, models and roles</h3><p>Choose a model per session, organise Plan, Build or Chat work, and inspect the available tools and policy for that session.</p></article>
+          <article class="case-card"><h3>Teams with retained context</h3><p>Turn a selected plan into a team or configure the board yourself. Up to eight independent workers can run in parallel; saved boards retain their linked sessions.</p></article>
+          <article class="case-card"><h3>Activity and usage</h3><p>Overview, Sessions, Usage and Service views bring activity into the workspace. An optional local history service indexes OpenCode history. Usage estimates are not provider invoices.</p></article>
+          <article class="case-card"><h3>Nine local wallpaper scenes</h3><p>Afterlight worlds can be used in the workspace with scene interactions, lighting and motion controls. English and فارسی controls support right-to-left panels. Wallpaper art does not need a model request.</p></article>
+          <article class="case-card"><h3>Private phone access</h3><p>After local setup checks, a paired browser can connect through Tailscale to your running PC. The PC stays awake and runs the engine. This is remote access to your own setup, not cloud hosting.</p></article>
+          <article class="case-card"><h3>Local integrations</h3><p>Browser automation, Blender and a VS Code companion can be connected when their supported local setup is available. The project also documents what needs to be installed separately.</p></article>
+        </div>
+        <div class="case-actions"><a class="case-link" href="/afterlight-case/">See the Afterlight case study ↗</a><a class="case-link" href="https://github.com/Rammeshgar/seneschal/blob/97587605a63a8dc89b32a81245205b51a9538b2c/docs/USER-GUIDE.md">Published user guide ↗</a></div>
+      </div>
+    </section>
+    <section class="case-chapter" id="evidence" aria-labelledby="evidence-heading">
+      <div class="case-shell">
+        <div class="case-section-head"><div><p class="eyebrow">05 / Release evidence</p><h2 id="evidence-heading">What can be checked.</h2></div><p>The release, repository and validation record document the implementation. The figures here are a historical Beta 20 report, not a fresh test of your computer.</p></div>
+        <div class="case-grid case-evidence">
+          <article class="case-card"><p class="eyebrow">Beta 20 / recorded validation</p><h3>288 source and package tests</h3><p>The published Beta 20 report lists 288 passing source/package tests. These cover source behaviour and packaging, not a new Windows installation from this page.</p><a class="case-link" href="https://github.com/Rammeshgar/seneschal/blob/97587605a63a8dc89b32a81245205b51a9538b2c/docs/VALIDATION.md">Read the validation record ↗</a></article>
+          <article class="case-card"><p class="eyebrow">Private phone access</p><h3>207 synthetic checks</h3><p>The separately documented Phone Access tests are synthetic checks. They do not replace testing with an actual paired phone, microphone, model provider or local network.</p><a class="case-link" href="https://github.com/Rammeshgar/seneschal/blob/97587605a63a8dc89b32a81245205b51a9538b2c/docs/PRIVATE-ACCESS-SETUP.md">Private access setup ↗</a></article>
+        </div>
+        <div class="case-card"><p class="eyebrow">Windows / WSL setup</p><h3>Start with the published beta.</h3><p>Beta 20 requires Windows 11, WSL, Node.js 20+ and an existing OpenCode installation with a connected provider. Node 22.16+ is recommended for the full feature set. The ZIP includes a script-based installer; this is not a signed standalone native application. Read the installation requirements before running it.</p><div class="case-actions"><a class="case-button" href="https://github.com/Rammeshgar/seneschal/releases/tag/v0.2.1-beta.20">Beta 20 release ↗</a><a class="case-link" href="https://github.com/Rammeshgar/seneschal/blob/97587605a63a8dc89b32a81245205b51a9538b2c/README.md#requirements">Requirements ↗</a><a class="case-link" href="https://github.com/Rammeshgar/seneschal/releases">All beta releases ↗</a></div></div>
+        <aside class="case-note"><strong>Limits and privacy:</strong> The model provider selected for a session receives the prompt context required for its request. A local workspace does not imply that cloud inference stays on your computer. Permission configuration and enforcement differ across actions, tools and providers. This portfolio preview does not run OpenCode, contact model services or read private sessions.</aside>
+      </div>
+    </section>
+  </main>
+  <footer class="case-footer"><div class="case-shell"><div><p class="eyebrow">The Working Studio / Seneschal</p><h2>Back to the work.</h2></div><div class="case-actions"><a class="case-button" href="/#work">Selected work ↗</a><a class="case-link" href="/exchange-universe/#monitor">Monitoring case ↗</a><a class="case-link" href="https://github.com/Rammeshgar/seneschal">Source ↗</a></div><p>Project source and release references</p></div></footer>
+</body>
+</html>

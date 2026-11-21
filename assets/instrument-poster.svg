@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" role="img" aria-labelledby="title desc">
+  <title id="title">Signal Path, three-stage instrument</title>
+  <desc id="desc">An original industrial instrument with an instruction card, a copper routing selector and an evidence card on a machined obsidian base.</desc>
+  <defs>
+    <linearGradient id="shell" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#616564"/><stop offset=".22" stop-color="#353e3e"/><stop offset=".62" stop-color="#222c2d"/><stop offset="1" stop-color="#414b49"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" x2=".9" y1="0" y2="1">
+      <stop stop-color="#69716d"/><stop offset=".32" stop-color="#394343"/><stop offset=".67" stop-color="#242c2d"/><stop offset="1" stop-color="#505a57"/>
+    </linearGradient>
+    <linearGradient id="side" x1="0" x2=".3" y1="0" y2="1">
+      <stop stop-color="#444a49"/><stop offset=".25" stop-color="#232b2d"/><stop offset=".82" stop-color="#161c1f"/><stop offset="1" stop-color="#303735"/>
+    </linearGradient>
+    <linearGradient id="copper" x1="0" x2="1" y1="0" y2="0">
+      <stop stop-color="#91613c"/><stop offset=".32" stop-color="#e4b57b"/><stop offset=".67" stop-color="#a67249"/><stop offset="1" stop-color="#684330"/>
+    </linearGradient>
+    <radialGradient id="lens" cx=".37" cy=".22" r=".85">
+      <stop stop-color="#8da5a0" stop-opacity=".92"/><stop offset=".52" stop-color="#526966" stop-opacity=".58"/><stop offset=".86" stop-color="#1d2d2d" stop-opacity=".6"/><stop offset="1" stop-color="#98b4ad" stop-opacity=".73"/>
+    </radialGradient>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2=".8">
+      <stop stop-color="#e7dcc2"/><stop offset=".57" stop-color="#c9bea1"/><stop offset="1" stop-color="#c5b394"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#c0d1c9" stop-opacity=".66"/><stop offset=".5" stop-color="#566f6a" stop-opacity=".16"/><stop offset="1" stop-color="#88ada4" stop-opacity=".46"/>
+    </linearGradient>
+    <radialGradient id="shadow">
+      <stop stop-color="#05090a" stop-opacity=".64"/><stop offset=".62" stop-color="#020504" stop-opacity=".26"/><stop offset="1" stop-color="#05090a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="signal">
+      <stop stop-color="#fff0ad"/><stop offset=".35" stop-color="#ffd181"/><stop offset="1" stop-color="#e49a4d" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="brushed" width="5" height="5" patternUnits="userSpaceOnUse">
+      <path d="M0 .5h5" stroke="#b6bfba" stroke-opacity=".04" stroke-width=".75"/>
+    </pattern>
+    <g id="bolt"><circle r="6.4" fill="#151d1e"/><circle r="4.7" fill="#a9a28e" stroke="#5c5e55" stroke-width="1"/><path d="M-2.7 1.4 2.7-1.4" stroke="#333b38" stroke-width="1.3"/></g>
+    <g id="small-bolt"><circle r="3.7" fill="#161e20"/><circle r="2.6" fill="#85867a"/><path d="M-1.3 0h2.6" stroke="#303936" stroke-width=".7"/></g>
+  </defs>
+
+  <ellipse cx="481" cy="510" rx="437" ry="133" fill="url(#shadow)"/>
+  <ellipse cx="480" cy="504" rx="332" ry="86" fill="url(#shadow)" opacity=".45"/>
+
+  <!-- The front and right sides retain a vertical machined edge. -->
+  <path d="M116 380 685 493 847 263 847 289Q847 301 840 310L692 525Q687 532 678 531L122 418Q111 415 111 404Z" fill="url(#side)" stroke="#141c1d" stroke-width="1.8"/>
+  <path d="M110 399 683 514 844 285" fill="none" stroke="#68736c" stroke-opacity=".45" stroke-width="3"/>
+  <path d="M121 407 680 519" stroke="#aa744a" stroke-width="2" stroke-opacity=".7"/>
+  <g fill="#141c1c" stroke="#555d57" stroke-width=".7">
+    <path d="m315 445 10 2v7l-10-2z"/><path d="m332 448 10 2v7l-10-2z"/>
+    <path d="m349 452 10 2v7l-10-2z"/><path d="m366 455 10 2v7l-10-2z"/>
+    <path d="m383 458 10 2v7l-10-2z"/><path d="m400 462 10 2v7l-10-2z"/>
+    <path d="m417 465 10 2v7l-10-2z"/><path d="m434 468 10 2v7l-10-2z"/>
+    <path d="m451 472 10 2v7l-10-2z"/><path d="m468 475 10 2v7l-10-2z"/>
+    <path d="m485 478 10 2v7l-10-2z"/><path d="m502 482 10 2v7l-10-2z"/>
+  </g>
+
+  <!-- The top plane is drawn on a true affine isometric-like projection. -->
+  <g transform="matrix(.87 .175 -.43 .58 285 142)">
+    <rect width="650" height="410" rx="24" fill="url(#shell)" stroke="#69716a" stroke-width="2.2"/>
+    <rect x="6" y="6" width="638" height="398" rx="20" fill="#171f20" stroke="#b1b0a1" stroke-width="1"/>
+    <rect x="13" y="13" width="624" height="384" rx="16" fill="url(#metal)" stroke="#5d6661"/>
+    <rect x="13" y="13" width="624" height="384" rx="16" fill="url(#brushed)"/>
+    <g fill="none" stroke="#b1b6a9" stroke-width="1" stroke-opacity=".52">
+      <path d="M22 29h93M22 29v47M535 29h92m0 0v47M22 382h95m-95 0v-37m512 37h93m0 0v-37"/>
+    </g>
+    <use href="#bolt" x="26" y="26"/><use href="#bolt" x="624" y="26"/><use href="#bolt" x="26" y="383"/><use href="#bolt" x="624" y="383"/>
+    <text x="325" y="29" text-anchor="middle" fill="#b5b3a6" font-size="8" letter-spacing="4" font-family="monospace">SR / SIGNAL PATH</text>
+    <g fill="#af976a" stroke="#af976a" opacity=".7"><path d="M75 43h118m264 0h118" stroke-width=".8"/>
+      <path d="M82 40v6m10-6v6m10-6v6m10-6v6m10-6v6m10-6v6m10-6v6m10-6v6m10-6v6m10-6v6m296-6v6m10-6v6m10-6v6m10-6v6m10-6v6m10-6v6m10-6v6m10-6v6m10-6v6m10-6v6" stroke-width=".7"/>
+    </g>
+
+    <!-- Three milled chambers and understated copper seams. -->
+    <g fill="#121b1d" stroke="#596462" stroke-width="1.4">
+      <rect x="38" y="56" width="174" height="287" rx="12"/>
+      <rect x="230" y="56" width="190" height="287" rx="12"/>
+      <rect x="438" y="56" width="174" height="287" rx="12"/>
+    </g>
+    <g fill="none" stroke="url(#copper)" stroke-width="1.8">
+      <path d="M51 74v-6h148v6m-148 252v5h148v-5m-148-245v235m148-235v235"/>
+      <path d="M244 74v-6h162v6m-162 252v5h162v-5m-162-245v235m162-235v235" opacity=".60"/>
+      <path d="M451 74v-6h148v6m-148 252v5h148v-5m-148-245v235m148-235v235" opacity=".60"/>
+    </g>
+
+    <!-- Input bed and laminated instruction card. -->
+    <rect x="58" y="97" width="134" height="202" rx="9" fill="#171f20" stroke="#060e11" stroke-width="3"/>
+    <rect x="60" y="89" width="130" height="201" rx="8" fill="url(#metal)" stroke="#777f75"/>
+    <rect x="69" y="98" width="112" height="184" rx="6" fill="#161e1f"/>
+    <path d="M72 110v151m106-151v151" stroke="url(#copper)" stroke-width="5"/>
+    <use href="#small-bolt" x="74" y="112"/><use href="#small-bolt" x="176" y="112"/>
+    <use href="#small-bolt" x="74" y="257"/><use href="#small-bolt" x="176" y="257"/>
+    <rect x="85" y="111" width="82" height="146" rx="4" fill="#2c2b25" stroke="#6a6254" stroke-width="1.5"/>
+    <rect x="85" y="101" width="82" height="145" rx="3.5" fill="url(#paper)" stroke="#d8c7a7" stroke-width="1.2"/>
+    <g fill="#454b43" font-family="monospace"><text x="95" y="122" font-size="9">01</text><text x="95" y="138" font-family="Arial" font-size="11" font-weight="700">INPUT</text></g>
+    <path d="M95 147h62" stroke="#946d48" stroke-width="1.3"/>
+    <g fill="#777767"><rect x="95" y="157" width="60" height="2"/><rect x="95" y="169" width="43" height="2"/><rect x="95" y="181" width="56" height="2"/><rect x="95" y="193" width="46" height="2"/></g>
+    <rect x="95" y="216" width="14" height="14" rx="1" fill="none" stroke="#936d48" stroke-width="1"/><path d="m98 223 3 3 5-7" fill="none" stroke="#936d48" stroke-width="1.3"/>
+    <rect x="67" y="91" width="116" height="23" rx="4" fill="url(#glass)" stroke="#8aa19a" stroke-width="1.3"/>
+    <path d="M76 95h98" stroke="#e1e9dd" stroke-opacity=".56"/>
+    <g fill="url(#copper)"><rect x="91" y="266" width="5" height="15"/><rect x="101" y="266" width="5" height="15"/><rect x="111" y="266" width="5" height="15"/><rect x="121" y="266" width="5" height="15"/><rect x="131" y="266" width="5" height="15"/><rect x="141" y="266" width="5" height="15"/><rect x="151" y="266" width="5" height="15"/></g>
+    <rect x="121" y="266" width="5" height="15" fill="#ffc57d"/>
+
+    <!-- Rotary bus and glass channel strips. -->
+    <rect x="245" y="100" width="160" height="193" rx="13" fill="#101719" stroke="#101719" stroke-width="4"/>
+    <rect x="248" y="92" width="154" height="190" rx="12" fill="url(#metal)" stroke="url(#copper)" stroke-width="2"/>
+    <rect x="257" y="108" width="136" height="158" rx="10" fill="#2b3534" stroke="#656e66"/>
+    <rect x="262" y="112" width="126" height="15" rx="4" fill="url(#glass)" stroke="#9b865f" stroke-width="1.5"/>
+    <rect x="262" y="243" width="126" height="15" rx="4" fill="url(#glass)" stroke="#9b865f" stroke-width="1.5"/>
+    <use href="#small-bolt" x="262" y="102"/><use href="#small-bolt" x="388" y="102"/><use href="#small-bolt" x="262" y="270"/><use href="#small-bolt" x="388" y="270"/>
+    <circle cx="325" cy="186" r="65" fill="#11191b" stroke="#5a645f" stroke-width="2"/>
+    <circle cx="325" cy="180" r="61" fill="#3a4443" stroke="url(#copper)" stroke-width="2.3"/>
+    <circle cx="325" cy="180" r="56" fill="#131d1e" stroke="#a08b68" stroke-width="1"/>
+    <circle cx="325" cy="180" r="49" fill="none" stroke="#b3a68a" stroke-width="5.6" stroke-dasharray="1.4 5"/>
+    <circle cx="325" cy="180" r="40" fill="#121c1e" stroke="#98603c" stroke-width="1"/>
+    <circle cx="325" cy="175" r="34" fill="url(#lens)" stroke="#9ab7ae" stroke-width="1.5"/>
+    <circle cx="325" cy="175" r="29" fill="none" stroke="url(#copper)" stroke-width="1.5"/>
+    <path d="M325 146v58m-29-29h58" stroke="#a98458" stroke-width="3" stroke-linecap="round" opacity=".74"/>
+    <circle cx="325" cy="175" r="14" fill="url(#metal)" stroke="#a5754a" stroke-width="2.5"/>
+    <circle cx="325" cy="175" r="7" fill="#dba46b" stroke="#eac390" stroke-width="1.8"/>
+    <circle cx="325" cy="175" r="3" fill="#ffcf8a"/>
+
+    <!-- Output inspection bed and the physical proof card. -->
+    <rect x="458" y="99" width="134" height="202" rx="9" fill="#131b1d" stroke="#101719" stroke-width="4"/>
+    <rect x="461" y="94" width="128" height="194" rx="8" fill="url(#metal)" stroke="#757b70"/>
+    <rect x="468" y="102" width="114" height="175" rx="5" fill="#2c2a23" stroke="#966c45" stroke-width="1.4"/>
+    <path d="M468 112v148m114-148v148" stroke="url(#copper)" stroke-width="4"/>
+    <rect x="478" y="115" width="94" height="143" rx="3" fill="#434039"/>
+    <rect x="478" y="108" width="94" height="143" rx="3.3" fill="url(#paper)" stroke="#c9ba9a" stroke-width="1.2"/>
+    <text x="489" y="130" fill="#4d5248" font-size="9" font-family="monospace">03</text>
+    <text x="489" y="148" fill="#323e36" font-size="12" font-family="Arial" font-weight="700">PROOF</text>
+    <path d="M489 157h72" stroke="#946d48" stroke-width="1.2"/>
+    <g stroke="#726d5b" stroke-width="1.1" fill="none">
+      <rect x="489" y="169" width="7" height="7"/><path d="m490 172 2 3 3-5"/><rect x="489" y="190" width="7" height="7"/><path d="m490 193 2 3 3-5"/><rect x="489" y="211" width="7" height="7"/><path d="m490 214 2 3 3-5"/>
+    </g>
+    <g fill="#777b6c"><rect x="503" y="169" width="50" height="2"/><rect x="503" y="175" width="35" height="1.5" opacity=".46"/><rect x="503" y="190" width="45" height="2"/><rect x="503" y="196" width="36" height="1.5" opacity=".46"/><rect x="503" y="211" width="39" height="2"/><rect x="503" y="217" width="27" height="1.5" opacity=".46"/></g>
+    <path d="M489 238h72" stroke="#946d48" stroke-width="1"/>
+    <use href="#small-bolt" x="469" y="110"/><use href="#small-bolt" x="581" y="110"/><use href="#small-bolt" x="469" y="261"/><use href="#small-bolt" x="581" y="261"/>
+    <rect x="468" y="270" width="114" height="13" rx="3" fill="url(#metal)" stroke="#6f7a72"/>
+    <g fill="#11191a"><rect x="494" y="273" width="6" height="7"/><rect x="505" y="273" width="6" height="7"/><rect x="516" y="273" width="6" height="7"/><rect x="527" y="273" width="6" height="7"/><rect x="538" y="273" width="6" height="7"/><rect x="549" y="273" width="6" height="7"/></g>
+
+    <!-- Copper route: the active first signal joins the central selector. -->
+    <g fill="none" stroke="#0e1517" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M125 281v25h51q20 0 33-20l30-76h20"/>
+      <path d="M259 210v-67q0-13 14-13h105q13 0 13 13v67"/>
+      <path d="M259 210v20q0 13 15 13h103q14 0 14-13v-20"/>
+      <path d="M391 210h20l30 76q13 20 33 20h51v-24"/>
+    </g>
+    <g fill="none" stroke="url(#copper)" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M125 281v25h51q20 0 33-20l30-76h20" stroke="#e5a467"/>
+      <path d="M259 210v-67q0-13 14-13h105q13 0 13 13v67" opacity=".72"/>
+      <path d="M259 210v20q0 13 15 13h103q14 0 14-13v-20" opacity=".72"/>
+      <path d="M391 210h20l30 76q13 20 33 20h51v-24" opacity=".72"/>
+    </g>
+    <g fill="#a7774e" stroke="#272e2b" stroke-width="1.4"><circle cx="125" cy="281" r="5.5"/><circle cx="259" cy="210" r="5.5"/><circle cx="391" cy="210" r="5.5"/><circle cx="525" cy="282" r="5.5"/></g>
+    <circle cx="215" cy="269" r="15" fill="url(#signal)"/>
+    <circle cx="215" cy="269" r="3.7" fill="#fff0b3"/>
+
+    <!-- Engraved front nomenclature, separate from the illustration's meaning. -->
+    <g font-family="Arial" font-weight="600" font-size="9.5" letter-spacing="1.4">
+      <g transform="translate(39 350)"><rect width="172" height="32" rx="4" fill="#242e2e" stroke="#6c6759"/><text x="11" y="13" fill="#d7bb90" font-size="7" font-family="monospace">01 / REQUEST</text><text x="11" y="25" fill="#e4dcce">INPUT</text><circle cx="155" cy="16" r="7" fill="#775336"/><circle cx="155" cy="16" r="3.6" fill="#ffca80"/></g>
+      <g transform="translate(231 350)"><rect width="188" height="32" rx="4" fill="#242e2e" stroke="#6c6759"/><text x="11" y="13" fill="#b3b1a1" font-size="7" font-family="monospace">02 / SYSTEM</text><text x="11" y="25" fill="#e4dcce">ROUTING</text><circle cx="171" cy="16" r="7" fill="#594834"/><circle cx="171" cy="16" r="3.1" fill="#957047"/></g>
+      <g transform="translate(439 350)"><rect width="172" height="32" rx="4" fill="#242e2e" stroke="#6c6759"/><text x="11" y="13" fill="#b3b1a1" font-size="7" font-family="monospace">03 / PROOF</text><text x="11" y="25" fill="#e4dcce">EVIDENCE</text><circle cx="155" cy="16" r="7" fill="#594834"/><circle cx="155" cy="16" r="3.1" fill="#957047"/></g>
+    </g>
+  </g>
+</svg>

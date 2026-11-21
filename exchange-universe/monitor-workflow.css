@@ -34,6 +34,9 @@ body { margin: 0; background: var(--surface); color: var(--foreground); font: 1r
 .flow-note { margin: .7rem 0 0; color: var(--secondary); font-size: .78rem; }
 .monitor-flow[data-layout="compact"] { max-width: 100%; padding: .85rem 1rem; }
 [data-layout="compact"] .flow-art { max-width: 40rem; }
+[data-mobile-flow="true"] .flow-art { max-width: 420px; margin: .8rem auto; }
+html:root body .monitor-flow :is(.flow-controls,.flow-steps) button:not(:disabled):hover,
+html:root body .monitor-flow :is(.flow-controls,.flow-steps) button:not(:disabled):focus-visible { background: var(--focal) !important; color: var(--foreground) !important; border-color: var(--accent) !important; transition: none; }
 .monitor-flow[data-layout="preview"] {
  display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 100dvh; max-width: none;
  padding: clamp(.5rem, 3vw, 1.5rem); background: var(--surface-raised); overflow: hidden;

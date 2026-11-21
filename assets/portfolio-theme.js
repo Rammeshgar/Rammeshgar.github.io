@@ -1,7 +1,7 @@
 /* One local theme preference. No network, media, playback or selection changes. */
 (()=>{'use strict';
  if(window.PortfolioTheme)return;
- const key='sadeq-portfolio-theme',root=document.documentElement;
+ const key='studio-v3-theme',root=document.documentElement;
  const system=window.matchMedia('(prefers-color-scheme: dark)');
  const valid=value=>value==='light'||value==='dark';
  let choice=null,current;
@@ -23,7 +23,7 @@
  function set(theme){if(!valid(theme))return;choice=theme;try{localStorage.setItem(key,theme);}catch{}apply(theme);}
  const api={get current(){return current;},get preference(){return choice;},set,toggle(){set(current==='dark'?'light':'dark');}};
  window.PortfolioTheme=api;
- apply(choice||(system.matches?'dark':'light'));
+ apply(choice||'light');
  system.addEventListener('change',()=>{if(choice===null)apply(system.matches?'dark':'light');});
  window.addEventListener('storage',event=>{if(event.key!==key&&event.key!==null)return;choice=valid(event.newValue)?event.newValue:null;apply(choice||(system.matches?'dark':'light'));});
  window.addEventListener('message',event=>{
@@ -35,12 +35,20 @@
  function mount(){
   apply(current);
   const compact=['compact','preview'].includes(new URLSearchParams(location.search).get('layout'));
+  if(parent!==window&&new URLSearchParams(location.search).get('layout')==='preview'){
+   const tag=document.createElement('div');tag.className='studio-preview-tag';tag.setAttribute('aria-hidden','true');tag.textContent='Animated preview · Open case study';document.body.append(tag);
+  }
   let button=document.querySelector('[data-theme-toggle]');
   if(!button&&!compact){
    // Keep an existing standalone figure control instead of adding a duplicate.
    button=document.getElementById('theme');
    if(!button){const host=document.querySelector('[data-theme-control],.site-header nav,.site-header,header');if(host){button=document.createElement('button');host.append(button);}}
    if(button){button.type='button';button.classList.add('theme-toggle');button.setAttribute('data-theme-toggle','');button.innerHTML='<span data-theme-icon aria-hidden="true">☾</span><span class="theme-label">Theme</span>';}
+  }
+  if(parent===window&&!compact){
+   const project=location.pathname.split('/').filter(Boolean).at(-2),file=location.pathname.split('/').at(-1);
+   const page=project==='exchange-universe'?(file==='monitor-workflow.html'?'/exchange-universe-monitor-case/':'/exchange-universe/'):({seneschal:'/seneschal/', 'digital-twin':'/digital-twin/', 'qa-suite':'/qa-suite/'})[project];
+   if(page&&!document.querySelector('a[href="'+page+'"]')){const rail=document.createElement('nav');rail.className='studio-figure-return';rail.setAttribute('aria-label','Case study navigation');const link=document.createElement('a');link.href=page;link.textContent='← Back to case study';const label=document.createElement('span');label.textContent='The Working Studio / interactive figure';rail.append(link,label);const host=document.querySelector('main');if(host)host.prepend(rail);else document.body.prepend(rail);}
   }
   refreshButtons();document.querySelectorAll('iframe').forEach(tell);
  }

@@ -1,0 +1,13 @@
+/* Intro composition shared by the supplementary project cases. */
+.case-intro>.case-hero-grid{margin-bottom:clamp(30px,4vw,58px)}
+.case-hero-grid h1{font-size:clamp(52px,6.4vw,94px);line-height:.97;letter-spacing:-.067em}
+.case-hero-grid h1 em{font-size:clamp(34px,4.6vw,66px);margin-top:9px;line-height:1.08}
+.case-intro .case-lead{margin-top:22px}
+.case-section-head .case-kicker,.case-note .case-kicker{padding:0;border:none;margin-bottom:10px!important;color:var(--copper);font:500 12px/1.45 Mono,monospace}
+.case-section-head+.case-note,.case-chapter>.case-note{margin-top:22px}
+.case-intro aside.case-note{padding:25px 28px}
+.case-intro aside.case-note p:not(.case-kicker){line-height:1.45;font-size:clamp(17px,2vw,26px);color:var(--ink)}
+.case-intro aside.case-note p.monitor-small{font-size:14px;color:var(--muted);line-height:1.55}
+.case-intro .case-plate img.case-media{width:100%;object-fit:contain;max-height:720px}
+@media(max-width:960px){.case-hero-grid h1{font-size:clamp(52px,8.7vw,84px)}.case-hero-grid h1 em{font-size:clamp(34px,6vw,59px)}.case-intro aside.case-note{max-width:none}}
+@media(max-width:620px){.case-hero-grid h1{font-size:clamp(44px,11.4vw,64px);letter-spacing:-.06em}.case-hero-grid h1 em{font-size:clamp(28px,7.8vw,40px)}.case-intro .case-lead{margin-top:17px}.case-intro aside.case-note{padding:17px 18px}.case-intro aside.case-note p:not(.case-kicker){font-size:17px}.case-intro aside.case-note p.monitor-small{font-size:14px}}
