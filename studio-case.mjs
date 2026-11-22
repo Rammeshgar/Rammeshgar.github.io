@@ -8,6 +8,7 @@ try{const saved=localStorage.getItem(key);if(validTheme(saved))theme=saved;}catc
 const preferenceButtons=[...document.querySelectorAll('[data-case-theme]')];
 function send(frame,data){if(frame?.contentWindow&&frame.getAttribute('src'))frame.contentWindow.postMessage(data,location.origin);}
 function broadcastTheme(){for(const frame of document.querySelectorAll('iframe'))send(frame,{type:'portfolio-theme',theme});}
+const assistantOpen=()=>root.classList.contains('studio-assistant-open');
 function setTheme(value,save=false){
   if(!validTheme(value))return;theme=value;root.dataset.theme=value;root.style.colorScheme=value;
   for(const button of preferenceButtons){button.setAttribute('aria-pressed',String(value==='dark'));button.setAttribute('aria-label',value==='dark'?'Switch to day theme':'Switch to night theme');const label=button.querySelector('[data-theme-label]');if(label)label.textContent=value==='dark'?'Day':'Night';else button.textContent=value==='dark'?'☀ Day':'☾ Night';}
@@ -29,7 +30,8 @@ function setup(panel){
   const mapHeading=panel.querySelector('#map'),guideHeading=panel.querySelector('#guide'),guidePanel=panel.querySelector('#panel-guide')||guide.closest('.case-panel');
   const readSource=()=>guide.dataset.src||guide.dataset.guide;
   function loadGuide(){const src=readSource();if(src&&!guide.getAttribute('src'))guide.setAttribute('src',src);}
-  function tell(){if(!guide.getAttribute('src')||!ready)return;const open=visible&&!document.hidden&&!suspended;send(guide,{type:protocol==='exchange'?'exchange-anatomy':'portfolio-figure',theme,open});if(open&&pending){send(guide,{type:protocol==='exchange'?'exchange-case-selection':protocol==='monitor'?'monitor-guide-selection':'portfolio-guide-selection',...pending});pending=null;}}
+  function tell(){if(!guide.getAttribute('src')||!ready)return;const open=visible&&!document.hidden&&!suspended&&!assistantOpen();send(guide,{type:protocol==='exchange'?'exchange-anatomy':'portfolio-figure',theme,open});if(open&&pending){send(guide,{type:protocol==='exchange'?'exchange-case-selection':protocol==='monitor'?'monitor-guide-selection':'portfolio-guide-selection',...pending});pending=null;}}
+  function tellAssistantState(){send(map,{type:'portfolio-assistant-active',active:assistantOpen()});tell();}
   function guideFocus(){loadGuide();history.replaceState(null,'','#guide');guideHeading?.focus({preventScroll:true});guidePanel?.scrollIntoView({block:'nearest',behavior:'auto'});tell();}
   if('IntersectionObserver'in window)new IntersectionObserver(entries=>{visible=entries.at(-1).isIntersecting;if(visible)loadGuide();tell();},{threshold:.05}).observe(guide);else{visible=true;loadGuide();}
   function height(frame,value){if(Number.isFinite(value)&&value>=200&&value<=1600){frame.dataset.fit='true';frame.style.setProperty('--frame-height',Math.ceil(value)+'px');}}
@@ -49,7 +51,7 @@ function setup(panel){
     }
   });
   function hash(){if(location.hash==='#guide'){loadGuide();guideHeading?.focus({preventScroll:true});}else if(location.hash==='#map')mapHeading?.focus({preventScroll:true});}
-  guide.addEventListener('load',()=>{send(guide,{type:'portfolio-theme',theme});tell();});map.addEventListener('load',()=>{send(map,{type:'portfolio-theme',theme});if(protocol==='exchange')send(map,{type:'exchange-case-map-measure'});});
-  document.addEventListener('visibilitychange',tell);document.addEventListener('studio-case-theme',tell);window.addEventListener('pagehide',()=>{suspended=true;tell();});window.addEventListener('pageshow',()=>{suspended=false;tell();});window.addEventListener('hashchange',hash);hash();
+  guide.addEventListener('load',()=>{send(guide,{type:'portfolio-theme',theme});tell();});map.addEventListener('load',()=>{send(map,{type:'portfolio-theme',theme});tellAssistantState();if(protocol==='exchange')send(map,{type:'exchange-case-map-measure'});});
+  document.addEventListener('visibilitychange',tell);document.addEventListener('studio-case-theme',tell);document.addEventListener('studio-assistant-open',tellAssistantState);document.addEventListener('studio-assistant-close',tellAssistantState);window.addEventListener('pagehide',()=>{suspended=true;tell();});window.addEventListener('pageshow',()=>{suspended=false;tell();});window.addEventListener('hashchange',hash);hash();
 }
 fields.forEach(setup);

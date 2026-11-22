@@ -38,7 +38,8 @@ if (demo) {
   let frameCount = 0;
   let isLightOn = true;
 
-  const canDraw = () => observed && pageActive && !document.hidden && ready && Boolean(context);
+  const assistantOpen = () => document.documentElement.classList.contains('studio-assistant-open');
+  const canDraw = () => observed && pageActive && !document.hidden && !assistantOpen() && ready && Boolean(context);
   const canAnimate = () => canDraw() && !paused && !reduce.matches;
   const report = message => { if (status.textContent !== message) status.textContent = message; };
 
@@ -93,7 +94,7 @@ if (demo) {
   }
 
   function sync(drawStill = false) {
-    if (!observed || document.hidden || !pageActive) {
+    if (!observed || document.hidden || !pageActive || assistantOpen()) {
       stop();
       demo.dataset.demoState = 'offscreen';
     } else if (failed) {
@@ -169,6 +170,8 @@ if (demo) {
     sync(true);
   });
   document.addEventListener('visibilitychange', () => sync(true));
+  document.addEventListener('studio-assistant-open', () => sync());
+  document.addEventListener('studio-assistant-close', () => sync(true));
   window.addEventListener('pagehide', () => { pageActive = false; sync(); });
   window.addEventListener('pageshow', () => { pageActive = true; sync(true); });
 

@@ -5,7 +5,7 @@
  const main=document.querySelector('main');if(!main||!diagrams.length)return;
  const ns='http://www.w3.org/2000/svg',key='sadeq-map-motion';
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
- let paused=false,suspended=false;try{paused=localStorage.getItem(key)==='paused';}catch{}
+ let paused=false,suspended=false,assistantSuspended=false;try{paused=localStorage.getItem(key)==='paused';}catch{}
  const supported=diagrams.every(svg=>typeof svg.pauseAnimations==='function'&&typeof svg.unpauseAnimations==='function');
  const create=(tag,attrs={})=>{const node=document.createElementNS(ns,tag);for(const [name,value]of Object.entries(attrs))node.setAttribute(name,String(value));return node;};
  const states=diagrams.map((svg,index)=>{
@@ -62,7 +62,7 @@
   document.body.dataset.mapMotion=reason;
   button.disabled=!supported||reduced.matches;button.setAttribute('aria-pressed',String(paused||reduced.matches));
   button.textContent=!supported?'Map motion unavailable':reduced.matches?'Motion off · Reduced motion':paused?'Play map motion':'Pause map motion';
-  for(const state of states){const run=supported&&!reduced.matches&&!paused&&!suspended&&!document.hidden&&state.visible;state.svg.dataset.mapMotion=run?'running':'held';if(supported)state.svg[run?'unpauseAnimations':'pauseAnimations']();}
+  for(const state of states){const run=supported&&!reduced.matches&&!paused&&!suspended&&!assistantSuspended&&!document.hidden&&state.visible;state.svg.dataset.mapMotion=run?'running':'held';if(supported)state.svg[run?'unpauseAnimations':'pauseAnimations']();}
  }
  const observer=new IntersectionObserver(entries=>{for(const entry of entries){const state=states.find(item=>item.svg===entry.target);if(state)state.visible=entry.isIntersecting;}sync();});states.forEach(state=>observer.observe(state.svg));
  const selectionObserver=new MutationObserver(records=>{if(records.some(record=>record.target.matches?.(routeSelector)))select();});states.forEach(state=>selectionObserver.observe(state.svg,{subtree:true,attributes:true,attributeFilter:['class','data-incident','data-active','data-selected']}));
@@ -70,5 +70,6 @@
  document.addEventListener('visibilitychange',sync);reduced.addEventListener('change',sync);
  window.addEventListener('pagehide',()=>{suspended=true;sync();});window.addEventListener('pageshow',()=>{suspended=false;sync();});
  window.addEventListener('storage',event=>{if(event.key===key){paused=event.newValue==='paused';sync();}});
+ window.addEventListener('message',event=>{if(parent===window||event.source!==parent||event.origin!==location.origin||event.data?.type!=='portfolio-assistant-active'||typeof event.data.active!=='boolean')return;assistantSuspended=event.data.active;sync();});
  select();sync();
 })();

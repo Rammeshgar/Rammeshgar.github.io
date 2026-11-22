@@ -8,13 +8,13 @@ Ground: four feet, deck, front apron, two edge trims, three stage-board inserts,
 
 ## Primary evidence
 
-Public source revision `cc7771f05781b55bb07f43954b5b96fe687444d7` in `Rammeshgar/digital-twin-demo`, reviewed 15 October 2026.
+The frontend teaching figure is based on public source revision `cc7771f05781b55bb07f43954b5b96fe687444d7` in `Rammeshgar/digital-twin-demo`, reviewed 15 October 2026. The 22 November 2026 portfolio integration points the profile/provider nodes at the [maintained service source](https://github.com/Rammeshgar/mascot-backend/blob/main/netlify/functions/chat.js); the external provider is intentionally described without hard-coding a vendor. This is not a new review of every frontend detail.
 
 - README.md: input paths, controlled context, approximate audio/transcript mouth movement, text fallback, browser capability limits.
 - ASSET_NOTES.md: authored rendering/integration, adapted animation resources, model and likeness excluded from MIT code license.
 - movement.mjs: non-repeating gesture selection, interpolated quaternion tracks, blend overlap.
 - mascot.js: browser input/audio/render state, Three.js imports, text chat and voice controls.
-- netlify/functions/chat.js: server-side chat endpoint; source map points to this implementation rather than exposing any credential.
+- netlify/functions/chat.js: server-side chat endpoint in the separate maintained `mascot-backend` repository, linked as a current service source rather than the pinned frontend snapshot. Provider configuration can change and credentials remain server-side.
 
 The theatre is a teaching analogy, not a physical implementation, live UI, lip-sync benchmark or claim that AI answers are always factual. There is no synthetic performance metric.
 

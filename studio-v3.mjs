@@ -1,4 +1,5 @@
 const root = document.documentElement;
+const assistantIsOpen = () => root.classList.contains('studio-assistant-open');
 const themeBtn = document.querySelector('#theme-toggle');
 const motionBtn = document.querySelector('#motion-toggle');
 const artwork = document.querySelector('#v3-instrument');
@@ -36,7 +37,7 @@ function setStage(stage) {
 }
 function setPause(pause) {
   state.paused=pause;
-  state.scene?.setPaused(pause);updateStageHint();
+  state.scene?.setPaused(pause||assistantIsOpen());updateStageHint();
 }
 function updateStageHint(){
   const live=artwork.dataset.renderer==='webgl',limited=reduceMotion.matches||navigator.connection?.saveData;
@@ -75,7 +76,7 @@ observeStages();queueHeroFit();window.addEventListener('resize',onHeroResize,{pa
 // renderer has no reason to parse Three or compile shaders before that first
 // readable frame, or while the artwork has already left the viewport.
 let instrumentRatio=0,instrumentLoading=false,instrumentIdle=0,instrumentFrame=0,instrumentDisposed=false,instrumentFirstPaintReady=false;
-const allowedInstrument=()=>instrumentRatio>=(narrowInstrument()&&!instrumentExplicit ? .55 : .04)&&(!narrowInstrument()||instrumentRequested)&&!instrumentDisposed&&!document.hidden&&!reduceMotion.matches&&!navigator.connection?.saveData;
+const allowedInstrument=()=>instrumentRatio>=(narrowInstrument()&&!instrumentExplicit ? .55 : .04)&&(!narrowInstrument()||instrumentRequested)&&!instrumentDisposed&&!document.hidden&&!assistantIsOpen()&&!reduceMotion.matches&&!navigator.connection?.saveData;
 function cancelInstrumentQueue(){if(instrumentFrame)cancelAnimationFrame(instrumentFrame);instrumentFrame=0;if(instrumentIdle){if('cancelIdleCallback'in window)cancelIdleCallback(instrumentIdle);else clearTimeout(instrumentIdle);}instrumentIdle=0;}
 function queueInstrument(){
   if(state.loaded||instrumentLoading||instrumentDisposed||!instrumentFirstPaintReady)return;
@@ -91,10 +92,10 @@ async function loadInstrument(){
   try{
     const {mountInstrument}=await import('./studio-v3-scene.mjs');
     if(!allowedInstrument())return;
-    const scene=await mountInstrument(artwork,{theme:state.theme,initialStage:state.stage,initialPaused:state.paused,shouldMount:allowedInstrument,onStage:(index,source)=>{if(source==='object'){manualStageUntil=performance.now()+850;setStage(index);}}});
+    const scene=await mountInstrument(artwork,{theme:state.theme,initialStage:state.stage,initialPaused:state.paused||assistantIsOpen(),shouldMount:allowedInstrument,onStage:(index,source)=>{if(source==='object'){manualStageUntil=performance.now()+850;setStage(index);}}});
     if(!scene)return;
     if(instrumentDisposed){scene.dispose();return;}
-    state.scene=scene;state.loaded=true;scene.setStage(state.stage);scene.setTheme(state.theme);scene.setPaused(state.paused);motionBtn.disabled=reduceMotion.matches||artwork.dataset.renderer!=='webgl';updateStageHint();
+    state.scene=scene;state.loaded=true;scene.setStage(state.stage);scene.setTheme(state.theme);scene.setPaused(state.paused||assistantIsOpen());motionBtn.disabled=reduceMotion.matches||artwork.dataset.renderer!=='webgl';updateStageHint();
   }catch(error){state.loaded=true;console.warn('Using the still illustration.',error);motionBtn.disabled=true;artwork.dataset.renderer='static';document.querySelector('#stage-hint').textContent='Still illustration. Select a stage to read.';}
   finally{instrumentLoading=false;if(!state.loaded)queueInstrument();}
 }
@@ -127,7 +128,7 @@ state.fields=[...document.querySelectorAll('[data-contour-variant]')].map(contai
   const section=container.closest('section'),variant=container.dataset.contourVariant;container.dataset.renderer='static';container.dataset.theme=variant==='contact'?'dark':state.theme;return{container,section,variant,pause:section.querySelector('[data-field-pause]'),pulse:section.querySelector('[data-field-pulse]'),visibleHeight:0,renderer:null,loading:false,failed:false};
 });
 let activeField=null,heroVisible=true,previewBusy=false;
-function fieldAllowed(){return !reduceMotion.matches&&!navigator.connection?.saveData;}
+function fieldAllowed(){return !assistantIsOpen()&&!reduceMotion.matches&&!navigator.connection?.saveData;}
 function refreshFieldControls(){for(const field of state.fields){const live=field.container.dataset.renderer==='webgl'&&fieldAllowed()&&Boolean(field.renderer);field.pause.disabled=!live;field.pulse.disabled=!live||state.fieldPaused||activeField!==field||heroVisible;field.pause.setAttribute('aria-pressed',String(state.fieldPaused));field.pause.setAttribute('aria-label',!live?'Still contour background':state.fieldPaused?'Resume all contour backgrounds':'Pause all animated contour backgrounds');field.pause.textContent=!live?'Still backdrop':state.fieldPaused?'Resume backdrop':'Pause backdrop';}}
 function syncContour(){activeField=heroVisible||previewBusy||!fieldAllowed()?null:state.fields.filter(field=>field.visibleHeight>12).sort((a,b)=>b.visibleHeight-a.visibleHeight)[0]||null;for(const field of state.fields){field.container.dataset.active=String(field===activeField);field.renderer?.setPaused(state.fieldPaused||field!==activeField||!fieldAllowed());}if(activeField)loadContour(activeField);refreshFieldControls();}
 async function loadContour(field){if(field.renderer||field.loading||field.failed||field!==activeField||!fieldAllowed())return;field.loading=true;try{const {mountContourField}=await import('./studio-v3-field.mjs');field.renderer=await mountContourField(field.container,{theme:field.variant==='contact'?'dark':state.theme,interactionRoot:field.section,variant:field.variant,initialPaused:state.fieldPaused||field!==activeField||heroVisible||!fieldAllowed()});if(!field.renderer){field.failed=true;field.container.dataset.renderer='static';}syncContour();}catch(error){console.warn('Using the still contour background.',error);field.failed=true;field.container.dataset.renderer='static';refreshFieldControls();}finally{field.loading=false;}}
@@ -176,7 +177,7 @@ prereqButtons.forEach(button=>{
 const previewLinks=[...document.querySelectorAll('a[data-preview-src][data-preview-protocol]')];
 const previewConnection=navigator.connection;
 let previewHover=null,previewFocus=null,previewDismissed=null,previewActive=null,previewRetiring=null,previewDelay=0,previewPending=null;
-const previewAllowed=()=>!document.hidden&&!reduceMotion.matches&&!previewConnection?.saveData;
+const previewAllowed=()=>!assistantIsOpen()&&!document.hidden&&!reduceMotion.matches&&!previewConnection?.saveData;
 const previewVisible=link=>{
   if(!link?.isConnected)return false;
   const bounds=link.getBoundingClientRect();
@@ -281,6 +282,24 @@ function previewReady(event){
 window.addEventListener('message',previewReady);document.addEventListener('visibilitychange',syncPreview);reduceMotion.addEventListener('change',syncPreview);previewConnection?.addEventListener?.('change',syncPreview);
 const previewThemeObserver=new MutationObserver(()=>{if(previewActive?.ready)previewMessage(previewActive,true);});previewThemeObserver.observe(root,{attributes:true,attributeFilter:['data-theme']});
 function disposePreviews(){hidePreview(true);previewIntersection?.disconnect();previewThemeObserver.disconnect();window.removeEventListener('message',previewReady);document.removeEventListener('visibilitychange',syncPreview);reduceMotion.removeEventListener('change',syncPreview);previewConnection?.removeEventListener?.('change',syncPreview);}
+
+// The live character is the only foreground animation while its dialog is
+// open. Preserve each manual pause choice and resume normal visibility rules
+// when the assistant closes.
+document.addEventListener('studio-assistant-open',()=>{
+  cancelInstrumentQueue();
+  state.scene?.setPaused(true);
+  previewHover=previewFocus=null;
+  hidePreview(true);
+  previewBusy=false;
+  syncContour();
+});
+document.addEventListener('studio-assistant-close',()=>{
+  state.scene?.setPaused(state.paused);
+  queueInstrument();
+  syncContour();
+  syncPreview();
+});
 
 // Single-pass entrance motion only, with a complete readable no-JS state.
 if(!reduceMotion.matches){const revealObserver=new IntersectionObserver(entries=>{for(const item of entries)if(item.isIntersecting){item.target.animate?.([{opacity:.65,transform:'translateY(20px)'},{opacity:1,transform:'translateY(0)'}],{duration:620,easing:'cubic-bezier(.2,.75,.3,1)'});revealObserver.unobserve(item.target);}},{threshold:.13});document.querySelectorAll('[data-reveal]').forEach(el=>revealObserver.observe(el));}

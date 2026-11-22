@@ -1,6 +1,6 @@
 /* The optional original film and soundtrack are local. No media source is
    attached, and no audio element is created, until the visitor requests it.
-   The AI assistant is deliberately an ordinary external link to its own demo. */
+   The AI assistant has its own opt-in dialog and never shares the soundtrack. */
 const musicButton = document.querySelector('[data-studio-music]');
 const musicLabel = musicButton?.querySelector('[data-music-label]');
 const musicIcon = musicButton?.querySelector('svg path');
@@ -55,7 +55,7 @@ function stopMusic(message = '', state = 'off') {
   if (message && (wasRequested || state === 'error')) musicMessage(message);
 }
 async function startMusic() {
-  if (!musicButton || document.hidden || dialog?.open || musicRequested) return;
+  if (!musicButton || document.hidden || dialog?.open || document.documentElement.classList.contains('studio-assistant-open') || musicRequested) return;
   const revision = ++musicRevision;
   const player = document.createElement('audio');
   player.dataset.studioMusicPlayer = '';
@@ -79,7 +79,7 @@ async function startMusic() {
   try {
     await player.play();
     if (audio !== player || revision !== musicRevision || !musicRequested) return;
-    if (document.hidden || dialog?.open) {
+    if (document.hidden || dialog?.open || document.documentElement.classList.contains('studio-assistant-open')) {
       stopMusic('Music paused. Press Play music when you want to resume.');
       return;
     }
@@ -224,10 +224,15 @@ reduced.addEventListener('change', () => {
   if (reduced.matches) stopVisibleFilm('The film stopped after your reduced-motion preference changed. Press Play only if you want to watch it.');
 });
 
-// Ordinary out-of-site navigation, not an embedded assistant. No scripts,
-// model, microphone, provider request or iframe is initiated on this page.
+// Opening the assistant always releases the soundtrack and any film. It is
+// not resumed automatically on close; the visitor remains in control.
+document.addEventListener('studio-assistant-open',()=>{
+  stopMusic('Music paused while the AI assistant is open. Press Play music to resume.');
+  if(dialog?.open)closeFilm();
+});
+// Also pause on modified clicks that navigate directly to the standalone app.
 for (const link of document.querySelectorAll('[data-studio-assistant]')) {
-  const pauseForAssistant = () => stopMusic('Music paused before opening the separate AI assistant.');
+  const pauseForAssistant = () => stopMusic('Music paused for the AI assistant. Press Play music to resume.');
   link.addEventListener('click', pauseForAssistant);
   link.addEventListener('auxclick', pauseForAssistant);
 }
