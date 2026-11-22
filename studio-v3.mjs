@@ -25,7 +25,7 @@ function setTheme(theme) {
   if(!['light','dark'].includes(theme)) return;
   root.classList.add('theme-changing');state.theme=theme;root.dataset.theme=theme;
   const dark=theme==='dark';themeBtn.setAttribute('aria-pressed',String(dark));themeBtn.setAttribute('aria-label',`Switch to ${dark?'day':'night'} theme`);themeBtn.querySelector('span').textContent=dark?'Day':'Night';themeBtn.querySelector('svg').innerHTML=dark?sun:moon;
-  state.scene?.setTheme(theme);for(const field of state.fields){const palette=field.variant==='contact'?'dark':theme;field.container.dataset.theme=palette;field.renderer?.setTheme(palette);}try{localStorage.setItem('studio-v3-theme',theme);}catch{}
+  state.scene?.setTheme(theme);for(const field of state.fields){const palette=field.variant==='contact'?'dark':theme;field.container.dataset.theme=palette;field.renderer?.setTheme(palette);}
   requestAnimationFrame(()=>requestAnimationFrame(()=>root.classList.remove('theme-changing')));
 }
 function setStage(stage) {
@@ -51,8 +51,9 @@ function updateStageHint(){
   document.querySelector('#hero-interaction-label').textContent=live?'Click a component':canStart?'Explore live 3D':'Workflow illustration';
   document.querySelector('#stage-hint').textContent=reduceMotion.matches?'Reduced motion is on. Choose a stage.':canStart?'Start 3D or choose a stage.':preparing?'The still remains available as the live illustration loads.':!live?'Select a stage to read.':state.paused?'Paused. Click a component or choose a stage.':heroStory.dataset.sticky==='true'?'Click a component, select a stage, or scroll.':'Click a component or select a stage.';
 }
-try{const previous=localStorage.getItem('studio-v3-theme');if(previous)setTheme(previous);}catch{}
-themeBtn.addEventListener('click',()=>setTheme(state.theme==='light'?'dark':'light'));
+setTheme(window.PortfolioTheme?.current||root.dataset.theme);
+document.addEventListener('portfolio-theme-change',event=>setTheme(event.detail.theme));
+themeBtn.addEventListener('click',()=>window.PortfolioTheme?.toggle());
 motionBtn.addEventListener('click',()=>{if(reduceMotion.matches||navigator.connection?.saveData)return;if(!state.loaded&&narrowInstrument()){requestInstrument(true);return;}setPause(!state.paused);});buttons.forEach((button,index)=>button.addEventListener('click',()=>{manualStageUntil=performance.now()+850;setStage(index);if(narrowInstrument())requestInstrument(true);}));
 setStage(0);setPause(state.paused);
 reduceMotion.addEventListener('change',()=>{setPause(reduceMotion.matches);queueHeroFit();queueInstrument();});

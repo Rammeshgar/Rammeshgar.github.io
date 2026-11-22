@@ -1,22 +1,19 @@
 /* The private case studies share a theme and reuse their existing source-linked figures. */
 import './studio-v3-seneschal.mjs';
 const root=document.documentElement;
-const key='studio-v3-theme';
 const validTheme=x=>x==='light'||x==='dark';
 let theme=root.dataset.theme==='dark'?'dark':'light';
-try{const saved=localStorage.getItem(key);if(validTheme(saved))theme=saved;}catch{}
 const preferenceButtons=[...document.querySelectorAll('[data-case-theme]')];
 function send(frame,data){if(frame?.contentWindow&&frame.getAttribute('src'))frame.contentWindow.postMessage(data,location.origin);}
 function broadcastTheme(){for(const frame of document.querySelectorAll('iframe'))send(frame,{type:'portfolio-theme',theme});}
 const assistantOpen=()=>root.classList.contains('studio-assistant-open');
-function setTheme(value,save=false){
+function setTheme(value){
   if(!validTheme(value))return;theme=value;root.dataset.theme=value;root.style.colorScheme=value;
   for(const button of preferenceButtons){button.setAttribute('aria-pressed',String(value==='dark'));button.setAttribute('aria-label',value==='dark'?'Switch to day theme':'Switch to night theme');const label=button.querySelector('[data-theme-label]');if(label)label.textContent=value==='dark'?'Day':'Night';else button.textContent=value==='dark'?'☀ Day':'☾ Night';}
-  if(save)try{localStorage.setItem(key,value);}catch{}
   broadcastTheme();document.dispatchEvent(new CustomEvent('studio-case-theme',{detail:{theme}}));
 }
-setTheme(theme);preferenceButtons.forEach(button=>button.addEventListener('click',()=>setTheme(theme==='dark'?'light':'dark',true)));
-window.addEventListener('storage',event=>{if(event.key===key&&validTheme(event.newValue))setTheme(event.newValue);});
+setTheme(window.PortfolioTheme?.current||theme);preferenceButtons.forEach(button=>button.addEventListener('click',()=>window.PortfolioTheme?.toggle()));
+document.addEventListener('portfolio-theme-change',event=>setTheme(event.detail.theme));
 // The original Exchange prototype already owns its theme button. Observe it without binding a second button.
 new MutationObserver(()=>{const value=root.dataset.theme;if(validTheme(value)&&value!==theme){theme=value;broadcastTheme();document.dispatchEvent(new CustomEvent('studio-case-theme',{detail:{theme}}));}}).observe(root,{attributes:true,attributeFilter:['data-theme']});
 for(const frame of document.querySelectorAll('iframe'))frame.addEventListener('load',()=>send(frame,{type:'portfolio-theme',theme}));

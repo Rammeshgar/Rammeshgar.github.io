@@ -21,7 +21,7 @@ I configure software, test browser and API behaviour, and build tools for workin
 
 - The homepage's Three.js instrument illustrates three stages of a workflow: **Define, Connect and Verify**. Each can be selected with a visible control or by clicking the live model on supported devices.
 - Project previews, source-linked system maps and animated guides explain selected implementation decisions. The illustrations are demonstrations, not live product activity or telemetry.
-- Day and night themes, reduced-motion support, and pause controls are available. On narrow screens the opening illustration stays lightweight until 3D is requested or scrolled into view.
+- Day and night themes follow the visitor's local clock (day 07:00–19:00) across the portfolio and assistant. A manual switch lasts until the next local day/night boundary. Reduced-motion support and pause controls are available. On narrow screens the opening illustration stays lightweight until 3D is requested or scrolled into view.
 - The original film, background music and Digital Twin are optional. The assistant opens directly within the portfolio or its current case studies when requested. Its separately maintained app is also available standalone; neither the character nor an AI request starts on initial page load.
 
 ## Running locally
