@@ -176,8 +176,13 @@ prereqButtons.forEach(button=>{
 // pointer hover or keyboard focus. The original link stays a normal link; the
 // iframe is a decorative sibling, not a second tab stop or click surface.
 const previewLinks=[...document.querySelectorAll('a[data-preview-src][data-preview-protocol]')];
+const previewClips=new Map([['/exchange-universe/guide.html','exchange'],['/exchange-universe/monitor-workflow.html','monitor'],['/seneschal/guide.html','seneschal'],['/digital-twin/guide.html','twin'],['/afterlight-preview.html','afterlight']]);
 const previewConnection=navigator.connection;
-let previewHover=null,previewFocus=null,previewDismissed=null,previewActive=null,previewRetiring=null,previewDelay=0,previewPending=null;
+let previewHover=null,previewFocus=null,previewTouch=null,previewDismissed=null,previewActive=null,previewRetiring=null,previewDelay=0,previewPending=null;
+const touchPreviewControls=new Map();
+const touchPreviewMedia=matchMedia('(hover:none)');
+function fitTouchPreview(link,button){if(!touchPreviewMedia.matches)return;const host=link.parentElement;if(!host)return;const a=link.getBoundingClientRect(),b=host.getBoundingClientRect();if(a.width<2||a.height<2)return;button.style.left=`${a.left-b.left-host.clientLeft+12}px`;button.style.top=`${a.bottom-b.top-host.clientTop-56}px`;}
+const touchPreviewObserver='ResizeObserver'in window?new ResizeObserver(()=>{for(const [link,button]of touchPreviewControls)fitTouchPreview(link,button);}):null;
 const previewAllowed=()=>!assistantIsOpen()&&!document.hidden&&!reduceMotion.matches&&!previewConnection?.saveData;
 const previewVisible=link=>{
   if(!link?.isConnected)return false;
@@ -186,17 +191,23 @@ const previewVisible=link=>{
 };
 const previewCandidate=()=>{
   if(!previewAllowed())return null;
-  for(const link of [previewHover,previewFocus])if(link&&link!==previewDismissed&&previewVisible(link))return link;
+  for(const link of [previewTouch,previewHover,previewFocus])if(link&&link!==previewDismissed&&previewVisible(link))return link;
   return null;
 };
 const previewMessage=(record,open)=>{
+  if(record?.mediaKind==='video'){
+    if(open&&record.ready&&record.frame.paused)record.frame.play().catch(()=>{});
+    if(!open)record.frame.pause();
+    return;
+  }
   if(!record?.frame.contentWindow)return;
   const type=record.protocol==='exchange'?'exchange-anatomy':'portfolio-figure';
   record.frame.contentWindow.postMessage({type:'portfolio-theme',theme:state.theme},location.origin);
   record.frame.contentWindow.postMessage({type,open,theme:state.theme},location.origin);
 };
 function cancelPreviewDelay(){if(previewDelay)clearTimeout(previewDelay);previewDelay=0;previewPending=null;}
-function removeRetiringPreview(){if(!previewRetiring)return;clearTimeout(previewRetiring.removeTimer);previewRetiring.frame.remove();previewRetiring=null;}
+function releasePreview(record){if(record.mediaKind==='video'){record.frame.pause();record.frame.removeAttribute('src');record.frame.load();}record.frame.remove();}
+function removeRetiringPreview(){if(!previewRetiring)return;clearTimeout(previewRetiring.removeTimer);releasePreview(previewRetiring);previewRetiring=null;}
 function hidePreview(immediate=false){
   cancelPreviewDelay();if(immediate)removeRetiringPreview();
   const record=previewActive;if(!record)return;
@@ -205,9 +216,9 @@ function hidePreview(immediate=false){
   // guide can no longer keep its render loop running offscreen.
   previewMessage(record,false);record.sizeObserver?.disconnect();clearTimeout(record.readyTimer);
   record.frame.classList.remove('preview-visible');record.link.removeAttribute('data-preview-active');record.link.removeAttribute('data-preview-ready');
-  if(immediate||reduceMotion.matches){record.frame.remove();return;}
+  if(immediate||reduceMotion.matches){releasePreview(record);return;}
   removeRetiringPreview();previewRetiring=record;
-  record.removeTimer=setTimeout(()=>{record.frame.remove();if(previewRetiring===record)previewRetiring=null;},200);
+  record.removeTimer=setTimeout(()=>{releasePreview(record);if(previewRetiring===record)previewRetiring=null;},200);
 }
 function fitPreview(record){
   if(previewActive!==record)return;
@@ -215,7 +226,7 @@ function fitPreview(record){
   if(a.width<2||a.height<2)return;
   Object.assign(record.frame.style,{left:`${a.left-b.left-hostLeft}px`,top:`${a.top-b.top-hostTop}px`,width:`${a.width}px`,height:`${a.height}px`});
 }
-function showPreview(link){
+function showPreview(link,forceGuide=false){
   if(previewCandidate()!==link)return;
   if(previewActive?.link===link)return;
   hidePreview(true);
@@ -225,15 +236,25 @@ function showPreview(link){
   if(url.origin!==location.origin||!['http:','https:'].includes(url.protocol))return;
   const host=link.parentElement;if(!host)return;
   host.classList.add('project-preview-host');
-  const frame=document.createElement('iframe');
+  const clip=previewClips.get(url.pathname),theme=state.theme==='light'?'light':'dark';
+  const canVideo=clip&&!forceGuide&&Boolean(document.createElement('video').canPlayType('video/webm; codecs="vp9"'));
+  const frame=document.createElement(canVideo?'video':'iframe');
   frame.className='project-preview-frame';frame.setAttribute('title',link.dataset.previewTitle||`${link.getAttribute('aria-label')||link.querySelector('img')?.alt||'Project'} — animated guide preview`);
   frame.setAttribute('aria-hidden','true');frame.setAttribute('tabindex','-1');frame.setAttribute('scrolling','no');frame.referrerPolicy='no-referrer';frame.style.pointerEvents='none';
-  frame.dataset.previewProtocol=protocol;frame.setAttribute('src',url.pathname+url.search+url.hash);
-  const record={link,host,frame,protocol,ready:false,sizeObserver:null,readyTimer:0};
+  frame.dataset.previewProtocol=protocol;
+  if(canVideo){frame.muted=true;frame.defaultMuted=true;frame.loop=true;frame.playsInline=true;frame.preload='auto';frame.src=`/assets/motion/${clip}-${theme}.webm`;}
+  else frame.setAttribute('src',url.pathname+url.search+url.hash);
+  const record={link,host,frame,protocol,mediaKind:canVideo?'video':'guide',ready:false,sizeObserver:null,readyTimer:0};
   previewActive=record;link.dataset.previewActive='true';link.dataset.previewReady='false';
   // Attach sibling rather than wrapping/replacing the focusable anchor.
   link.after(frame);fitPreview(record);
   if('ResizeObserver'in window){record.sizeObserver=new ResizeObserver(()=>fitPreview(record));record.sizeObserver.observe(link);record.sizeObserver.observe(host);}
+  if(canVideo){
+    const fallback=()=>{if(previewActive===record&&previewCandidate()===link){hidePreview(true);showPreview(link,true);}};
+    const ready=()=>{if(previewActive!==record||previewCandidate()!==link)return;record.ready=true;clearTimeout(record.readyTimer);link.dataset.previewReady='true';frame.classList.add('preview-visible');frame.play().catch(fallback);};
+    frame.addEventListener('loadeddata',ready,{once:true});frame.addEventListener('error',fallback,{once:true});
+    record.readyTimer=setTimeout(fallback,3500);if(frame.readyState>=2)ready();return;
+  }
   frame.addEventListener('load',()=>{if(previewActive===record)previewMessage(record,previewCandidate()===link);},{once:true});
   // An unavailable guide never obscures its real screenshot or hangs a blank
   // overlay over the link. Waiting for its own ready handshake is deliberate.
@@ -241,6 +262,7 @@ function showPreview(link){
 }
 function syncPreview(){
   const next=previewCandidate();
+  for(const [link,button] of touchPreviewControls){const active=next===link;button.hidden=reduceMotion.matches||Boolean(previewConnection?.saveData);button.setAttribute('aria-pressed',String(active));button.querySelector('span').textContent=active?'Pause':'Preview';}
   // A guide and its background do not need to compete for the same GPU.
   // Restore the background on exit, without changing the manual pause state.
   if(Boolean(next)!==previewBusy){previewBusy=Boolean(next);syncContour();}
@@ -260,6 +282,7 @@ function syncPreview(){
 const previewIntersection='IntersectionObserver'in window?new IntersectionObserver(entries=>{
   for(const entry of entries)if(!entry.isIntersecting){
     if(previewHover===entry.target)previewHover=null;
+    if(previewTouch===entry.target)previewTouch=null;
     if(previewActive?.link===entry.target)hidePreview(true);
     if(previewRetiring?.link===entry.target)removeRetiringPreview();
   }
@@ -267,11 +290,12 @@ const previewIntersection='IntersectionObserver'in window?new IntersectionObserv
 },{threshold:[0,.10,.5]}):null;
 for(const link of previewLinks){
   previewIntersection?.observe(link);
+  const host=link.parentElement;if(host){host.classList.add('project-preview-host');const button=document.createElement('button');button.type='button';button.className='project-motion-button';button.innerHTML='<svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" fill="none"><path d="m5 3 8 5-8 5V3Z" fill="currentColor"/></svg><span>Preview</span>';button.setAttribute('aria-label',`Toggle motion preview: ${link.getAttribute('aria-label')||'project'}`);button.setAttribute('aria-pressed','false');button.hidden=reduceMotion.matches||Boolean(previewConnection?.saveData);host.append(button);touchPreviewControls.set(link,button);fitTouchPreview(link,button);touchPreviewObserver?.observe(link);touchPreviewObserver?.observe(host);button.addEventListener('click',()=>{const active=previewCandidate()===link;previewTouch=active?null:link;previewDismissed=active?link:null;if(active){previewHover=null;previewFocus=null;}syncPreview();});button.addEventListener('keydown',event=>{if(event.key==='Escape'){previewTouch=null;previewDismissed=link;syncPreview();}});}
   link.addEventListener('pointerenter',event=>{if(event.pointerType==='touch')return;previewHover=link;previewDismissed=null;syncPreview();});
   link.addEventListener('pointerleave',()=>{if(previewHover===link)previewHover=null;if(previewDismissed===link&&previewFocus!==link)previewDismissed=null;syncPreview();});
   link.addEventListener('focus',()=>{if(link.matches(':focus-visible')){previewFocus=link;previewDismissed=null;syncPreview();}});
   link.addEventListener('blur',()=>{if(previewFocus===link)previewFocus=null;if(previewDismissed===link&&previewHover!==link)previewDismissed=null;syncPreview();});
-  link.addEventListener('keydown',event=>{if(event.key==='Escape'&&previewActive?.link===link){previewDismissed=link;hidePreview(false);}else if(link.matches(':focus-visible')&&previewFocus!==link){previewFocus=link;previewDismissed=null;syncPreview();}});
+  link.addEventListener('keydown',event=>{if(event.key==='Escape'&&previewActive?.link===link){previewTouch=null;previewDismissed=link;syncPreview();}else if(link.matches(':focus-visible')&&previewFocus!==link){previewFocus=link;previewDismissed=null;syncPreview();}});
 }
 function previewReady(event){
   const record=previewActive;if(!record||event.origin!==location.origin||event.source!==record.frame.contentWindow||!event.data||typeof event.data!=='object')return;
@@ -281,8 +305,8 @@ function previewReady(event){
   record.ready=true;clearTimeout(record.readyTimer);previewMessage(record,true);record.link.dataset.previewReady='true';record.frame.classList.add('preview-visible');
 }
 window.addEventListener('message',previewReady);document.addEventListener('visibilitychange',syncPreview);reduceMotion.addEventListener('change',syncPreview);previewConnection?.addEventListener?.('change',syncPreview);
-const previewThemeObserver=new MutationObserver(()=>{if(previewActive?.ready)previewMessage(previewActive,true);});previewThemeObserver.observe(root,{attributes:true,attributeFilter:['data-theme']});
-function disposePreviews(){hidePreview(true);previewIntersection?.disconnect();previewThemeObserver.disconnect();window.removeEventListener('message',previewReady);document.removeEventListener('visibilitychange',syncPreview);reduceMotion.removeEventListener('change',syncPreview);previewConnection?.removeEventListener?.('change',syncPreview);}
+const previewThemeObserver=new MutationObserver(()=>{if(previewActive?.mediaKind==='video'){const link=previewActive.link;hidePreview(true);if(previewCandidate()===link)showPreview(link);}else if(previewActive?.ready)previewMessage(previewActive,true);});previewThemeObserver.observe(root,{attributes:true,attributeFilter:['data-theme']});
+function disposePreviews(){hidePreview(true);previewIntersection?.disconnect();touchPreviewObserver?.disconnect();previewThemeObserver.disconnect();window.removeEventListener('message',previewReady);document.removeEventListener('visibilitychange',syncPreview);reduceMotion.removeEventListener('change',syncPreview);previewConnection?.removeEventListener?.('change',syncPreview);}
 
 // The live character is the only foreground animation while its dialog is
 // open. Preserve each manual pause choice and resume normal visibility rules
